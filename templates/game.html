@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purr:fect Study Break</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.20/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --pink-bg: #ffe6ee;
+      --pink-accent: #ff85b4;
+      --text-color: #555;
+      --white: #fff;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes wiggle {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0); }
+    }
+
+    @keyframes blink {
+      0%, 45%, 55%, 100% {
+        transform: scaleY(1);
+      }
+      50% {
+        transform: scaleY(0.1);
+      }
+    }
+    
+    body {
+      background-color: var(--pink-bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    .kitty-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 16px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(255, 156, 201, 0.3);
+      position: relative;
+      overflow: hidden;
+      border: 3px solid var(--pink-accent);
+    }
+    
+    .kitty-title {
+      color: #FF6B8B;
+      text-align: center;
+      font-weight: bold;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 0px #FFDBEB;
+    }
+    
+    .kitty-subtitle {
+      color: #FF6B8B;
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .game-button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .game-button:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .game-button:active {
+      transform: translateY(0) scale(0.98);
+    }
+    
+    .memory-button {
+      background-color: #FF9CC9;
+    }
+    
+    .puzzle-button {
+      background-color: #FFE26F;
+    }
+    
+    .word-button {
+      background-color: #A0E57C;
+    }
+    
+    .math-button {
+      background-color: #74D7EC;
+    }
+    
+    .reaction-button {
+      background-color: #C39BFF;
+    }
+    
+    .kitty-mascot {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    
+    .kitty-ear-left {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50% 50% 0 0;
+      position: absolute;
+      top: 0;
+      left: 15px;
+      transform: rotate(-30deg);
+    }
+    
+    .kitty-ear-right {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50% 50% 0 0;
+      position: absolute;
+      top: 0;
+      right: 15px;
+      transform: rotate(30deg);
+    }
+    
+    .kitty-face {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      left: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .kitty-eye-left {
+      width: 5px;
+      height: 10px;
+      background-color: black;
+      border-radius: 50%;
+      position: absolute;
+      top: 52px;
+      left: 35px;
+      animation: blink 4s infinite;
+    }
+    
+    .kitty-eye-right {
+      width: 5px;
+      height: 10px;
+      background-color: black;
+      border-radius: 50%;
+      position: absolute;
+      top: 52px;
+      right: 35px;
+      animation: blink 4s infinite;
+    }
+    
+    .kitty-nose {
+      width: 12px;
+      height: 8px;
+      background-color: #FFE26F;
+      border-radius: 50%;
+      position: absolute;
+      top: 62px;
+      left: 54px;
+    }
+    
+    .kitty-mouth {
+      width: 20px;
+      height: 10px;
+      border-bottom: 2px solid #FF9CC9;
+      border-radius: 50%;
+      position: absolute;
+      top: 70px;
+      left: 50px;
+      transform: translateX(-50%);
+    }
+    
+    .kitty-whisker-1 {
+      width: 20px;
+      height: 1px;
+      background-color: #FF9CC9;
+      position: absolute;
+      top: 65px;
+      left: 20px;
+    }
+    
+    .kitty-whisker-2 {
+      width: 20px;
+      height: 1px;
+      background-color: #FF9CC9;
+      position: absolute;
+      top: 65px;
+      right: 20px;
+    }
+    
+    .kitty-whisker-3 {
+      width: 20px;
+      height: 1px;
+      background-color: #FF9CC9;
+      position: absolute;
+      top: 70px;
+      left: 20px;
+    }
+    
+    .kitty-whisker-4 {
+      width: 20px;
+      height: 1px;
+      background-color: #FF9CC9;
+      position: absolute;
+      top: 70px;
+      right: 20px;
+    }
+    
+    .kitty-bow {
+      width: 30px;
+      height: 15px;
+      background-color: #FF6B8B;
+      border-radius: 5px;
+      position: absolute;
+      top: 10px;
+      left: 45px;
+    }
+    
+    .kitty-bow-center {
+      width: 8px;
+      height: 8px;
+      background-color: #FF6B8B;
+      border-radius: 50%;
+      position: absolute;
+      top: 13px;
+      left: 56px;
+    }
+    
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #FF88BF;
+    }
+    
+    .back-button {
+      margin-top: 16px;
+      padding: 10px 20px;
+      background-color: #FF6B8B;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .back-button:hover {
+      background-color: #FF5377;
+      transform: scale(1.05);
+    }
+    
+    /* Features button styling */
+    .features-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #74D7EC;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .features-button:hover {
+      background-color: #5BBAD2;
+      transform: scale(1.05);
+    }
+    
+    #game-container {
+      margin-top: 20px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white;
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(255, 156, 201, 0.3);
+      border: 3px solid var(--pink-accent);
+      min-height: 400px;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .floating-emoji {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 100;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .score-display {
+      position: relative;
+      margin: 10px auto;
+      padding: 8px 15px;
+      background-color: white;
+      border-radius: 20px;
+      font-weight: bold;
+      color: #FF6B8B;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(255, 107, 139, 0.2);
+      max-width: 200px;
+      animation: pulse 2s infinite;
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #FFE26F;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 1s infinite;
+    }
+    
+    .star-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.2;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      z-index: 100;
+      pointer-events: none;
+    }
+    
+    .game-card {
+      transition: all 0.3s;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .level-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #FF6B8B;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 5;
+    }
+    
+    /* Bubble Animation */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      animation: bubble-rise 4s linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes bubble-rise {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* Game-specific styles */
+    .memory-card {
+      width: 80px;
+      height: 80px;
+      background-color: #FF9CC9;
+      border-radius: 10px;
+      margin: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transform-style: preserve-3d;
+      position: relative;
+      font-size: 2em;
+    }
+
+    .memory-card.flipped {
+      transform: rotateY(180deg);
+      background-color: white;
+    }
+
+    .memory-card.matched {
+      background-color: #A0E57C;
+      transform: rotateY(180deg);
+    }
+
+    .memory-board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .memory-emoji {
+      position: absolute;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+    }
+
+    .puzzle-board {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 5px;
+      position: relative;
+      border: 2px solid #FFE26F;
+      border-radius: 10px;
+      padding: 5px;
+      background-color: #FFF5F8;
+    }
+
+    .puzzle-tile {
+      width: 100%;
+      height: 90px;
+      background-color: #FFE26F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .puzzle-tile:hover {
+      transform: scale(1.05);
+    }
+
+    .puzzle-tile.empty {
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .word-container {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .scrambled-word {
+      margin: 20px 0;
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+      letter-spacing: 5px;
+    }
+
+    .word-hint {
+      font-style: italic;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .word-input {
+      padding: 10px 15px;
+      border: 2px solid #A0E57C;
+      border-radius: 25px;
+      width: 80%;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .word-input:focus {
+      outline: none;
+      border-color: #76c050;
+      box-shadow: 0 0 5px rgba(160, 229, 124, 0.5);
+    }
+
+    .submit-word {
+      padding: 10px 25px;
+      background-color: #A0E57C;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .submit-word:hover {
+      background-color: #8bd363;
+      transform: scale(1.05);
+    }
+
+    .math-problem {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 30px 0;
+      text-align: center;
+      color: #333;
+    }
+
+    .math-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .math-option {
+      width: calc(50% - 15px);
+      padding: 15px;
+      background-color: #74D7EC;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .math-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    }
+
+    .reaction-target {
+      width: 80px;
+      height: 80px;
+      background-color: #C39BFF;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      color: white;
+      transition: transform 0.2s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .reaction-target:hover {
+      transform: scale(1.1);
+    }
+
+    .reaction-play-area {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background-color: #FFF5F8;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+      border: 2px dashed #C39BFF;
+    }
+
+    .reaction-start {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 15px 30px;
+      background-color: #C39BFF;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 18px;
+    }
+
+    .reaction-start:hover {
+      background-color: #b27eff;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* Added decorative elements from login */
+    .decorative-element {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    .heart {
+      color: var(--pink-accent);
+      font-size: 24px;
+      opacity: 0.6;
+    }
+
+    .apple {
+      color: #ff6b6b;
+      font-size: 24px;
+    }
+
+    .pencil {
+      color: #ffc83d;
+      font-size: 24px;
+    }
+
+    .plus {
+      color: var(--pink-accent);
+      font-size: 30px;
+      opacity: 0.7;
+    }
+
+    .cat-face-decor {
+      width: 80px;
+      height: 80px;
+      background-color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      box-shadow: 0 4px 8px var(--shadow);
+      z-index: 10;
+    }
+
+    .cat-face-decor .eyes {
+      display: flex;
+      justify-content: space-between;
+      width: 45px;
+      margin-bottom: 5px;
+    }
+
+    .cat-face-decor .eye {
+      width: 16px;
+      height: 16px;
+      background-color: #000;
+      border-radius: 50%;
+      position: relative;
+      animation: blink 4s infinite;
+    }
+
+    .cat-face-decor .eye::before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+    }
+
+    .cat-face-decor .cheeks {
+      display: flex;
+      justify-content: space-between;
+      width: 50px;
+    }
+
+    .cat-face-decor .cheek {
+      width: 10px;
+      height: 10px;
+      background-color: #ffcbcb;
+      border-radius: 50%;
+    }
+
+    .cat-face-decor .mouth {
+      width: 16px;
+      height: 8px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-bottom: 2px solid #000;
+      margin-top: 2px;
+    }
+
+    /* Animation for switching panels */
+    @keyframes switchPanelRight {
+      0% {
+          transform: translateX(0);
+      }
+      50% {
+          opacity: 0;
+          transform: translateX(100px);
+      }
+      51% {
+          transform: translateX(-100px);
+      }
+      100% {
+          opacity: 1;
+          transform: translateX(0);
+      }
+    }
+
+    /* Game timer */
+    .game-timer {
+      position: relative;
+      margin: 10px auto;
+      padding: 8px 15px;
+      background-color: white;
+      border-radius: 20px;
+      font-weight: bold;
+      color: #FF6B8B;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(255, 107, 139, 0.2);
+      max-width: 200px;
+    }
+
+    .game-timer::before {
+      content: "⏱️";
+      margin-right: 5px;
+    }
+
+    /* Game result animation */
+    @keyframes gameComplete {
+      0% { transform: scale(0.5); opacity: 0; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .game-complete {
+      text-align: center;
+      margin: 20px 0;
+      animation: gameComplete 1s forwards;
+    }
+
+    .game-complete h2 {
+      color: #FF6B8B;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .game-complete p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .game-next {
+      padding: 10px 25px;
+      background-color: #FF9CC9;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 0 5px;
+    }
+
+    .game-next:hover {
+      background-color: #ff7cb5;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative elements -->
+  <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+  <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+  <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+  <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+  <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+  <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+  <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+  <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+  <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+  <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+  <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+  <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+  <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+  <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+  <!-- Cat faces -->
+  <div class="cat-face-decor" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+    <div class="eyes">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="cheeks">
+      <div class="cheek"></div>
+      <div class="cheek"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
+
+  <div class="cat-face-decor" style="top: 15%; right: 5%; animation-delay: 1s;">
+    <div class="eyes">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="cheeks">
+      <div class="cheek"></div>
+      <div class="cheek"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
+
+  <div class="cat-face-decor" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+    <div class="eyes">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="cheeks">
+      <div class="cheek"></div>
+      <div class="cheek"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
+
+  <div class="cat-face-decor" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+    <div class="eyes">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="cheeks">
+      <div class="cheek"></div>
+      <div class="cheek"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
+
+  <div id="main-container" class="kitty-container">
+    <div id="star-bg" class="star-bg"></div>
+    
+    <h1 class="kitty-title">Purr:fect Study Break</h1>
+    <p class="kitty-subtitle">Choose a mini-game for your study break! ✨</p>
+    
+    <div id="menu-buttons">
+      <button class="game-button memory-button" onclick="startGame('memory')">
+        🧠 Memory Match
+      </button>
+      
+      <button class="game-button puzzle-button" onclick="startGame('puzzle')">
+        🧩 Slider Puzzle
+      </button>
+      
+      <button class="game-button word-button" onclick="startGame('word')">
+        📝 Word Scramble
+      </button>
+      
+      <button class="game-button math-button" onclick="startGame('math')">
+        🔢 Quick Math
+      </button>
+      
+      <button class="game-button reaction-button" onclick="startGame('reaction')">
+        ⚡ Reaction Time
+      </button>
+    </div>
+    
+    <div class="footer">
+      <p>Take a short break to refresh your mind! 🌟</p>
+      <p>Studies show that brief mental breaks improve focus and retention.</p>
+      <button class="features-button" onclick="window.location.href='/features'">Back to Features</button>
+    </div>
+  </div>
+
+  <!-- Game container that will appear when a game is selected -->
+  <div id="game-container" class="hidden">
+    <div id="game-header">
+      <h2 id="game-title" class="kitty-title">Game Title</h2>
+      <p id="game-description" class="kitty-subtitle">Game Description</p>
+    </div>
+    
+    <div id="game-area">
+      <!-- Game content will be inserted here dynamically -->
+    </div>
+    
+    <div class="score-display">Score: <span id="game-score">0</span></div>
+    <button class="back-button" onclick="returnToMenu()">Back to Games</button>
+    <button class="features-button" onclick="window.location.href='/features'">Back to Features</button>
+  </div>
+
+  <script>
+    // Global variables
+    let currentGame = '';
+    let gameScore = 0;
+    let gameLevel = 1;
+    let gameTimer;
+    let gameTimeLeft = 0;
+    
+    // Game state variables
+    let memoryCards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let puzzleTiles = [];
+    let emptyTileIndex = 8;
+    let wordsList = ['STUDY', 'LEARN', 'FOCUS', 'BRAIN', 'SMART', 'THINK', 'NOTES', 'BOOK', 'EXAM', 'QUIZ', 'CLASS', 'GRADE'];
+    let currentWord = '';
+    let scrambledWord = '';
+    let mathProblems = [];
+    let currentMathProblem = '';
+    let reactionStartTime;
+    let reactionTargets = 0;
+    let reactionHits = 0;
+
+    // Add bubbles for the background animation
+    function createBubbles() {
+      const container = document.body;
+      for (let i = 0; i < 20; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.style.width = `${Math.random() * 20 + 10}px`;
+        bubble.style.height = bubble.style.width;
+        bubble.style.left = `${Math.random() * 100}%`;
+        bubble.style.animationDuration = `${Math.random() * 6 + 4}s`;
+        bubble.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(bubble);
+      }
+    }
+
+    // Create star background for the container
+    function createStarBackground() {
+      const starBg = document.getElementById('star-bg');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'sparkle';
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        starBg.appendChild(star);
+      }
+    }
+
+    // Show confetti animation for celebrations
+    function showConfetti() {
+      const container = document.body;
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.width = `${Math.random() * 10 + 5}px`;
+        confetti.style.height = `${Math.random() * 10 + 5}px`;
+        confetti.style.backgroundColor = ['#FF9CC9', '#FFE26F', '#A0E57C', '#74D7EC', '#C39BFF'][Math.floor(Math.random() * 5)];
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        
+        // Add animation
+        confetti.animate([
+          { transform: `rotate(${Math.random() * 360}deg) translateY(0)` },
+          { transform: `rotate(${Math.random() * 360}deg) translateY(${window.innerHeight}px)` }
+        ], {
+          duration: Math.random() * 3000 + 2000,
+          easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)'
+        });
+        
+        container.appendChild(confetti);
+        
+        // Remove confetti after animation
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    }
+
+    // Show floating emoji animation
+    function showFloatingEmoji(emoji, x, y) {
+      const floatingEmoji = document.createElement('div');
+      floatingEmoji.className = 'floating-emoji';
+      floatingEmoji.textContent = emoji;
+      floatingEmoji.style.left = `${x}px`;
+      floatingEmoji.style.top = `${y}px`;
+      
+      document.body.appendChild(floatingEmoji);
+      
+      // Animate the emoji floating up
+      floatingEmoji.animate([
+        { transform: 'translateY(0) scale(1)', opacity: 1 },
+        { transform: 'translateY(-100px) scale(1.5)', opacity: 0 }
+      ], {
+        duration: 1500,
+        easing: 'ease-out'
+      });
+      
+      // Remove from DOM after animation
+      setTimeout(() => {
+        floatingEmoji.remove();
+      }, 1500);
+    }
+
+    // Game timer function
+    function startGameTimer(seconds) {
+      if (gameTimer) clearInterval(gameTimer);
+      
+      gameTimeLeft = seconds;
+      const timerDisplay = document.createElement('div');
+      timerDisplay.className = 'game-timer';
+      timerDisplay.id = 'game-timer';
+      timerDisplay.textContent = `${gameTimeLeft}s`;
+      
+      // Insert timer before the score display
+      const scoreDisplay = document.querySelector('.score-display');
+      scoreDisplay.parentNode.insertBefore(timerDisplay, scoreDisplay);
+      
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        timerDisplay.textContent = `${gameTimeLeft}s`;
+        
+        if (gameTimeLeft <= 0) {
+          clearInterval(gameTimer);
+          handleGameOver();
+        }
+      }, 1000);
+    }
+
+    // Function to shuffle array (Fisher-Yates algorithm)
+    function shuffleArray(array) {
+      let currentIndex = array.length;
+      let temporaryValue, randomIndex;
+      
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      
+      return array;
+    }
+
+    // Function to start a selected game
+    function startGame(gameType) {
+      // Reset game variables
+      gameScore = 0;
+      gameLevel = 1;
+      if (gameTimer) clearInterval(gameTimer);
+      
+      // Hide menu and show game container
+      document.getElementById('main-container').classList.add('hidden');
+      document.getElementById('game-container').classList.remove('hidden');
+      document.getElementById('game-score').textContent = gameScore;
+      
+      // Set current game
+      currentGame = gameType;
+      
+      // Initialize selected game
+      switch(gameType) {
+        case 'memory':
+          initMemoryGame();
+          break;
+        case 'puzzle':
+          initPuzzleGame();
+          break;
+        case 'word':
+          initWordGame();
+          break;
+        case 'math':
+          initMathGame();
+          break;
+        case 'reaction':
+          initReactionGame();
+          break;
+      }
+    }
+
+    // Function to return to the main menu
+    function returnToMenu() {
+      // Clear any running game timers
+      if (gameTimer) clearInterval(gameTimer);
+      
+      // Remove game timer display if it exists
+      const timerDisplay = document.getElementById('game-timer');
+      if (timerDisplay) timerDisplay.remove();
+      
+      // Clear game area
+      document.getElementById('game-area').innerHTML = '';
+      
+      // Show menu, hide game container
+      document.getElementById('main-container').classList.remove('hidden');
+      document.getElementById('game-container').classList.add('hidden');
+    }
+
+    // Function to handle game completion
+    function handleGameComplete() {
+      // Clear timer if it exists
+      if (gameTimer) clearInterval(gameTimer);
+      
+      // Remove timer display
+      const timerDisplay = document.getElementById('game-timer');
+      if (timerDisplay) timerDisplay.remove();
+      
+      // Show completion message with score
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = `
+        <div class="game-complete">
+          <h2>Great job! 🎉</h2>
+          <p>You completed level ${gameLevel} with a score of ${gameScore}!</p>
+          <button class="game-next" onclick="nextGameLevel()">Next Level</button>
+          <button class="game-next" style="background-color: #A0E57C;" onclick="returnToMenu()">Back to Menu</button>
+        </div>
+      `;
+      
+      // Show confetti animation
+      showConfetti();
+    }
+
+    // Function to handle game over
+    function handleGameOver() {
+      // Clear timer if it exists
+      if (gameTimer) clearInterval(gameTimer);
+      
+      // Remove timer display
+      const timerDisplay = document.getElementById('game-timer');
+      if (timerDisplay) timerDisplay.remove();
+      
+      // Show game over message with score
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = `
+        <div class="game-complete" style="color: #FF6B8B;">
+          <h2>Time's Up! ⏱️</h2>
+          <p>You reached level ${gameLevel} with a score of ${gameScore}!</p>
+          <button class="game-next" onclick="startGame('${currentGame}')">Try Again</button>
+          <button class="game-next" style="background-color: #A0E57C;" onclick="returnToMenu()">Back to Menu</button>
+        </div>
+      `;
+    }
+
+    // Function to go to next game level
+    function nextGameLevel() {
+      gameLevel++;
+      
+      // Start the next level of the current game
+      switch(currentGame) {
+        case 'memory':
+          initMemoryGame();
+          break;
+        case 'puzzle':
+          initPuzzleGame();
+          break;
+        case 'word':
+          initWordGame();
+          break;
+        case 'math':
+          initMathGame();
+          break;
+        case 'reaction':
+          initReactionGame();
+          break;
+      }
+    }
+
+    // ---- MEMORY GAME FUNCTIONS ----
+    function initMemoryGame() {
+      document.getElementById('game-title').textContent = '🧠 Memory Match';
+      document.getElementById('game-description').textContent = 'Match pairs of cards with the same emoji!';
+      
+      // Clear game area
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = '';
+      
+      // Define card pairs based on level
+      const pairCount = Math.min(6 + Math.floor(gameLevel / 2), 10);
+      const emojis = ['🐱', '🐶', '🐰', '🦊', '🐼', '🐨', '🦁', '🐯', '🐵', '🦄'];
+      const selectedEmojis = emojis.slice(0, pairCount);
+      memoryCards = [...selectedEmojis, ...selectedEmojis];
+      memoryCards = shuffleArray(memoryCards);
+      
+      // Reset game state
+      flippedCards = [];
+      matchedPairs = 0;
+      
+      // Create memory board
+      const memoryBoard = document.createElement('div');
+      memoryBoard.className = 'memory-board';
+      
+      // Create cards
+      memoryCards.forEach((emoji, index) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.index = index;
+        card.dataset.emoji = emoji;
+        
+        // Create emoji element (hidden initially)
+        const emojiElement = document.createElement('div');
+        emojiElement.className = 'memory-emoji';
+        emojiElement.textContent = emoji;
+        
+        card.appendChild(emojiElement);
+        memoryBoard.appendChild(card);
+        
+        // Add click event
+        card.addEventListener('click', handleMemoryCardClick);
+      });
+      
+      gameArea.appendChild(memoryBoard);
+      
+      // Start the timer - based on level (more time for higher levels with more cards)
+      startGameTimer(30 + (gameLevel * 5));
+    }
+
+    function handleMemoryCardClick(e) {
+      const card = e.currentTarget;
+      
+      // Ignore if card is already flipped or matched
+      if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+        return;
+      }
+      
+      // Ignore if two cards are already flipped
+      if (flippedCards.length === 2) {
+        return;
+      }
+      
+      // Flip the card
+      card.classList.add('flipped');
+      flippedCards.push(card);
+      
+      // Add a cute sound effect
+      const flipSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-medium-soft-glass-small-hit-3118.mp3');
+      flipSound.volume = 0.3;
+      flipSound.play();
+      
+      // If two cards are flipped, check for a match
+      if (flippedCards.length === 2) {
+        const card1 = flippedCards[0];
+        const card2 = flippedCards[1];
+        
+        if (card1.dataset.emoji === card2.dataset.emoji) {
+          // Match found!
+          setTimeout(() => {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            flippedCards = [];
+            matchedPairs++;
+            
+            // Update score
+            gameScore += 10 * gameLevel;
+            document.getElementById('game-score').textContent = gameScore;
+            
+            // Show floating emoji
+            const rect = card1.getBoundingClientRect();
+            showFloatingEmoji('✨', rect.left + rect.width/2, rect.top);
+            
+            // Play match sound
+            const matchSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-bonus-earned-in-game-2058.mp3');
+            matchSound.volume = 0.3;
+            matchSound.play();
+            
+            // Check if all pairs are matched
+            if (matchedPairs === memoryCards.length / 2) {
+              // Level complete!
+              setTimeout(() => {
+                handleGameComplete();
+              }, 500);
+            }
+          }, 500);
+        } else {
+          // No match, flip cards back
+          setTimeout(() => {
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            flippedCards = [];
+          }, 1000);
+        }
+      }
+    }
+
+    // ---- PUZZLE GAME FUNCTIONS ----
+    function initPuzzleGame() {
+      document.getElementById('game-title').textContent = '🧩 Slider Puzzle';
+      document.getElementById('game-description').textContent = 'Arrange the tiles in numerical order!';
+      
+      // Clear game area
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = '';
+      
+      // Calculate grid size based on level
+      const gridSize = Math.min(3 + Math.floor(gameLevel / 3), 5);
+      const totalTiles = gridSize * gridSize;
+      
+      // Create puzzle tiles
+      puzzleTiles = Array.from({length: totalTiles - 1}, (_, i) => i + 1);
+      puzzleTiles.push(null); // Empty tile
+      
+      // Shuffle tiles (make sure it's solvable)
+      do {
+        shuffleArray(puzzleTiles);
+      } while (!isPuzzleSolvable(puzzleTiles, gridSize));
+      
+      // Find empty tile position
+      emptyTileIndex = puzzleTiles.indexOf(null);
+      
+      // Create puzzle board
+      const puzzleBoard = document.createElement('div');
+      puzzleBoard.className = 'puzzle-board';
+      puzzleBoard.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+      puzzleBoard.style.width = `${gridSize * 100}px`;
+      puzzleBoard.style.height = `${gridSize * 100}px`;
+      
+      // Create tiles
+      puzzleTiles.forEach((value, index) => {
+        const tile = document.createElement('div');
+        tile.className = value === null ? 'puzzle-tile empty' : 'puzzle-tile';
+        tile.textContent = value !== null ? value : '';
+        tile.dataset.index = index;
+        
+        // Add click event for movable tiles
+        tile.addEventListener('click', () => handlePuzzleTileClick(index));
+        
+        puzzleBoard.appendChild(tile);
+      });
+      
+      gameArea.appendChild(puzzleBoard);
+      
+      // Start the timer
+      startGameTimer(60 + (gameLevel * 15));
+    }
+
+    function handlePuzzleTileClick(index) {
+      // Calculate grid size based on level
+      const gridSize = Math.min(3 + Math.floor(gameLevel / 3), 5);
+      
+      // Check if tile is adjacent to empty tile
+      if (isAdjacent(index, emptyTileIndex, gridSize)) {
+        // Swap tiles
+        [puzzleTiles[index], puzzleTiles[emptyTileIndex]] = [puzzleTiles[emptyTileIndex], puzzleTiles[index]];
+        
+        // Update UI
+        const tiles = document.querySelectorAll('.puzzle-tile');
+        tiles[index].textContent = '';
+        tiles[index].classList.add('empty');
+        tiles[emptyTileIndex].textContent = puzzleTiles[emptyTileIndex];
+        tiles[emptyTileIndex].classList.remove('empty');
+        
+        // Update empty tile index
+        emptyTileIndex = index;
+        
+        // Add move sound
+        const moveSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-clicking-lock-sound-1924.mp3');
+        moveSound.volume = 0.2;
+        moveSound.play();
+        
+        // Check if puzzle is solved
+        if (isPuzzleSolved(puzzleTiles)) {
+          // Update score
+          gameScore += 20 * gameLevel;
+          document.getElementById('game-score').textContent = gameScore;
+          
+          // Show success animation
+          showConfetti();
+          
+          // Level complete!
+          setTimeout(() => {
+            handleGameComplete();
+          }, 500);
+        }
+      }
+    }
+
+    function isAdjacent(index1, index2, gridSize) {
+      // Check if tiles are adjacent horizontally or vertically
+      const row1 = Math.floor(index1 / gridSize);
+      const col1 = index1 % gridSize;
+      const row2 = Math.floor(index2 / gridSize);
+      const col2 = index2 % gridSize;
+      
+      return (
+        (row1 === row2 && Math.abs(col1 - col2) === 1) ||
+        (col1 === col2 && Math.abs(row1 - row2) === 1)
+      );
+    }
+
+    function isPuzzleSolved(tiles) {
+      // Check if all tiles are in order (except the last tile which should be null)
+      for (let i = 0; i < tiles.length - 1; i++) {
+        if (tiles[i] !== i + 1) return false;
+      }
+      return tiles[tiles.length - 1] === null;
+    }
+
+    function isPuzzleSolvable(tiles, gridSize) {
+      // Count inversions (for odd-sized grids, a puzzle is solvable if inversions is even)
+      // For even-sized grids, we also need to consider the row of the empty tile
+      let inversions = 0;
+      let flatTiles = [];
+      
+      // Create a flat array without the null tile
+      for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i] !== null) {
+          flatTiles.push(tiles[i]);
+        }
+      }
+      
+      // Count inversions
+      for (let i = 0; i < flatTiles.length; i++) {
+        for (let j = i + 1; j < flatTiles.length; j++) {
+          if (flatTiles[i] > flatTiles[j]) {
+            inversions++;
+          }
+        }
+      }
+      
+      // For odd grid size
+      if (gridSize % 2 !== 0) {
+        return inversions % 2 === 0;
+      }
+      
+      // For even grid size
+      // Find row of empty tile (from bottom)
+      const emptyIndex = tiles.indexOf(null);
+      const emptyRow = Math.floor(emptyIndex / gridSize);
+      const rowFromBottom = gridSize - emptyRow;
+      
+      return (rowFromBottom % 2 === 0 && inversions % 2 === 1) ||
+             (rowFromBottom % 2 === 1 && inversions % 2 === 0);
+    }
+
+    // ---- WORD SCRAMBLE GAME FUNCTIONS ----
+    function initWordGame() {
+      document.getElementById('game-title').textContent = '📝 Word Scramble';
+      document.getElementById('game-description').textContent = 'Unscramble the word!';
+      
+      // Clear game area
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = '';
+      
+      // Choose a word based on level
+      const minLength = Math.min(4 + Math.floor(gameLevel / 2), 8);
+      const filteredWords = wordsList.filter(word => word.length >= minLength);
+      currentWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
+      
+      // Scramble the word
+      scrambledWord = scrambleWord(currentWord);
+      
+      // Create word container
+      const wordContainer = document.createElement('div');
+      wordContainer.className = 'word-container';
+      
+      // Add scrambled word display
+      const scrambledDisplay = document.createElement('div');
+      scrambledDisplay.className = 'scrambled-word';
+      scrambledDisplay.textContent = scrambledWord;
+      
+      // Add hint (first letter)
+      const hint = document.createElement('div');
+      hint.className = 'word-hint';
+      hint.textContent = `Hint: The first letter is "${currentWord[0]}"`;
+      
+      // Add input field
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'word-input';
+      input.placeholder = 'Type your answer here...';
+      input.maxLength = currentWord.length;
+      
+      // Add submit button
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'submit-word';
+      submitBtn.textContent = 'Check Answer';
+      submitBtn.onclick = checkWordAnswer;
+      
+      // Add all elements to container
+      wordContainer.appendChild(scrambledDisplay);
+      wordContainer.appendChild(hint);
+      wordContainer.appendChild(input);
+      wordContainer.appendChild(submitBtn);
+      
+      gameArea.appendChild(wordContainer);
+      
+      // Start the timer
+      startGameTimer(30 + (gameLevel * 5));
+      
+      // Focus on input
+      setTimeout(() => input.focus(), 100);
+    }
+
+    function scrambleWord(word) {
+      let scrambled = word.split('');
+      
+      // Scramble the word (make sure it's different from original)
+      do {
+        shuffleArray(scrambled);
+      } while (scrambled.join('') === word);
+      
+      return scrambled.join('');
+    }
+
+    function checkWordAnswer() {
+      const input = document.querySelector('.word-input');
+      const answer = input.value.trim().toUpperCase();
+      
+      if (answer === currentWord) {
+        // Correct answer!
+        
+        // Update score
+        gameScore += 15 * gameLevel;
+        document.getElementById('game-score').textContent = gameScore;
+        
+        // Show success animation
+        const rect = input.getBoundingClientRect();
+        showFloatingEmoji('✨', rect.left + rect.width/2, rect.top);
+        
+        // Play correct sound
+        const correctSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3');
+        correctSound.volume = 0.3;
+        correctSound.play();
+        
+        // Level complete!
+        setTimeout(() => {
+          handleGameComplete();
+        }, 500);
+      } else {
+        // Wrong answer
+        input.classList.add('shake');
+        setTimeout(() => input.classList.remove('shake'), 500);
+        
+        // Play wrong sound
+        const wrongSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-software-interface-remove-2576.mp3');
+        wrongSound.volume = 0.3;
+        wrongSound.play();
+      }
+    }
+
+    // ---- MATH GAME FUNCTIONS ----
+    function initMathGame() {
+      document.getElementById('game-title').textContent = '🔢 Quick Math';
+      document.getElementById('game-description').textContent = 'Solve the math problem quickly!';
+      
+      // Clear game area
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = '';
+      
+      // Generate math problems based on level
+      mathProblems = generateMathProblems(gameLevel);
+      
+      // Get the first problem
+      currentMathProblem = mathProblems[0];
+      
+      // Create math container
+      const mathContainer = document.createElement('div');
+      mathContainer.className = 'math-problem';
+      mathContainer.textContent = currentMathProblem.question;
+      
+      // Create options container
+      const optionsContainer = document.createElement('div');
+      optionsContainer.className = 'math-options';
+      
+      // Create option buttons (correct answer + 3 wrong answers)
+      const allOptions = [currentMathProblem.answer];
+      
+      // Generate 3 different wrong options
+      while (allOptions.length < 4) {
+        // Wrong answer is +/- 10 from correct answer
+        let wrongAnswer = currentMathProblem.answer + Math.floor(Math.random() * 21) - 10;
+        if (wrongAnswer !== currentMathProblem.answer && !allOptions.includes(wrongAnswer)) {
+          allOptions.push(wrongAnswer);
+        }
+      }
+      
+      // Shuffle options
+      shuffleArray(allOptions);
+      
+      // Create option buttons
+      allOptions.forEach(option => {
+        const optionBtn = document.createElement('button');
+        optionBtn.className = 'math-option';
+        optionBtn.textContent = option;
+        optionBtn.onclick = () => checkMathAnswer(option);
+        
+        optionsContainer.appendChild(optionBtn);
+      });
+      
+      gameArea.appendChild(mathContainer);
+      gameArea.appendChild(optionsContainer);
+      
+      // Start the timer
+      startGameTimer(30 + Math.floor(gameLevel * 2.5));
+    }
+
+    function generateMathProblems(level) {
+      const problems = [];
+      const count = Math.min(5 + level, 15); // More problems for higher levels
+      
+      for (let i = 0; i < count; i++) {
+        // The operation gets harder with higher levels
+        let operation, num1, num2, answer, question;
+        
+        if (level < 3) {
+          // Addition only for early levels
+          operation = '+';
+          num1 = Math.floor(Math.random() * 20) + 1;
+          num2 = Math.floor(Math.random() * 20) + 1;
+          answer = num1 + num2;
+          question = `${num1} + ${num2} = ?`;
+        } else if (level < 5) {
+          // Addition and subtraction
+          operation = Math.random() < 0.5 ? '+' : '-';
+          if (operation === '+') {
+            num1 = Math.floor(Math.random() * 30) + 1;
+            num2 = Math.floor(Math.random() * 30) + 1;
+            answer = num1 + num2;
+          } else {
+            num1 = Math.floor(Math.random() * 30) + 20; // Ensure positive result
+            num2 = Math.floor(Math.random() * num1) + 1;
+            answer = num1 - num2;
+          }
+          question = `${num1} ${operation} ${num2} = ?`;
+        } else {
+          // Addition, subtraction, and multiplication
+          const operations = ['+', '-', '×'];
+          operation = operations[Math.floor(Math.random() * operations.length)];
+          
+          if (operation === '+') {
+            num1 = Math.floor(Math.random() * 50) + 1;
+            num2 = Math.floor(Math.random() * 50) + 1;
+            answer = num1 + num2;
+          } else if (operation === '-') {
+            num1 = Math.floor(Math.random() * 50) + 50; // Ensure positive result
+            num2 = Math.floor(Math.random() * num1) + 1;
+            answer = num1 - num2;
+          } else {
+            num1 = Math.floor(Math.random() * 12) + 1; // Simple multiplication
+            num2 = Math.floor(Math.random() * 12) + 1;
+            answer = num1 * num2;
+          }
+          question = `${num1} ${operation} ${num2} = ?`;
+        }
+        
+        problems.push({ question, answer });
+      }
+      
+      return problems;
+    }
+
+    function checkMathAnswer(selectedAnswer) {
+      if (selectedAnswer === currentMathProblem.answer) {
+        // Correct answer!
+        
+        // Update score
+        gameScore += 10 * gameLevel;
+        document.getElementById('game-score').textContent = gameScore;
+        
+        // Remove this problem from the list
+        mathProblems.shift();
+        
+        // Show correct animation
+        const mathDisplay = document.querySelector('.math-problem');
+        const rect = mathDisplay.getBoundingClientRect();
+        showFloatingEmoji('✅', rect.left + rect.width/2, rect.top);
+        
+        // Play correct sound
+        const correctSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-interface-click-confirmation-2310.mp3');
+        correctSound.volume = 0.3;
+        correctSound.play();
+        
+        // Check if there are more problems
+        if (mathProblems.length > 0) {
+          // Show next problem
+          setTimeout(() => {
+            currentMathProblem = mathProblems[0];
+            document.querySelector('.math-problem').textContent = currentMathProblem.question;
+            
+            // Generate new options
+            const allOptions = [currentMathProblem.answer];
+            while (allOptions.length < 4) {
+              let wrongAnswer = currentMathProblem.answer + Math.floor(Math.random() * 21) - 10;
+              if (wrongAnswer !== currentMathProblem.answer && !allOptions.includes(wrongAnswer)) {
+                allOptions.push(wrongAnswer);
+              }
+            }
+            
+            // Shuffle options
+            shuffleArray(allOptions);
+            
+            // Update option buttons
+            const optionBtns = document.querySelectorAll('.math-option');
+            optionBtns.forEach((btn, index) => {
+              btn.textContent = allOptions[index];
+              btn.onclick = () => checkMathAnswer(allOptions[index]);
+            });
+          }, 500);
+        } else {
+          // All problems solved!
+          setTimeout(() => {
+            handleGameComplete();
+          }, 500);
+        }
+      } else {
+        // Wrong answer
+        const options = document.querySelectorAll('.math-option');
+        options.forEach(option => {
+          if (parseInt(option.textContent) === selectedAnswer) {
+            option.style.backgroundColor = '#ff6b6b';
+            setTimeout(() => {
+              option.style.backgroundColor = '';
+            }, 500);
+          }
+        });
+        
+        // Play wrong sound
+        const wrongSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-software-interface-remove-2576.mp3');
+        wrongSound.volume = 0.3;
+        wrongSound.play();
+        
+        // Subtract points for wrong answers
+        gameScore = Math.max(0, gameScore - 5);
+        document.getElementById('game-score').textContent = gameScore;
+      }
+    }
+
+    // ---- REACTION TIME GAME FUNCTIONS ----
+    function initReactionGame() {
+      document.getElementById('game-title').textContent = '⚡ Reaction Time';
+      document.getElementById('game-description').textContent = 'Click the targets as fast as you can!';
+      
+      // Clear game area
+      const gameArea = document.getElementById('game-area');
+      gameArea.innerHTML = '';
+      
+      // Reset game state
+      reactionTargets = 0;
+      reactionHits = 0;
+      
+      // Create play area
+      const playArea = document.createElement('div');
+      playArea.className = 'reaction-play-area';
+      
+      // Create start button
+      const startBtn = document.createElement('button');
+      startBtn.className = 'reaction-start';
+      startBtn.textContent = 'Start Game';
+      startBtn.onclick = startReactionGame;
+      
+      playArea.appendChild(startBtn);
+      gameArea.appendChild(playArea);
+    }
+
+    function startReactionGame() {
+      // Remove start button
+      document.querySelector('.reaction-start').remove();
+      
+      // Start the timer
+      startGameTimer(30);
+      
+      // Determine number of targets based on level
+      const targetCount = 10 + (gameLevel * 5);
+      reactionTargets = targetCount;
+      
+      // Show first target
+      showReactionTarget();
+    }
+
+    function showReactionTarget() {
+      const playArea = document.querySelector('.reaction-play-area');
+      const areaRect = playArea.getBoundingClientRect();
+      
+      // Create a new target
+      const target = document.createElement('div');
+      target.className = 'reaction-target';
+      
+      // Random position
+      const size = Math.max(30, 80 - (gameLevel * 5)); // Size decreases with level
+      target.style.width = `${size}px`;
+      target.style.height = `${size}px`;
+      
+      const maxX = areaRect.width - size;
+      const maxY = areaRect.height - size;
+      
+      target.style.left = `${Math.random() * maxX}px`;
+      target.style.top = `${Math.random() * maxY}px`;
+      
+      // Random emoji from list
+      const emojis = ['🎯', '⭐', '🌟', '💫', '✨', '🔴', '🟡', '🔵'];
+      target.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+      // Add click handler
+      target.onclick = () => hitReactionTarget(target);
+      
+      // Add target to play area
+      playArea.appendChild(target);
+      
+      // Target disappears after some time (gets shorter with higher levels)
+      const disappearTime = Math.max(500, 2000 - (gameLevel * 200));
+      setTimeout(() => {
+        if (target.parentNode) {
+          target.remove();
+          showReactionTarget();
+        }
+      }, disappearTime);
+      
+      // Record start time
+      reactionStartTime = Date.now();
+    }
+
+    function hitReactionTarget(target) {
+      // Calculate reaction time
+      const reactionTime = Date.now() - reactionStartTime;
+      
+      // Award points based on reaction time (faster = more points)
+      const basePoints = 10 * gameLevel;
+      const timeBonus = Math.max(0, 1000 - reactionTime) / 100;
+      const points = Math.round(basePoints + timeBonus);
+      
+      // Update score
+      gameScore += points;
+      document.getElementById('game-score').textContent = gameScore;
+      
+      // Increment hits
+      reactionHits++;
+      
+      // Show floating points
+      const rect = target.getBoundingClientRect();
+      showFloatingEmoji(`+${points}`, rect.left + rect.width/2, rect.top);
+      
+      // Remove target
+      target.remove();
+      
+      // Play hit sound
+      const hitSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3');
+      hitSound.volume = 0.2;
+      hitSound.play();
+      
+      // Show next target if not game over
+      if (reactionHits < reactionTargets) {
+        showReactionTarget();
+      } else {
+        // All targets hit! Level complete!
+        setTimeout(() => {
+          handleGameComplete();
+        }, 500);
+      }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      createBubbles();
+      createStarBackground();
+      
+      // Add animation to the game buttons
+      document.querySelectorAll('.game-button').forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          button.animate([
+            { transform: 'translateY(0)' },
+            { transform: 'translateY(-5px)' }
+          ], {
+            duration: 300,
+            fill: 'forwards',
+            easing: 'ease-out'
+          });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+          button.animate([
+            { transform: 'translateY(-5px)' },
+            { transform: 'translateY(0)' }
+          ], {
+            duration: 300,
+            fill: 'forwards',
+            easing: 'ease-out'
+          });
+        });
+      });
+      
+      // Add keydown support for math and word games
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          if (currentGame === 'word') {
+            const submitBtn = document.querySelector('.submit-word');
+            if (submitBtn) submitBtn.click();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

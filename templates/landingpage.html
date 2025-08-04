@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect</title>
+    <style>
+        :root {
+            --pink-primary: #ffb6c1;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffe6ee;
+            --accent: #ff85b4;
+            --text-color: #555555;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--pink-light);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 22px;
+            font-weight: 500;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            background-color: var(--pink-light);
+            border: 1px solid var(--pink-secondary);
+        }
+        
+        .nav-links a:hover {
+            background-color: var(--pink-secondary);
+            color: var(--text-color);
+        }
+        
+        .nav-links a.active {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .btn {
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 10px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        .btn:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.5);
+        }
+        
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 60px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h2 {
+            font-size: 48px; /* Increased from 36px */
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-weight: 700; /* Changed from 500 to make it bolder */
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 3px rgba(255, 133, 180, 0.2);
+        }
+        
+        .hero p {
+            font-size: 22px; /* Increased from 18px */
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-weight: 600; /* Added to make it bold */
+            letter-spacing: 0.5px;
+        }
+        
+        .features {
+            padding: 60px 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 40px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .feature-card p {
+            font-size: 16px;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        /* Subtle decorations */
+        .decoration {
+            position: absolute;
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        .apple {
+            width: 25px;
+            height: 25px;
+        }
+        
+        .apple-1 {
+            top: 200px;
+            left: 15%;
+            animation-delay: 0.5s;
+        }
+        
+        .apple-2 {
+            top: 400px;
+            right: 20%;
+            animation-delay: 1.2s;
+        }
+        
+        .apple-3 {
+            bottom: 250px;
+            left: 10%;
+            animation-delay: 0.8s;
+        }
+        
+        .apple-4 {
+            bottom: 150px;
+            right: 15%;
+            animation-delay: 1.5s;
+        }
+        
+        .pencil {
+            font-size: 24px;
+            color: #ffc83d;
+            opacity: 0.8;
+        }
+        
+        .pencil-1 {
+            top: 280px;
+            left: 8%;
+            animation-delay: 0.3s;
+        }
+        
+        .pencil-2 {
+            top: 340px;
+            right: 12%;
+            animation-delay: 1.7s;
+        }
+        
+        .pencil-3 {
+            bottom: 220px;
+            right: 25%;
+            animation-delay: 0.9s;
+        }
+        
+        .smile-face {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .smile-1 {
+            top: 350px;
+            left: 5%;
+            animation-delay: 1.3s;
+        }
+        
+        .smile-2 {
+            top: 320px;
+            right: 8%;
+            animation-delay: 0.7s;
+        }
+        
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+        
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 4s infinite;
+        }
+        
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+        
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+        
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+        
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+        
+        .plus {
+            font-size: 20px;
+            color: var(--pink-primary);
+            opacity: 0.7;
+        }
+        
+        .plus-1 {
+            top: 450px;
+            left: 25%;
+            animation-delay: 0.5s;
+        }
+        
+        .plus-2 {
+            bottom: 300px;
+            right: 25%;
+            animation-delay: 1.1s;
+        }
+        
+        .heart {
+            color: var(--pink-primary);
+            font-size: 20px;
+            opacity: 0.6;
+        }
+        
+        .heart-1 {
+            bottom: 400px;
+            right: 10%;
+            animation-delay: 0.9s;
+        }
+        
+        .heart-2 {
+            top: 420px;
+            left: 18%;
+            animation-delay: 1.4s;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 30px;
+            text-align: center;
+            color: var(--text-color);
+            position: relative;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            border-top: 3px solid var(--accent);
+        }
+        
+        footer p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 35px;
+            border-radius: 30px;
+            width: 400px;
+            max-width: 90%;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--accent);
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        .modal h3 {
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            animation: slideFromRight 0.5s ease-out forwards;
+            opacity: 0;
+            position: relative;
+        }
+        
+        .form-group:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        
+        .form-group:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        
+        .form-group:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: normal;
+            font-size: 15px;
+        }
+        
+        .form-group.focus-animation input:focus + .floating-icon {
+            transform: translateY(-10px) scale(1.2);
+        }
+        
+        .floating-icon {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #ffd1e3;
+            border-radius: 30px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background-color: var(--white);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+        
+        .form-footer {
+            margin-top: 25px;
+            font-size: 14px;
+        }
+        
+        .form-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .forgot-password a:hover {
+            color: var(--accent);
+        }
+        
+        /* Social Login */
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .social-login:before {
+            content: "";
+            height: 1px;
+            background-color: #eee;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+        }
+        
+        .social-login span {
+            background-color: #fff;
+            padding: 0 15px;
+            position: relative;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        .social-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .google {
+            color: #EA4335;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .facebook {
+            color: #1877F2;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .twitter {
+            color: #1DA1F2;
+            font-size: 1.2rem;
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+        }
+        
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 20px;
+            background-color: #88c388;
+            position: relative;
+        }
+        
+        .success-icon:after {
+            content: "";
+            display: block;
+            width: 20px;
+            height: 35px;
+            border: solid white;
+            border-width: 0 6px 6px 0;
+            transform: rotate(45deg);
+            position: absolute;
+            top: 12px;
+            left: 22px;
+        }
+
+        /* Banner heart */
+        .banner-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--accent);
+            font-size: 60px;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero {
+                padding-top: 150px;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('index') }}" style="text-decoration: none; display: flex; align-items: center;">
+                <img src="{{ url_for('static', filename='images/purrfect-logo.svg') }}" alt="Kitty Logo" style="height: 40px; margin-right: 10px;">
+                <h1>Purr:fect</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            
+            <a href="{{ url_for('login') }}" id="signin-btn">Sign In</a>
+            <a href="{{ url_for('register') }}" id="register-btn">Register</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>PAW PLAN POUNCE</h2>
+        <p>🎀Your Exam Universe — Synced, Smart, and So Kawaii 🎀</p>
+        <!-- Get Started button with direct path to login page -->
+        <button class="btn" id="get-started-btn" onclick="window.location.href='/login';">Get Started</button>
+        
+        <!-- Subtle Decorations -->
+        <div class="decoration apple apple-1">🍎</div>
+        <div class="decoration apple apple-2">🍎</div>
+        <div class="decoration apple apple-3">🍎</div>
+        <div class="decoration apple apple-4">🍎</div>
+        
+        <div class="decoration pencil pencil-1">✏️</div>
+        <div class="decoration pencil pencil-2">✏️</div>
+        <div class="decoration pencil pencil-3">✏️</div>
+        
+        <div class="decoration smile-face smile-1">
+            <span>◡̈</span>
+        </div>
+        <div class="decoration smile-face smile-2">
+            <span>◡̈</span>
+        </div>
+        
+        <!-- Cat Faces -->
+        <div class="cat-face" style="top: 30%; left: 5%;">
+            <div class="eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+            <div class="cheeks">
+                <div class="cheek"></div>
+                <div class="cheek"></div>
+            </div>
+            <div class="mouth"></div>
+        </div>
+        
+        <div class="cat-face" style="top: 70%; right: 5%;">
+            <div class="eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+            <div class="cheeks">
+                <div class="cheek"></div>
+                <div class="cheek"></div>
+            </div>
+            <div class="mouth"></div>
+        </div>
+        
+        <div class="decoration plus plus-1">+</div>
+        <div class="decoration plus plus-2">+</div>
+        <div class="decoration heart heart-1">♡</div>
+        <div class="decoration heart heart-2">♡</div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+    <h2>Study Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3>Tailored Study Plans</h3>
+            <p>Get study schedules crafted just for you—balanced, flexible, and designed to crush your goals!</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🐱😼</div>
+            <h3>AI Study Buddies: Pawfessor Meowkins &amp; Clawdia</h3>
+            <p>Chat with your smart tutor and exam BFF who break down tough concepts and analyze your performance—tailored help whenever you need it.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⏳</div>
+            <h3>Focus &amp; Flow Timer</h3>
+            <p>Boost your productivity with a timer that respects your rhythm and reminds you to recharge.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🃏</div>
+            <h3>Flashcard Fun</h3>
+            <p>Master any topic with vibrant flashcards and a spaced repetition system that’s as clever as you.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🤝</div>
+            <h3>Study Pals Hub</h3>
+            <p>Join or create study squads—share notes, brainstorm, and keep each other motivated.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📈</div>
+            <h3>Progress Purrformance</h3>
+            <p>Track your learning streaks and achievements with easy-to-read stats that keep you moving forward.</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Purr:fect. All rights reserved.</p>
+    </footer>
+
+    <!-- Removed login and registration modals as requested -->
+</body>
+</html>

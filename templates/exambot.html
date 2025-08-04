@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Analysis Bot - Purr:fect</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffd1e3;
+            --pink-dark: #e56a99;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            padding: 20px 0; /* Add padding top and bottom */
+            position: relative;
+        }
+
+        /* Decorative elements - same as login page */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 4s infinite;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        /* Animations - same as login page */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        /* Main content - updated to be centered */
+        .main-content {
+            width: 100%;
+            max-width: 1200px; /* Set maximum width */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink-light), var(--pink-accent), var(--pink-light));
+            border-radius: 3px;
+        }
+
+        .header p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        /* Chat container */
+        .chat-container {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            height: calc(100vh - 180px);
+        }
+
+        /* File upload area */
+        .file-upload-area {
+            width: 300px;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upload-header {
+            margin-bottom: 20px;
+        }
+
+        .upload-header h3 {
+            color: var(--pink-accent);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .upload-header p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .upload-box {
+            border: 2px dashed var(--pink-light);
+            border-radius: 10px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .upload-box:hover {
+            border-color: var(--pink-accent);
+            background-color: var(--pink-bg);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            color: var(--pink-accent);
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            text-align: center;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #999;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .uploaded-file {
+            display: none;
+            background-color: var(--pink-light);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .delete-file {
+            color: #e74c3c;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        .exam-details {
+            background-color: var(--pink-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .exam-details h4 {
+            color: var(--pink-dark);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .exam-field {
+            margin-bottom: 15px;
+        }
+
+        .exam-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .exam-field input, .exam-field select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--pink-secondary);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            background-color: var(--white);
+        }
+
+        .start-chat-btn {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .start-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.5);
+        }
+        
+        .start-chat-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Chat area */
+        .chat-area {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .welcome-message {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .welcome-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--pink-accent);
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            color: var(--pink-accent);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .welcome-text {
+            max-width: 500px;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            display: none;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 1rem;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .bot-message {
+            background-color: var(--pink-light);
+            color: var(--text-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            background-color: var(--pink-accent);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .bot-message .message-time {
+            text-align: left;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 12px 15px;
+            background-color: var(--pink-light);
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+            width: 60px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--pink-accent);
+            border-radius: 50%;
+            animation: typing-animation 1.2s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing-animation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+            30% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+
+        .message-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 2px rgba(255, 133, 180, 0.2);
+        }
+
+        .send-btn {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Chat Tools */
+        .chat-tools {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        
+        .tool-btn {
+            background-color: #A660CE;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tool-btn:hover {
+            background-color: #774D8B;
+        }
+
+        /* Back to Features Button */
+        .back-to-features {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+            margin: 30px auto 10px auto;
+            text-align: center;
+        }
+
+        .back-to-features:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.4);
+        }
+
+        /* Media queries - updated for centered layout */
+        @media (max-width: 1024px) {
+            .chat-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .file-upload-area {
+                width: 100%;
+            }
+
+            .chat-area {
+                height: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+            
+            .back-to-features {
+                width: 90%;
+            }
+        }
+    /* Modal popup styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    
+    .modal-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .modal {
+        background-color: white;
+        border-radius: 15px;
+        padding: 25px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transform: translateY(-20px);
+        transition: transform 0.3s;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .modal-backdrop.show .modal {
+        transform: translateY(0);
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .modal-title {
+        font-size: 1.5rem;
+        color: var(--pink-accent);
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #888;
+        padding: 0;
+    }
+    
+    .modal-body {
+        margin-bottom: 20px;
+        color: var(--text-color);
+    }
+    
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .modal-btn {
+        padding: 8px 20px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .modal-btn-primary {
+        background-color: var(--pink-accent);
+        color: white;
+        margin-left: 10px;
+    }
+    
+    /* Report Modal Specific Styles */
+    #reportModal .modal {
+        max-width: 800px;
+        background-color: #f9f7ff;
+        border: 2px solid #A660CE;
+    }
+    
+    .evaluation-report {
+        padding: 15px;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .report-section {
+        margin-bottom: 25px;
+        border-bottom: 1px solid #e0d5eb;
+        padding-bottom: 20px;
+    }
+    
+    .report-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .report-heading {
+        color: #A660CE;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    
+    .report-content {
+        line-height: 1.5;
+    }
+    
+    .score-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .score-item {
+        flex: 1;
+        text-align: center;
+        padding: 15px;
+        background-color: #f0e8ff;
+        border-radius: 8px;
+        margin: 0 5px;
+    }
+    
+    .score-label {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #555;
+    }
+    
+    .score-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #A660CE;
+    }
+    
+    .question-result {
+        background-color: white;
+        border-left: 4px solid #A660CE;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .strength, .weakness, .recommendation {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-right: 8px;
+        font-weight: 600;
+    }
+    
+    .strength {
+        color: #28a745;
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    .weakness {
+        color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.1);
+    }
+    
+    .recommendation {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+    
+    /* Typing indicator for chat */
+    .typing-indicator {
+        display: flex;
+        padding: 10px;
+        margin: 10px 0;
+    }
+    
+    .typing-dot {
+        background-color: #A660CE;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: typing-animation 1.4s infinite;
+    }
+    
+    .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes typing-animation {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0); }
+    }
+    
+    .modal-btn-primary:hover {
+        background-color: var(--pink-dark);
+    }
+    
+    .question-card {
+        background-color: var(--pink-light);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .question-text {
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    
+    .question-number {
+        font-weight: bold;
+        color: var(--pink-dark);
+    }
+    
+    .answer-textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        resize: vertical;
+        min-height: 80px;
+        margin-top: 10px;
+        font-family: inherit;
+    }
+    
+    /* Evaluation report styles */
+    .evaluation-report {
+        background-color: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .report-section {
+        margin-bottom: 20px;
+    }
+    
+    .report-heading {
+        color: var(--pink-accent);
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--pink-light);
+    }
+    
+    .report-content {
+        margin-left: 10px;
+    }
+    
+    .strength {
+        color: #28a745;
+    }
+    
+    .weakness {
+        color: #dc3545;
+    }
+    
+    .recommendation {
+        color: #0066cc;
+    }
+    
+    .score-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+        flex-wrap: wrap;
+    }
+    
+    .score-item {
+        background: var(--pink-light);
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        width: 100px;
+        margin-bottom: 10px;
+    }
+    
+    .score-label {
+        font-size: 0.8rem;
+        color: var(--text-color);
+    }
+    
+    .score-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--pink-dark);
+    }
+    
+    .question-result {
+        border-left: 3px solid var(--pink-light);
+        padding-left: 15px;
+        margin-bottom: 15px;
+    }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements - same as login page -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+    
+    <!-- Welcome Popup Modal -->
+    <div class="modal-backdrop" id="welcomeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Welcome to ExamBot! 😺</h3>
+                <button class="modal-close" id="closeWelcomeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Hi <span id="userNameDisplay">there</span>! I'm Clawdia, your AI exam assistant.</p>
+                <p>Upload your exam paper, and I'll help you analyze it question by question.</p>
+                <p>Ready to improve your exam performance? Let's get started!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" id="welcomeModalBtn">Get Started</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Questions Display Modal -->
+    <div class="modal-backdrop" id="questionsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Exam Questions</h3>
+                <button class="modal-close" id="closeQuestionsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>I've identified the following questions from your exam:</p>
+                <div id="questionsContainer">
+                    <!-- Questions will be added here dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" id="questionsModalBtn">Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Answers Modal -->
+    <div class="modal-backdrop" id="answersModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Your Answers</h3>
+                <button class="modal-close" id="closeAnswersModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Please provide what you wrote as answers for each question:</p>
+                <div id="answersContainer">
+                    <!-- Answer inputs will be added here dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" id="answersModalBtn">Submit for Evaluation</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Evaluation Report Modal -->
+    <div class="modal-backdrop" id="reportModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Your Evaluation Report</h3>
+                <button class="modal-close" id="closeReportModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="evaluationReport">
+                    <!-- Report will be generated here dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" id="downloadReportBtn">Download Report</button>
+                <button class="modal-btn modal-btn-primary" id="closeReportBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cat faces - same as login page 
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>-->
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="logo-container" style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 20px;">
+               <!-- <img src="data:image/png;base64,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" width="100" style="margin-bottom: 10px;">-->
+                <h1>Clawdia<span style="font-size: 1.2rem; vertical-align: middle;">😼🎀</span></h1>
+                <p>✨Less stress, more purr-spective✨</p>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <!-- File Upload Area -->
+            <div class="file-upload-area">
+                <div class="upload-header">
+                    <h3>Upload Exam Paper</h3>
+                    <p>Upload your exam paper as PDF or image</p>
+                </div>
+                
+                <div class="upload-box" id="uploadBox">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">Drag & Drop or Click to Upload</div>
+                    <div class="upload-hint">Supports PDF, PNG, JPG (max 10MB)</div>
+                    <input type="file" class="file-input" id="fileInput" accept=".pdf,.png,.jpg,.jpeg">
+                </div>
+                
+                <div class="uploaded-file" id="uploadedFile">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                    <button class="delete-file" id="deleteFile">Remove file</button>
+                </div>
+                
+                <div class="exam-details" id="examDetails">
+                    <h4>Exam Details</h4>
+                    <div class="exam-field">
+                        <label for="examSubject">Subject</label>
+                        <input type="text" id="examSubject" placeholder="e.g. Mathematics, History">
+                    </div>
+                    <div class="exam-field">
+                        <label for="examDuration">Duration (minutes)</label>
+                        <input type="number" id="examDuration" placeholder="e.g. 120" min="0">
+                    </div>
+                    <div class="exam-field">
+                        <label for="examDifficulty">Difficulty Level</label>
+                        <select id="examDifficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="exam-field">
+                        <label for="examPerformance">How do you feel about your performance?</label>
+                        <select id="examPerformance">
+                            <option value="excellent">Very Good</option>
+                            <option value="good">Good</option>
+                            <option value="average" selected>Average</option>
+                            <option value="poor">Poor</option>
+                            <option value="very-poor">Very Poor</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="start-chat-btn" id="startChatBtn" disabled>
+                    <span>Start Analysis</span> 🚀
+                </button>
+            </div>
+            
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <div class="welcome-message" id="welcomeMessage">
+                    <div class="welcome-icon">🎀</div>
+                    <div class="welcome-title">Clawdia in the room </div>
+                    <div class="welcome-text">
+                        Paw-five! You made it. Ready for a cozy debrief?
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages"></div>
+                
+                <div class="chat-tools">
+                    <button id="generateReportBtn" class="tool-btn" style="display: none;">Generate Evaluation Report</button>
+                </div>
+                
+                <div class="chat-input" id="chatInput">
+                    <div class="input-container">
+                        <input type="text" class="message-input" id="messageInput" placeholder="Type your message...">
+                        <button class="send-btn" id="sendBtn">➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back to Features Button -->
+    <a href="/features" class="back-to-features">Back to Features</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Background animations - same as login page
+            const decorElements = document.querySelectorAll('.decorative-element');
+            decorElements.forEach(elem => {
+                elem.style.animationDelay = `${Math.random() * 5}s`;
+            });
+
+            // Eye follow mouse effect - same as login page
+            const eyes = document.querySelectorAll('.eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+            
+            // Welcome Modal functionality
+            const welcomeModal = document.getElementById('welcomeModal');
+            const closeWelcomeModal = document.getElementById('closeWelcomeModal');
+            const welcomeModalBtn = document.getElementById('welcomeModalBtn');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            
+            // Set user name if available
+            if (typeof userName !== 'undefined') {
+                userNameDisplay.textContent = userName;
+            } else {
+                // Try to get username from current_user if available
+                try {
+                    const username = '{{ user.username }}';
+                    if (username && username !== '{{ user.username }}') {
+                        userNameDisplay.textContent = username;
+                    }
+                } catch (e) {
+                    console.log('Username not available');
+                }
+            }
+            
+            // Show welcome modal on page load
+            setTimeout(() => {
+                welcomeModal.classList.add('show');
+            }, 500);
+            
+            closeWelcomeModal.addEventListener('click', () => {
+                welcomeModal.classList.remove('show');
+            });
+            
+            welcomeModalBtn.addEventListener('click', () => {
+                welcomeModal.classList.remove('show');
+            });
+            
+            // Questions modal functionality
+            const questionsModal = document.getElementById('questionsModal');
+            const closeQuestionsModal = document.getElementById('closeQuestionsModal');
+            const questionsModalBtn = document.getElementById('questionsModalBtn');
+            const questionsContainer = document.getElementById('questionsContainer');
+            
+            closeQuestionsModal.addEventListener('click', () => {
+                questionsModal.classList.remove('show');
+            });
+            
+            questionsModalBtn.addEventListener('click', () => {
+                questionsModal.classList.remove('show');
+                showAnswersModal();
+            });
+            
+            // Answers modal functionality
+            const answersModal = document.getElementById('answersModal');
+            const closeAnswersModal = document.getElementById('closeAnswersModal');
+            const answersModalBtn = document.getElementById('answersModalBtn');
+            const answersContainer = document.getElementById('answersContainer');
+            
+            closeAnswersModal.addEventListener('click', () => {
+                answersModal.classList.remove('show');
+            });
+            
+            answersModalBtn.addEventListener('click', () => {
+                collectUserAnswers();
+                answersModal.classList.remove('show');
+                generateInitialEvaluation();
+            });
+            
+            // Evaluation report modal functionality
+            const reportModal = document.getElementById('reportModal');
+            const closeReportModal = document.getElementById('closeReportModal');
+            const closeReportBtn = document.getElementById('closeReportBtn');
+            const downloadReportBtn = document.getElementById('downloadReportBtn');
+            const evaluationReport = document.getElementById('evaluationReport');
+            
+            closeReportModal.addEventListener('click', () => {
+                reportModal.classList.remove('show');
+            });
+            
+            closeReportBtn.addEventListener('click', () => {
+                reportModal.classList.remove('show');
+            });
+            
+            downloadReportBtn.addEventListener('click', () => {
+                downloadReport();
+            });
+            
+            // Generate Report button
+            const generateReportBtn = document.getElementById('generateReportBtn');
+            generateReportBtn.addEventListener('click', () => {
+                generateFinalReport();
+            });
+
+            // Cat face hover effects - same as login page
+            const catFaces = document.querySelectorAll('.cat-face');
+            catFaces.forEach(cat => {
+                cat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '10px';
+                    mouth.style.borderRadius = '10px';
+                });
+                
+                cat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '8px';
+                    mouth.style.borderBottomLeftRadius = '10px';
+                    mouth.style.borderBottomRightRadius = '10px';
+                    mouth.style.borderTopLeftRadius = '0';
+                    mouth.style.borderTopRightRadius = '0';
+                });
+            });
+
+            // Floating animation with parallax effect - same as login page
+            document.addEventListener('mousemove', function(e) {
+                const moveX = (e.clientX - window.innerWidth / 2) / 20;
+                const moveY = (e.clientY - window.innerHeight / 2) / 20;
+                
+                document.querySelectorAll('.decorative-element').forEach(elem => {
+                    const speedX = parseFloat(elem.getAttribute('data-speed-x') || Math.random() * 0.5);
+                    const speedY = parseFloat(elem.getAttribute('data-speed-y') || Math.random() * 0.5);
+                    
+                    elem.style.transform = `translate(${moveX * speedX}px, ${moveY * speedY}px)`;
+                });
+            });
+
+            // DOM Elements for exam bot functionality
+            const fileInput = document.getElementById('fileInput');
+            const uploadBox = document.getElementById('uploadBox');
+            const uploadedFile = document.getElementById('uploadedFile');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const deleteFile = document.getElementById('deleteFile');
+            const examDetails = document.getElementById('examDetails');
+            const startChatBtn = document.getElementById('startChatBtn');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            let uploadedFileData = null;
+            let processingFile = false;
+            
+            // Store extracted questions and answers
+            let extractedQuestions = [];
+            let userAnswers = {};
+            
+            // Function to show questions modal with extracted questions
+            function showQuestionsModal(questions) {
+                questionsContainer.innerHTML = '';
+                
+                if (questions && questions.length > 0) {
+                    questions.forEach((question, index) => {
+                        const questionCard = document.createElement('div');
+                        questionCard.className = 'question-card';
+                        questionCard.innerHTML = `
+                            <div class="question-text">
+                                <span class="question-number">Question ${index + 1}:</span> ${question}
+                            </div>
+                        `;
+                        questionsContainer.appendChild(questionCard);
+                    });
+                } else {
+                    questionsContainer.innerHTML = '<p>No questions could be extracted from your exam. Please continue to provide your own questions.</p>';
+                }
+                
+                questionsModal.classList.add('show');
+            }
+            
+            // Function to show answers modal with input fields for each question
+            function showAnswersModal() {
+                answersContainer.innerHTML = '';
+                
+                if (extractedQuestions && extractedQuestions.length > 0) {
+                    extractedQuestions.forEach((question, index) => {
+                        const answerCard = document.createElement('div');
+                        answerCard.className = 'question-card';
+                        answerCard.innerHTML = `
+                            <div class="question-text">
+                                <span class="question-number">Question ${index + 1}:</span> ${question}
+                            </div>
+                            <textarea class="answer-textarea" id="answer-${index}" placeholder="Type your answer here..."></textarea>
+                        `;
+                        answersContainer.appendChild(answerCard);
+                    });
+                } else {
+                    answersContainer.innerHTML = '<p>No questions available. You can still chat with Clawdia about your exam.</p>';
+                }
+                
+                answersModal.classList.add('show');
+            }
+            
+            // Function to collect user answers from the form
+            function collectUserAnswers() {
+                userAnswers = {};
+                
+                extractedQuestions.forEach((question, index) => {
+                    const answerTextarea = document.getElementById(`answer-${index}`);
+                    if (answerTextarea) {
+                        userAnswers[index + 1] = answerTextarea.value.trim();
+                    }
+                });
+                
+                // Log answers for debugging
+                console.log("User answers:", userAnswers);
+            }
+            
+            // Function to generate initial evaluation based on collected answers
+            function generateInitialEvaluation() {
+                // Show a processing message
+                addMessage('bot', "Thank you for submitting your answers! I'm evaluating them now...");
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = `
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                `;
+                typingIndicator.id = 'evaluationTyping';
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Prepare data for evaluation
+                const evaluationData = {
+                    questions: extractedQuestions,
+                    answers: userAnswers,
+                    subject: document.getElementById('examSubject').value || 'Not specified',
+                    difficulty: document.getElementById('examDifficulty').value,
+                    performance: document.getElementById('examPerformance').value
+                };
+                
+                // Wait a moment to simulate processing (in a real app, this would be a server call)
+                setTimeout(() => {
+                    // Remove typing indicator
+                    const indicator = document.getElementById('evaluationTyping');
+                    if (indicator) chatMessages.removeChild(indicator);
+                    
+                    // Add initial evaluation message
+                    let evaluation = "Here's my initial evaluation of your answers:\n\n";
+                    
+                    // Calculate a mock score for demonstration
+                    const totalQuestions = extractedQuestions.length;
+                    const answeredQuestions = Object.keys(userAnswers).length;
+                    const completionRate = Math.floor((answeredQuestions / totalQuestions) * 100);
+                    
+                    // Add overall assessment
+                    evaluation += `📝 **Overall Assessment**: You answered ${answeredQuestions} out of ${totalQuestions} questions (${completionRate}% completion).\n\n`;
+                    
+                    // Add specific feedback for each question
+                    extractedQuestions.forEach((question, index) => {
+                        const questionNum = index + 1;
+                        const answer = userAnswers[questionNum] || "Not provided";
+                        
+                        // Generate mock feedback
+                        const feedback = generateMockFeedback(question, answer, questionNum);
+                        evaluation += feedback;
+                    });
+                    
+                    // Add recommendations section
+                    evaluation += "\n🔍 **Key Areas to Discuss**:\n";
+                    evaluation += "• Your understanding of core concepts\n";
+                    evaluation += "• How you approach problem-solving\n";
+                    evaluation += "• Your time management during exams\n";
+                    evaluation += "• Specific concepts you find challenging\n\n";
+                    
+                    // Add prompt for next step
+                    evaluation += "Let's discuss your experience with this exam. What aspects did you find most challenging?";
+                    
+                    // Add the evaluation to the chat
+                    addMessage('bot', evaluation);
+                    
+                    // Prepare report data for later use
+                    window.examReportData = {
+                        questions: extractedQuestions,
+                        answers: userAnswers,
+                        evaluation: evaluation,
+                        subject: document.getElementById('examSubject').value || 'Not specified',
+                        completionRate: completionRate
+                    };
+                    
+                    // Show the generate report button
+                    document.getElementById('generateReportBtn').style.display = 'flex';
+                    
+                }, 2500);
+            }
+            
+            // Function to generate mock feedback for each question
+            function generateMockFeedback(question, answer, questionNum) {
+                // This is just mock feedback. In a real app, this would be AI-generated based on actual analysis.
+                let feedback = `**Question ${questionNum}**: `;
+                
+                if (answer === "Not provided") {
+                    feedback += "You didn't provide an answer. This suggests either you were unsure or ran out of time.\n\n";
+                    return feedback;
+                }
+                
+                // Generate random score between 1-10 for demonstration
+                const score = Math.floor(Math.random() * 10) + 1;
+                
+                if (score > 7) {
+                    feedback += "Your answer shows good understanding. ";
+                    if (answer.length > 100) {
+                        feedback += "You provided a detailed response which likely covered most key points.\n\n";
+                    } else {
+                        feedback += "Your answer is concise but effective. Consider adding more detail for full marks.\n\n";
+                    }
+                } else if (score > 4) {
+                    feedback += "Your answer demonstrates partial understanding. ";
+                    if (answer.length > 100) {
+                        feedback += "While lengthy, your answer might benefit from more focus on key concepts.\n\n";
+                    } else {
+                        feedback += "Your answer needs more depth to fully address the question.\n\n";
+                    }
+                } else {
+                    feedback += "Your answer suggests some misconceptions. ";
+                    if (answer.length > 100) {
+                        feedback += "Despite the length, the core concepts appear to be misunderstood.\n\n";
+                    } else {
+                        feedback += "The answer is too brief and misses important points.\n\n";
+                    }
+                }
+                
+                return feedback;
+            }
+            
+            // Function to generate and show final evaluation report
+            function generateFinalReport() {
+                if (!window.examReportData) return;
+                
+                const data = window.examReportData;
+                let reportHtml = `
+                    <div class="evaluation-report">
+                        <div class="report-section">
+                            <h3 class="report-heading">Exam Analysis Report</h3>
+                            <p>Subject: ${data.subject}</p>
+                            <p>Date: ${new Date().toLocaleDateString()}</p>
+                        </div>
+                        
+                        <div class="report-section">
+                            <h4 class="report-heading">Overall Performance</h4>
+                            <div class="score-container">
+                                <div class="score-item">
+                                    <div class="score-label">Completion</div>
+                                    <div class="score-value">${data.completionRate}%</div>
+                                </div>
+                                <div class="score-item">
+                                    <div class="score-label">Understanding</div>
+                                    <div class="score-value">${Math.floor(Math.random() * 40) + 60}%</div>
+                                </div>
+                                <div class="score-item">
+                                    <div class="score-label">Detail</div>
+                                    <div class="score-value">${Math.floor(Math.random() * 40) + 60}%</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-section">
+                            <h4 class="report-heading">Question Analysis</h4>
+                            <div class="report-content">
+                `;
+                
+                // Add each question and answer
+                data.questions.forEach((question, index) => {
+                    const questionNum = index + 1;
+                    const answer = data.answers[questionNum] || "Not provided";
+                    
+                    reportHtml += `
+                        <div class="question-result">
+                            <p><strong>Q${questionNum}:</strong> ${question}</p>
+                            <p><strong>Your answer:</strong> ${answer}</p>
+                            <p>${generateMockDetailedFeedback()}</p>
+                        </div>
+                    `;
+                });
+                
+                reportHtml += `
+                            </div>
+                        </div>
+                        
+                        <div class="report-section">
+                            <h4 class="report-heading">Strengths & Weaknesses</h4>
+                            <div class="report-content">
+                                <p><span class="strength">✓ Strength:</span> ${generateRandomStrength()}</p>
+                                <p><span class="strength">✓ Strength:</span> ${generateRandomStrength()}</p>
+                                <p><span class="weakness">✗ Weakness:</span> ${generateRandomWeakness()}</p>
+                                <p><span class="weakness">✗ Weakness:</span> ${generateRandomWeakness()}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="report-section">
+                            <h4 class="report-heading">Recommendations</h4>
+                            <div class="report-content">
+                                <p><span class="recommendation">→</span> ${generateRandomRecommendation()}</p>
+                                <p><span class="recommendation">→</span> ${generateRandomRecommendation()}</p>
+                                <p><span class="recommendation">→</span> ${generateRandomRecommendation()}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Set the report HTML
+                evaluationReport.innerHTML = reportHtml;
+                
+                // Show the report modal
+                reportModal.classList.add('show');
+            }
+            
+            // Helper functions for report generation
+            function generateMockDetailedFeedback() {
+                const feedbacks = [
+                    "Good grasp of core concepts, but could elaborate more on practical applications.",
+                    "Well-structured answer that demonstrates understanding. Consider adding specific examples next time.",
+                    "The answer addresses the question but lacks sufficient depth. Focus on providing more detail.",
+                    "Good attempt, but there appears to be some confusion about key terminology.",
+                    "Strong answer that demonstrates thorough understanding of the material.",
+                    "The response is factually accurate but lacks analytical depth."
+                ];
+                
+                return feedbacks[Math.floor(Math.random() * feedbacks.length)];
+            }
+            
+            function generateRandomStrength() {
+                const strengths = [
+                    "Good grasp of technical terminology",
+                    "Clear and organized presentation of ideas",
+                    "Strong problem-solving approach",
+                    "Effective use of examples to illustrate concepts",
+                    "Good understanding of theoretical principles",
+                    "Ability to connect concepts across different topics"
+                ];
+                
+                return strengths[Math.floor(Math.random() * strengths.length)];
+            }
+            
+            function generateRandomWeakness() {
+                const weaknesses = [
+                    "Tendency to provide overly brief answers",
+                    "Some misconceptions about fundamental concepts",
+                    "Insufficient detail in explanations",
+                    "Difficulty applying theory to practical scenarios",
+                    "Time management issues when answering complex questions",
+                    "Inconsistent depth of analysis across different questions"
+                ];
+                
+                return weaknesses[Math.floor(Math.random() * weaknesses.length)];
+            }
+            
+            function generateRandomRecommendation() {
+                const recommendations = [
+                    "Practice writing more detailed explanations with specific examples",
+                    "Review core terminology and concepts to strengthen understanding",
+                    "Work on time management strategies for exam situations",
+                    "Focus on connecting theoretical knowledge with practical applications",
+                    "Create concept maps to visualize relationships between different topics",
+                    "Engage in regular self-testing to identify knowledge gaps"
+                ];
+                
+                return recommendations[Math.floor(Math.random() * recommendations.length)];
+            }
+            
+            // Function to download the evaluation report as PDF or text
+            function downloadReport() {
+                // In a real application, this would generate a PDF
+                // For this demonstration, we'll create a text version
+                
+                if (!window.examReportData) return;
+                
+                const data = window.examReportData;
+                let reportText = "EXAM ANALYSIS REPORT\n";
+                reportText += "===================\n\n";
+                reportText += `Subject: ${data.subject}\n`;
+                reportText += `Date: ${new Date().toLocaleDateString()}\n\n`;
+                reportText += "OVERALL PERFORMANCE\n";
+                reportText += "------------------\n";
+                reportText += `Completion Rate: ${data.completionRate}%\n\n`;
+                reportText += "QUESTION ANALYSIS\n";
+                reportText += "-----------------\n\n";
+                
+                // Add each question and answer
+                data.questions.forEach((question, index) => {
+                    const questionNum = index + 1;
+                    const answer = data.answers[questionNum] || "Not provided";
+                    
+                    reportText += `Question ${questionNum}: ${question}\n`;
+                    reportText += `Your answer: ${answer}\n`;
+                    reportText += `Feedback: ${generateMockDetailedFeedback()}\n\n`;
+                });
+                
+                reportText += "STRENGTHS & WEAKNESSES\n";
+                reportText += "---------------------\n";
+                reportText += `✓ ${generateRandomStrength()}\n`;
+                reportText += `✓ ${generateRandomStrength()}\n`;
+                reportText += `✗ ${generateRandomWeakness()}\n`;
+                reportText += `✗ ${generateRandomWeakness()}\n\n`;
+                
+                reportText += "RECOMMENDATIONS\n";
+                reportText += "---------------\n";
+                reportText += `→ ${generateRandomRecommendation()}\n`;
+                reportText += `→ ${generateRandomRecommendation()}\n`;
+                reportText += `→ ${generateRandomRecommendation()}\n`;
+                
+                // Create download link
+                const element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(reportText));
+                element.setAttribute('download', `exam_report_${data.subject.replace(/\s+/g, '_')}_${new Date().toLocaleDateString().replace(/\//g, '-')}.txt`);
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
+            
+            // Extract questions from text using AI or simple heuristics
+            function extractQuestions(text) {
+                // Basic extraction - look for question patterns
+                const questions = [];
+                
+                // Pattern 1: Lines ending with ?
+                const questionPattern1 = /^(.+?\?)/gm;
+                let match;
+                while ((match = questionPattern1.exec(text)) !== null) {
+                    questions.push(match[1].trim());
+                }
+                
+                // Pattern 2: Numbered questions (e.g. "1.", "Q1.", "Question 1:")
+                const questionPattern2 = /(?:^|\n)(?:Q(?:uestion)?\s*)?(\d+)[.:]\s*(.+?)(?=\n\s*(?:Q(?:uestion)?\s*)?(\d+)[.:]|\n\s*$|$)/gs;
+                while ((match = questionPattern2.exec(text)) !== null) {
+                    if (match[2].trim().length > 10) { // Avoid very short matches
+                        questions.push(match[2].trim());
+                    }
+                }
+                
+                // Pattern 3: Lines with "Question" or "Problem" followed by text
+                const questionPattern3 = /(?:Question|Problem)[\s:]+([^\n?]+(?:\?|\.)?)/gi;
+                while ((match = questionPattern3.exec(text)) !== null) {
+                    questions.push(match[1].trim());
+                }
+                
+                // Return unique questions
+                return [...new Set(questions)];
+            }
+            
+            // File upload handling
+            uploadBox.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            uploadBox.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadBox.style.borderColor = 'var(--pink-accent)';
+                uploadBox.style.backgroundColor = 'var(--pink-bg)';
+            });
+            
+            uploadBox.addEventListener('dragleave', () => {
+                uploadBox.style.borderColor = 'var(--pink-light)';
+                uploadBox.style.backgroundColor = '';
+            });
+            
+            uploadBox.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadBox.style.borderColor = 'var(--pink-light)';
+                uploadBox.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    handleFile(fileInput.files[0]);
+                }
+            });
+            
+            deleteFile.addEventListener('click', () => {
+                resetFileUpload();
+            });
+            
+            function handleFile(file) {
+                const validTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+                const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+                
+                if (!validTypes.includes(file.type)) {
+                    alert('Please upload a PDF or image file (PNG/JPG)');
+                    return;
+                }
+                
+                if (file.size > MAX_SIZE) {
+                    alert('File size must be less than 10MB');
+                    return;
+                }
+                
+                uploadedFileData = file;
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                uploadBox.style.display = 'none';
+                uploadedFile.style.display = 'block';
+                examDetails.style.display = 'block';
+                startChatBtn.disabled = false;
+                
+                // If it's an image, allow preview
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.createElement('img');
+                        preview.src = e.target.result;
+                        preview.style.width = '100%';
+                        preview.style.marginTop = '10px';
+                        preview.style.borderRadius = '5px';
+                        uploadedFile.appendChild(preview);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            function resetFileUpload() {
+                uploadedFileData = null;
+                fileInput.value = '';
+                uploadBox.style.display = 'flex';
+                uploadedFile.style.display = 'none';
+                examDetails.style.display = 'none';
+                startChatBtn.disabled = true;
+                
+                // Remove preview image if it exists
+                const preview = uploadedFile.querySelector('img');
+                if (preview) {
+                    uploadedFile.removeChild(preview);
+                }
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' bytes';
+                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                else return (bytes / 1048576).toFixed(1) + ' MB';
+            }
+            
+            // Chat functionality
+            startChatBtn.addEventListener('click', () => {
+                if (!uploadedFileData) return;
+                
+                processingFile = true;
+                startChatBtn.disabled = true;
+                startChatBtn.innerHTML = 'Processing... <div class="spinner"></div>';
+                
+                const examInfo = {
+                    subject: document.getElementById('examSubject').value || 'Not specified',
+                    duration: document.getElementById('examDuration').value || 'Not specified',
+                    difficulty: document.getElementById('examDifficulty').value,
+                    performance: document.getElementById('examPerformance').value
+                };
+                
+                // Prepare form data for upload
+                const formData = new FormData();
+                formData.append('exam_file', uploadedFileData);
+                formData.append('exam_info', JSON.stringify(examInfo));
+                
+                // Send the file to the server
+                fetch('/process_exam', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    processingFile = false;
+                    
+                    if (data.success) {
+                        // Process extracted text to find questions
+                        if (data.extractedText) {
+                            extractedQuestions = extractQuestions(data.extractedText);
+                            console.log("Extracted questions:", extractedQuestions);
+                            
+                            // If questions were found, show them in the modal
+                            if (extractedQuestions.length > 0) {
+                                showQuestionsModal(extractedQuestions);
+                            }
+                        }
+                        
+                        // Hide welcome message, show chat interface
+                        welcomeMessage.style.display = 'none';
+                        chatMessages.style.display = 'flex';
+                        chatInput.style.display = 'block';
+                        
+                        // Add initial bot message
+                        addMessage('bot', data.response || "I've analyzed your exam. What would you like to know about your performance?");
+                    } else {
+                        alert(data.error || 'There was an error processing your exam. Please try again.');
+                        resetFileUpload();
+                        startChatBtn.disabled = false;
+                        startChatBtn.innerHTML = '<span>Start Analysis</span> 🚀';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    processingFile = false;
+                    alert('There was an error processing your exam. Please try again.');
+                    resetFileUpload();
+                    startChatBtn.disabled = false;
+                    startChatBtn.innerHTML = '<span>Start Analysis</span> 🚀';
+                });
+            });
+            
+            // Message handling
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            sendBtn.addEventListener('click', sendMessage);
+            
+            function sendMessage() {
+                const message = messageInput.value.trim();
+                if (!message) return;
+                
+                // Add user message to chat
+                addMessage('user', message);
+                messageInput.value = '';
+                
+                // Check if user is asking for a report or evaluation
+                const reportKeywords = ['report', 'evaluation', 'evaluate', 'summary', 'summarize', 'analysis'];
+                const isAskingForReport = reportKeywords.some(keyword => 
+                    message.toLowerCase().includes(keyword)
+                );
+                
+                if (isAskingForReport && window.examReportData) {
+                    // Add a message that we're generating a report
+                    addMessage('bot', "I'll generate an evaluation report for you right away!");
+                    
+                    // Generate the report after a short delay
+                    setTimeout(() => {
+                        generateFinalReport();
+                    }, 1000);
+                    
+                    return;
+                }
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = `
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                `;
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Send to server and get response
+                fetch('/exam_chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        questions: extractedQuestions,
+                        answers: userAnswers
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Remove typing indicator
+                    chatMessages.removeChild(typingIndicator);
+                    
+                    if (data.success) {
+                        // Add bot response
+                        addMessage('bot', data.response);
+                    } else {
+                        addMessage('bot', "I'm sorry, I couldn't process your question. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    chatMessages.removeChild(typingIndicator);
+                    addMessage('bot', "I'm sorry, there was an error processing your request. Please try again.");
+                });
+            }
+            
+            function addMessage(type, content) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${type}-message`;
+                
+                // Format message content
+                let formattedContent = content;
+                
+                // Add markup for better formatting (lists, bullet points, etc.)
+                formattedContent = formattedContent.replace(/\n\n/g, '<br><br>');
+                formattedContent = formattedContent.replace(/\n/g, '<br>');
+                
+                // Handle bullet points
+                formattedContent = formattedContent.replace(/•\s(.*?)(?=(?:\n|<br>|$))/g, '<br>• $1');
+                
+                // Handle numbered lists
+                formattedContent = formattedContent.replace(/(\d+)\.\s(.*?)(?=(?:\n|<br>|$))/g, '<br>$1. $2');
+                
+                messageElement.innerHTML = formattedContent;
+                
+                // Add timestamp
+                const timeElement = document.createElement('div');
+                timeElement.className = 'message-time';
+                const now = new Date();
+                timeElement.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                messageElement.appendChild(timeElement);
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

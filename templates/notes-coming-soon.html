@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Notes</title>
+    <style>
+        :root {
+            --pink-primary: #ffb6c1;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffe6ee;
+            --accent: #ff85b4;
+            --text-color: #555555;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--pink-light);
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 3px solid var(--accent);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--pink-light);
+            border-left-color: var(--accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--pink-light);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .section-label {
+            padding: 12px 20px;
+            color: #999;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Profile Section */
+        .profile-box {
+            margin: 20px;
+            padding: 12px;
+            background-color: var(--pink-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-box:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .profile-status {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .logout-link {
+            margin: 10px 20px;
+            padding: 10px;
+            border: 1px solid var(--pink-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: var(--pink-light);
+        }
+        
+        .logout-icon {
+            margin-right: 12px;
+        }
+
+        /* Search container */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 0 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .search-container:focus-within {
+            box-shadow: 0 6px 20px rgba(255, 133, 180, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 15px 10px;
+            font-size: 16px;
+            background: transparent;
+            color: var(--text-color);
+            width: 100%;
+            outline: none;
+        }
+        
+        .search-icon {
+            color: var(--accent);
+            font-size: 20px;
+            opacity: 0.7;
+        }
+        
+        /* Notes container - adjusted for no categories */
+        .notes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            flex: 1;
+        }
+        
+        .notes-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .notes-title {
+            font-size: 20px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .add-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .note-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .note-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+        
+        .note-date {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .note-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-height: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .note-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .note-editor {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+        
+        .editor-header {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .editor-title-input {
+            font-size: 20px;
+            border: none;
+            border-bottom: 2px solid var(--pink-light);
+            padding: 5px 0;
+            width: 100%;
+            color: var(--accent);
+            font-weight: 500;
+            outline: none;
+            background: transparent;
+        }
+        
+        .editor-content {
+            width: 100%;
+            height: 300px;
+            border: 2px solid var(--pink-light);
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        
+        .editor-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-save {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-cancel {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .empty-text {
+            font-size: 18px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 1200px) {
+            .notes-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: visible;
+            }
+            
+            .logo h1, .menu-text, .profile-info, .logout-text {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .menu-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+            
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-box {
+                justify-content: center;
+                padding: 10px;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/images/purrfect-logo.svg" alt="Purrfect Logo" style="width: 200px; margin: 20px 0 10px 0;">
+        </div>
+        
+        <a href="/dashboard" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="/features" class="menu-item">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Feature/Tools</span>
+        </a>
+        
+        <a href="/progress" class="menu-item">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">Progress</span>
+        </a>
+        
+        <a href="/notes" class="menu-item active">
+            <span class="menu-icon">📝</span>
+            <span class="menu-text">Notes</span>
+        </a>
+        
+        <a href="/planning" class="menu-item">
+            <span class="menu-icon">📅</span>
+            <span class="menu-text">Planning</span>
+        </a>
+        
+        <div class="profile-box" onclick="window.location.href='/profile'">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <div class="profile-name">{% if user %}{{ user.username|default('Student') }}{% else %}Student{% endif %}</div>
+                <div class="profile-status">Active</div>
+            </div>
+        </div>
+        
+        <a href="/" class="logout-link">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Log Out</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="search-container">
+            <input type="text" id="notes-search" placeholder="Search notes..." class="search-input">
+            <div class="search-icon">🔍</div>
+        </div>
+        
+        <div class="notes-container">
+            <!-- Notes Main Area -->
+            <div class="notes-main">
+                <div class="notes-header">
+                    <div class="notes-title">My Notes</div>
+                    <a href="{{ url_for('notes.create_note') }}" class="add-btn" id="new-note-btn">
+                        <span>+ New Note</span>
+                    </a>
+                </div>
+                
+               
+                
+                <!-- Notes Grid -->
+                <div class="notes-grid" id="notes-grid">
+                    <!-- Sample Note Cards -->
+                    <div class="note-card">
+                        <div class="note-header">
+                            <div class="note-title">Physics Study Guide</div>
+                            <div class="note-date">Sep 15, 2023</div>
+                        </div>
+                        <div class="note-content">
+                            Newton's Laws of Motion:
+                            1. An object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force.
+                            2. Force equals mass times acceleration (F=ma).
+                            3. For every action, there is an equal and opposite reaction.
+                        </div>
+                        <div class="note-footer">
+                            <div class="note-words">54 words</div>
+                        </div>
+                    </div>
+                    
+                    <div class="note-card">
+                        <div class="note-header">
+                            <div class="note-title">App Development Ideas</div>
+                            <div class="note-date">Sep 10, 2023</div>
+                        </div>
+                        <div class="note-content">
+                            1. Student planner with AI scheduling
+                            2. Flashcard app with spaced repetition
+                            3. Group study coordination tool
+                            4. Homework tracker with priority sorting
+                            5. Voice notes with auto-transcription
+                        </div>
+                        <div class="note-footer">
+                            <div class="note-words">32 words</div>
+                        </div>
+                    </div>
+                    
+                    <div class="note-card">
+                        <div class="note-header">
+                            <div class="note-title">Weekend Plans</div>
+                            <div class="note-date">Sep 8, 2023</div>
+                        </div>
+                        <div class="note-content">
+                            - Saturday morning: Finish Biology assignment
+                            - Saturday afternoon: Study group at library
+                            - Saturday evening: Movie night
+                            - Sunday: Rest and prepare for Monday exams
+                        </div>
+                        <div class="note-footer">
+                            <div class="note-words">28 words</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Notes search functionality
+            const searchInput = document.getElementById('notes-search');
+            const noteCards = document.querySelectorAll('.note-card');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                let resultsFound = false;
+                
+                noteCards.forEach(card => {
+                    const title = card.querySelector('.note-title').textContent.toLowerCase();
+                    const content = card.querySelector('.note-content').textContent.toLowerCase();
+                    
+                    if (searchTerm === '' || 
+                        title.includes(searchTerm) || 
+                        content.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                        resultsFound = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show "no results" message if needed
+                const notesGrid = document.getElementById('notes-grid');
+                const existingNoResults = document.querySelector('.empty-state');
+                
+                if (!resultsFound && !existingNoResults && searchTerm !== '') {
+                    const noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'empty-state';
+                    noResultsMsg.innerHTML = `
+                        <div class="empty-icon">🔍</div>
+                        <div class="empty-text">No notes found</div>
+                        <button class="add-btn" id="empty-add-btn">Create New Note</button>
+                    `;
+                    notesGrid.appendChild(noResultsMsg);
+                    
+                    // Update empty state button click handler
+                    document.getElementById('empty-add-btn').addEventListener('click', function() {
+                        window.location.href = "{{ url_for('notes.create_note') }}";
+                    });
+                    
+                    // Fix new note button event handler
+                    newNoteBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = "{{ url_for('notes.create_note') }}";
+                    });
+                } else if ((resultsFound || searchTerm === '') && existingNoResults) {
+                    existingNoResults.remove();
+                }
+            });
+            
+            // Note editor functionality
+            const newNoteBtn = document.getElementById('new-note-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const noteEditor = document.getElementById('note-editor');
+            const notesGrid = document.getElementById('notes-grid');
+            
+            function openNoteEditor() {
+                noteEditor.style.display = 'block';
+                document.getElementById('editor-title').value = '';
+                document.getElementById('editor-content').value = '';
+                document.getElementById('editor-title').focus();
+            }
+            
+            function closeNoteEditor() {
+                noteEditor.style.display = 'none';
+            }
+            
+            newNoteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Redirect to create-note.html
+                window.location.href = '/create-note.html';
+            });
+            
+            cancelBtn.addEventListener('click', closeNoteEditor);
+            
+            saveBtn.addEventListener('click', function() {
+                const title = document.getElementById('editor-title').value.trim();
+                const content = document.getElementById('editor-content').value.trim();
+                
+                if (title === '' || content === '') {
+                    alert('Please enter both title and content for your note.');
+                    return;
+                }
+                
+                // Create new note card
+                const newNote = document.createElement('div');
+                newNote.className = 'note-card';
+                
+                const today = new Date();
+                const dateStr = today.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+                
+                const wordCount = content.split(/\s+/).filter(word => word !== '').length;
+                
+                newNote.innerHTML = `
+                    <div class="note-header">
+                        <div class="note-title">${title}</div>
+                        <div class="note-date">${dateStr}</div>
+                    </div>
+                    <div class="note-content">
+                        ${content}
+                    </div>
+                    <div class="note-footer">
+                        <div class="note-words">${wordCount} words</div>
+                    </div>
+                `;
+                
+                notesGrid.prepend(newNote);
+                closeNoteEditor();
+                
+                // Make new note clickable for editing
+                newNote.addEventListener('click', function() {
+                    // Navigate to the note editor page instead of showing alert
+                    window.location.href = "{{ url_for('notes.create_note') }}";
+                });
+            });
+            
+            // Make sample notes clickable
+            noteCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Navigate to the note editor page instead of showing alert
+                    window.location.href = "{{ url_for('notes.create_note') }}";
+                });
+            });
+        });
+    </script>
+</body>
+</html>

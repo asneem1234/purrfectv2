@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Profile</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffd1e3;
+            --pink-dark: #e56a99;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--white);
+            border-right: 3px solid var(--pink-accent);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--pink-accent);
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--pink-light);
+            border-left-color: var(--pink-accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--pink-light);
+            border-left-color: var(--pink-accent);
+            color: var(--pink-accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 280px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink-light), var(--pink-accent), var(--pink-light));
+            border-radius: 3px;
+        }
+
+        .page-header p {
+            color: var(--text-color);
+            font-size: 1rem;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        /* Profile Sections */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid var(--pink-accent);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            background-color: var(--pink-light);
+            color: var(--pink-accent);
+        }
+
+        .profile-picture#profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .edit-profile-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 20px;
+        }
+
+        .edit-profile-btn:hover {
+            background-color: var(--pink-dark);
+            transform: rotate(15deg);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid var(--pink-light);
+            border-bottom: 1px solid var(--pink-light);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--pink-accent);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            background-color: var(--pink-light);
+            color: var(--pink-accent);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Profile Details and Settings */
+        .profile-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--pink-light);
+            margin-bottom: 20px;
+        }
+
+        .profile-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .profile-tab.active {
+            color: var(--pink-accent);
+            border-bottom-color: var(--pink-accent);
+        }
+
+        .profile-tab:hover:not(.active) {
+            background-color: var(--pink-light);
+            border-bottom-color: var(--pink-secondary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* About Me Section */
+        .about-section {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--pink-accent);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title .icon {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+
+        .about-text {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .about-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .about-item .label {
+            font-weight: 500;
+            width: 120px;
+            color: var(--pink-accent);
+        }
+
+        .about-item .value {
+            flex: 1;
+        }
+
+        /* Settings Section */
+        .settings-form {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .button {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .button:hover {
+            background-color: var(--pink-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-secondary {
+            background-color: transparent;
+            color: var(--pink-accent);
+            border: 2px solid var(--pink-accent);
+        }
+
+        .button-secondary:hover {
+            background-color: var(--pink-light);
+            color: var(--pink-accent);
+        }
+
+        .button-danger {
+            background-color: #ff6b6b;
+        }
+
+        .button-danger:hover {
+            background-color: #e74c3c;
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Profile box and logout styles for sidebar */
+        .profile-box {
+            margin: 20px;
+            padding: 12px;
+            background-color: var(--pink-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-box:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--pink-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-status {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .logout-link {
+            margin: 10px 20px;
+            padding: 10px;
+            border: 1px solid var(--pink-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--pink-accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: var(--pink-light);
+        }
+        
+        .logout-icon {
+            margin-right: 12px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .logo h1, .menu-text, .profile-info, .logout-text {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .menu-item {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .menu-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-box {
+                justify-content: center;
+                padding: 10px;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .buttons-row {
+                flex-direction: column;
+            }
+        }
+        
+        /* Profile picture upload styles */
+        .profile-picture {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-picture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .profile-picture:hover .profile-picture-overlay {
+            opacity: 1;
+        }
+
+        .profile-picture-overlay span {
+            color: white;
+            font-size: 18px;
+        }
+
+        #profile-pic-upload {
+            display: none;
+        }
+
+        .display-name-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .display-name-edit {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--pink-accent);
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .display-name-edit:hover {
+            opacity: 1;
+        }
+
+        .display-name-input {
+            border: none;
+            border-bottom: 2px solid var(--pink-accent);
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            width: 100%;
+            background: transparent;
+            padding: 5px;
+            display: none;
+        }
+
+        .display-name-input:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0id2hpdGUiIHN0cm9rZT0iI2ZmODViNCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjE1IiByPSIzIiBmaWxsPSJibGFjayIvPgogICAgPGNpcmNsZSBjeD0iMjgiIGN5PSIxNSIgcj0iMyIgZmlsbD0iYmxhY2siLz4KICAgIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTQiIHI9IjEiIGZpbGw9IndoaXRlIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjE0IiByPSIxIiBmaWxsPSJ3aGl0ZSIvPgogICAgPGNpcmNsZSBjeD0iMTUiIGN5PSIyMyIgcj0iMi41IiBmaWxsPSIjZmZjYmNiIi8+CiAgICA8Y2lyY2xlIGN4PSIyNSIgY3k9IjIzIiByPSIyLjUiIGZpbGw9IiNmZmNiY2IiLz4KICAgIDxwYXRoIGQ9Ik0xNSAyNnEgNSA3IDEwIDAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt="Logo">
+            <h1>Purr:fect</h1>
+        </div>
+        
+        <a href="/dashboard" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="/features" class="menu-item">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Feature/Tools</span>
+        </a>
+        
+        <a href="/progress" class="menu-item">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">Progress</span>
+        </a>
+        
+        <a href="/notes-coming-soon" class="menu-item">
+            <span class="menu-icon">📝</span>
+            <span class="menu-text">Notes</span>
+        </a>
+        
+        <a href="/planning" class="menu-item">
+            <span class="menu-icon">📅</span>
+            <span class="menu-text">Planning</span>
+        </a>
+        
+        <div class="profile-box">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <div class="profile-name">{{ user.username|default('Student') }}</div>
+                <div class="profile-status">Active</div>
+            </div>
+        </div>
+        
+        <a href="/" class="logout-link">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Log Out</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>My Profile</h1>
+            <p>View your basic profile information.</p>
+        </div>
+
+        <!-- Simplified Profile Container -->
+        <div class="profile-container" style="display: flex; justify-content: center;">
+            <!-- Profile Card - Simplified -->
+            <div class="profile-card" style="width: 100%; max-width: 400px;">
+                <div class="profile-picture" id="profile-picture-container">
+                    <div class="profile-picture-overlay">
+                        <span>📷 Change</span>
+                    </div>
+                    <img id="profile-pic" src="{{ user.profile_pic|default('/static/images/default-profile.png') }}" alt="Profile Picture" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div id="profile-pic-fallback" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; font-size:60px;">
+                        {{ user.username[0]|default('👤') }}
+                    </div>
+                    <input type="file" id="profile-pic-upload" accept="image/*">
+                </div>
+                
+                <div class="display-name-container">
+                    <h2 class="profile-name" id="display-name">{{ user.display_name|default(user.username)|default('Student') }}</h2>
+                    <span class="display-name-edit">✏️</span>
+                    <input type="text" class="display-name-input" id="display-name-input" 
+                           value="{{ user.display_name|default(user.username)|default('Student') }}">
+                </div>
+                
+                <p class="profile-email">{{ user.email|default('') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile picture upload handling
+            const profilePicContainer = document.getElementById('profile-picture-container');
+            const profilePicUpload = document.getElementById('profile-pic-upload');
+            const profilePic = document.getElementById('profile-pic');
+            
+            profilePicContainer.addEventListener('click', function() {
+                profilePicUpload.click();
+            });
+            
+            profilePicUpload.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        profilePic.src = e.target.result;
+                        
+                        // Here you would typically upload the image to the server
+                        // For example:
+                        // const formData = new FormData();
+                        // formData.append('profile_pic', profilePicUpload.files[0]);
+                        // fetch('/api/update-profile-pic', {
+                        //     method: 'POST',
+                        //     body: formData
+                        // }).then(response => response.json())
+                        //   .then(data => {
+                        //     if (data.success) {
+                        //       console.log('Profile picture updated successfully');
+                        //     }
+                        //   });
+                    }
+                    
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            // Display name edit functionality
+            const displayName = document.getElementById('display-name');
+            const displayNameInput = document.getElementById('display-name-input');
+            const displayNameEdit = document.querySelector('.display-name-edit');
+            
+            displayNameEdit.addEventListener('click', function() {
+                displayName.style.display = 'none';
+                displayNameInput.style.display = 'block';
+                displayNameInput.focus();
+            });
+            
+            displayNameInput.addEventListener('blur', function() {
+                const newName = displayNameInput.value.trim();
+                if (newName) {
+                    displayName.textContent = newName;
+                    
+                    // Here you would typically update the display name on the server
+                    // For example:
+                    // fetch('/api/update-display-name', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //     },
+                    //     body: JSON.stringify({ display_name: newName })
+                    // }).then(response => response.json())
+                    //   .then(data => {
+                    //     if (data.success) {
+                    //       console.log('Display name updated successfully');
+                    //     }
+                    //   });
+                }
+                
+                displayName.style.display = 'block';
+                displayNameInput.style.display = 'none';
+            });
+            
+            displayNameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    displayNameInput.blur();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

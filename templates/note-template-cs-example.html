@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Notes - Computer Science Study</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fef2f7;
+            --card-bg: #fff0f5;
+            --button-color: #f472b6;
+            --button-hover: #ec4899;
+            --text-color: #555555;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --note-font: 'Patrick Hand', sans-serif;
+            --sidebar-bg: #ffffff;
+            --accent: #f472b6;
+            --note-pink: #ffd6e9;
+            --note-mint: #d4f5e9;
+            --note-lilac: #e2d4f5;
+            --note-yellow: #fff8d6;
+            --border-radius: 0.5rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Patrick Hand', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Sidebar - hidden */
+        .sidebar {
+            display: none;
+            width: 250px;
+            height: 100vh;
+            background-color: var(--sidebar-bg);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            padding-top: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--bg-color);
+            border-left-color: var(--accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--bg-color);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .section-label {
+            padding: 12px 20px;
+            color: #999;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .page-title {
+            color: var(--accent);
+            font-size: 28px;
+            font-weight: 600;
+            font-family: var(--note-font);
+        }
+
+        .note-title-input {
+            width: 100%;
+            max-width: 1200px;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #e0e0e0;
+            font-size: 18px;
+            font-family: var(--note-font);
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .save-btn {
+            background-color: var(--button-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .save-btn:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Toolbar */
+        .toolbar {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn {
+            background-color: var(--button-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn.active {
+            background-color: var(--note-pink);
+            color: var(--text-color);
+            border: 1px solid var(--button-color);
+        }
+        
+        .btn-icon {
+            font-size: 16px;
+        }
+        
+        /* Tool sections */
+        .tool-section {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            padding: 0 10px;
+            border-right: 1px solid #f5e9f2;
+        }
+
+        .tool-section:last-child {
+            border-right: none;
+        }
+        
+        /* Color picker */
+        .color-picker {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .color-option {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .color-option:hover, .color-option.active {
+            transform: scale(1.2);
+            border-color: var(--button-color);
+        }
+        
+        .color-pink {
+            background-color: var(--note-pink);
+        }
+        
+        .color-mint {
+            background-color: var(--note-mint);
+        }
+        
+        .color-lilac {
+            background-color: var(--note-lilac);
+        }
+        
+        .color-yellow {
+            background-color: var(--note-yellow);
+        }
+        
+        /* Text controls */
+        .text-controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .text-btn {
+            padding: 6px 10px;
+            min-width: 36px;
+        }
+        
+        .text-btn.active {
+            background-color: var(--note-pink);
+            color: #333;
+        }
+        
+        .font-patrick {
+            font-family: var(--note-font) !important;
+        }
+        
+        .font-standard {
+            font-family: 'Poppins', sans-serif !important;
+        }
+        
+        /* Canvas Styles */
+        .notes-canvas {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            position: relative;
+            overflow: visible;
+            box-shadow: var(--shadow-md);
+            background-image: 
+                linear-gradient(to right, #f5e9f2 1px, transparent 1px),
+                linear-gradient(to bottom, #f5e9f2 1px, transparent 1px);
+            background-size: 20px 20px;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 700px;
+            cursor: grab;
+            transition: background 0.2s;
+            margin: 0 auto;
+        }
+        
+        .notes-canvas.panning {
+            cursor: grabbing;
+        }
+        
+        /* Sticky note styles */
+        .sticky-note {
+            position: absolute;
+            min-width: 180px;
+            min-height: 180px;
+            border-radius: var(--border-radius);
+            padding: 15px 15px 20px 15px;
+            box-shadow: var(--shadow-md);
+            cursor: move;
+            user-select: none;
+            z-index: 1;
+            background-color: var(--note-pink);
+            background-repeat: no-repeat;
+            background-size: cover;
+            transition: box-shadow 0.2s, border 0.2s;
+        }
+
+        .note-content {
+            font-family: var(--note-font);
+            font-size: 16px;
+            width: 100%;
+            height: calc(100% - 30px);
+            border: none;
+            outline: none;
+            background: transparent;
+            resize: none;
+            overflow: auto;
+        }
+
+        .sticky-note.tape {
+            background-color: #fff0f5;
+            border: 2px solid #e5b6c6;
+        }
+        .sticky-note.tape::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: -18px;
+            left: 18px;
+            width: 60px;
+            height: 18px;
+            background: repeating-linear-gradient(135deg, #f9c2d1 0 8px, #fff 8px 16px);
+            border-radius: 6px 6px 2px 2px;
+            box-shadow: 0 2px 6px #e5b6c6aa;
+        }
+        .sticky-note.grid {
+            background-color: #fff0f5;
+            background-image: linear-gradient(to right, #f3d6e6 1px, transparent 1px), linear-gradient(to bottom, #f3d6e6 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+        .sticky-note.lined {
+            background-color: #e9e6fa;
+            background-image: repeating-linear-gradient(to bottom, #d1c6f9 0 2px, transparent 2px 24px);
+        }
+        
+        /* Note resize handle */
+        .note-resize {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 14px;
+            color: rgba(0,0,0,0.3);
+            cursor: nwse-resize;
+        }
+
+        /* Highlighter */
+        .highlighter-picker {
+            display: flex;
+            gap: 5px;
+        }
+
+        .highlighter-color-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .highlighter-color-btn:hover, 
+        .highlighter-color-btn.active {
+            transform: scale(1.2);
+            border: 2px solid var(--button-color) !important;
+        }
+
+        /* Arrow styles */
+        .arrow-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .arrow-path {
+            stroke: var(--accent);
+            stroke-width: 5px;
+            fill: none;
+            marker-end: url(#arrowhead);
+            filter: drop-shadow(0 2px 2px #f472b6aa);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            transition: transform 0.3s, opacity 0.3s;
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.error {
+            background-color: #f44336;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                width: 100vw;
+            }
+            .toolbar {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            .tool-section {
+                border-right: none;
+                border-bottom: 1px solid #f5e9f2;
+                padding: 8px 0;
+                width: 100%;
+                justify-content: center;
+            }
+            .tool-section:last-child {
+                border-bottom: none;
+            }
+        }
+
+        /* Animation for new notes */
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .note-pop-in {
+            animation: popIn 0.3s forwards;
+        }
+
+        /* Template specific styles */
+        .template-sidebar {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .template-btn {
+            background-color: var(--white);
+            color: var(--text-color);
+            border: 1px solid #eee;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .template-btn:hover {
+            background-color: var(--bg-color);
+            border-color: var(--accent);
+        }
+
+        /* Highlighter pen styles */
+        .highlighter-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .highlighter-path {
+            stroke-width: 18px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+        
+        .highlighter-color-yellow { stroke: #fff8d6; }
+        .highlighter-color-pink { stroke: #ffd6e9; }
+        .highlighter-color-mint { stroke: #d4f5e9; }
+        .highlighter-color-lilac { stroke: #e2d4f5; }
+    </style>
+</head>
+<body>
+    <!-- Sidebar removed -->
+    <!-- Header moved to top of main content -->
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="logo" style="justify-content: center; margin-bottom: 15px;">
+            <img src="/static/images/purrfect-logo.png" alt="Purr:fect Logo">
+            <h1>Purr:fect Notes</h1>
+        </div>
+        <div class="page-header">
+            <h1 class="page-title">Create New Note</h1>
+            <button class="save-btn" id="saveNoteBtn">
+                <i class="fas fa-save"></i>
+                Save Note
+            </button>
+        </div>
+
+        <input type="text" class="note-title-input" id="noteTitle" placeholder="Enter note title..." value="Computer Science: Algorithms & Data Structures">
+        
+        <div class="toolbar">
+            <!-- Note tools -->
+            <div class="tool-section">
+                <button class="btn" id="addNoteBtn" title="Add Sticky Note">
+                    <i class="fas fa-sticky-note btn-icon"></i>
+                    Add Note
+                </button>
+                
+                <div class="color-picker">
+                    <div class="color-option color-pink active" data-color="var(--note-pink)"></div>
+                    <div class="color-option color-mint" data-color="var(--note-mint)"></div>
+                    <div class="color-option color-lilac" data-color="var(--note-lilac)"></div>
+                    <div class="color-option color-yellow" data-color="var(--note-yellow)"></div>
+                </div>
+            </div>
+            
+            <!-- Text tools -->
+            <div class="tool-section">
+                <button class="btn text-btn" id="toggleFontBtn" title="Toggle Font">
+                    <i class="fas fa-font"></i>
+                </button>
+                <button class="btn text-btn" id="makeBoldBtn" title="Bold">
+                    <i class="fas fa-bold"></i>
+                </button>
+                <button class="btn text-btn" id="makeItalicBtn" title="Italic">
+                    <i class="fas fa-italic"></i>
+                </button>
+                <button class="btn text-btn" id="increaseSizeBtn" title="Increase Size">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn text-btn" id="decreaseSizeBtn" title="Decrease Size">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+            
+            <!-- Drawing tools -->
+            <div class="tool-section">
+                <button class="btn" id="drawMode" title="Drawing Mode">
+                    <i class="fas fa-pen"></i>
+                    Draw
+                </button>
+                <button class="btn" id="arrowMode" title="Add Arrows">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    Arrows
+                </button>
+            </div>
+            
+            <!-- Highlighter -->
+            <div class="tool-section">
+                <button class="btn" id="highlighterMode" title="Highlighter">
+                    <i class="fas fa-highlighter"></i>
+                    Highlight
+                </button>
+                <div class="highlighter-picker" id="highlighterPicker"></div>
+            </div>
+            
+            <!-- Canvas controls -->
+            <div class="tool-section">
+                <button class="btn" id="clearCanvas" title="Clear Canvas">
+                    <i class="fas fa-trash-alt"></i>
+                    Clear
+                </button>
+                <button class="btn" id="downloadBtn" title="Download">
+                    <i class="fas fa-download"></i>
+                    Export
+                </button>
+            </div>
+        </div>
+        
+        <!-- Note canvas -->
+        <div class="notes-canvas" id="notesCanvas">
+            <!-- SVG for arrows -->
+            <svg class="arrow-svg" id="arrowSvg">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent)" />
+                    </marker>
+                </defs>
+                <!-- Arrow paths -->
+                <path class="arrow-path" d="M 250 140 L 390 170" />
+                <path class="arrow-path" d="M 180 270 L 310 300" />
+            </svg>
+            
+            <!-- SVG for highlighter marks -->
+            <svg class="highlighter-svg" id="highlighterSvg">
+                <!-- Highlighter paths -->
+                <path class="highlighter-path highlighter-color-yellow" d="M 120 150 L 220 150" />
+                <path class="highlighter-path highlighter-color-pink" d="M 330 90 L 420 90" />
+                <path class="highlighter-path highlighter-color-mint" d="M 350 350 L 450 350" />
+            </svg>
+            
+            <!-- Sample sticky notes for Computer Science topic -->
+            <!-- Note 1: Algorithms -->
+            <div class="sticky-note" style="top: 50px; left: 50px; background-color: var(--note-pink);">
+                <div class="note-content font-patrick">
+                    <h3>Algorithms Basics</h3>
+                    <ul>
+                        <li>Definition: Step-by-step procedure to solve a problem</li>
+                        <li>Key properties: Correctness, Efficiency, Finiteness</li>
+                        <li>Time Complexity: Measure of execution time</li>
+                        <li>Space Complexity: Memory usage</li>
+                    </ul>
+                </div>
+                <div class="note-resize">⌟</div>
+            </div>
+            
+            <!-- Note 2: Big-O Notation -->
+            <div class="sticky-note grid" style="top: 50px; left: 300px; background-color: var(--note-mint);">
+                <div class="note-content font-patrick">
+                    <h3>Big-O Notation</h3>
+                    <p>Common time complexities:</p>
+                    <ul>
+                        <li>O(1) - Constant time</li>
+                        <li>O(log n) - Logarithmic</li>
+                        <li>O(n) - Linear time</li>
+                        <li>O(n log n) - Linearithmic</li>
+                        <li>O(n²) - Quadratic time</li>
+                        <li>O(2ⁿ) - Exponential time</li>
+                    </ul>
+                </div>
+                <div class="note-resize">⌟</div>
+            </div>
+            
+            <!-- Note 3: Data Structures -->
+            <div class="sticky-note tape" style="top: 300px; left: 50px; background-color: var(--note-lilac);">
+                <div class="note-content font-patrick">
+                    <h3>Common Data Structures</h3>
+                    <ul>
+                        <li>Arrays: Fixed-size collection</li>
+                        <li>Linked Lists: Dynamic collection with nodes</li>
+                        <li>Stacks: LIFO (Last In First Out)</li>
+                        <li>Queues: FIFO (First In First Out)</li>
+                        <li>Trees: Hierarchical structure</li>
+                        <li>Graphs: Nodes with edges</li>
+                    </ul>
+                </div>
+                <div class="note-resize">⌟</div>
+            </div>
+            
+            <!-- Note 4: Sorting Algorithms -->
+            <div class="sticky-note lined" style="top: 300px; left: 300px; background-color: var(--note-yellow);">
+                <div class="note-content font-patrick">
+                    <h3>Sorting Algorithms</h3>
+                    <ul>
+                        <li>Bubble Sort: O(n²)</li>
+                        <li>Selection Sort: O(n²)</li>
+                        <li>Insertion Sort: O(n²)</li>
+                        <li>Merge Sort: O(n log n)</li>
+                        <li>Quick Sort: O(n log n) average</li>
+                        <li>Heap Sort: O(n log n)</li>
+                    </ul>
+                </div>
+                <div class="note-resize">⌟</div>
+            </div>
+        </div>
+
+        <!-- Template sidebar -->
+        <div class="template-sidebar">
+            <button class="template-btn" data-template="cs">CS Basics</button>
+            <button class="template-btn" data-template="algorithms">Algorithms</button>
+            <button class="template-btn" data-template="datastructures">Data Structures</button>
+            <button class="template-btn" data-template="blank">Blank Canvas</button>
+        </div>
+    </main>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // DOM Elements
+        const notesCanvas = document.getElementById('notesCanvas');
+        const addNoteBtn = document.getElementById('addNoteBtn');
+        const toggleFontBtn = document.getElementById('toggleFontBtn');
+        const makeBoldBtn = document.getElementById('makeBoldBtn');
+        const makeItalicBtn = document.getElementById('makeItalicBtn');
+        const increaseSizeBtn = document.getElementById('increaseSizeBtn');
+        const decreaseSizeBtn = document.getElementById('decreaseSizeBtn');
+        const drawModeBtn = document.getElementById('drawMode');
+        const arrowModeBtn = document.getElementById('arrowMode');
+        const highlighterModeBtn = document.getElementById('highlighterMode');
+        const highlighterPicker = document.getElementById('highlighterPicker');
+        const clearCanvasBtn = document.getElementById('clearCanvas');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const saveNoteBtn = document.getElementById('saveNoteBtn');
+        const noteTitle = document.getElementById('noteTitle');
+        const colorOptions = document.querySelectorAll('.color-option');
+        const arrowSvg = document.getElementById('arrowSvg');
+        const highlighterSvg = document.getElementById('highlighterSvg');
+        const toast = document.getElementById('toast');
+        const mainContent = document.querySelector('.main-content');
+        
+        // State variables
+        let noteCounter = 5; // Start from 5 as we have 4 predefined notes
+        let currentColor = 'var(--note-pink)';
+        let usePatrickHand = true;
+        let currentTool = 'select'; // 'select', 'draw', 'arrow', 'highlight'
+        let isDragging = false;
+        let isResizing = false;
+        let isDrawing = false;
+        let isPanning = false;
+        let currentElement = null;
+        let highlighterColor = 'yellow';
+        let offsetX, offsetY;
+        let startX, startY;
+        let currentArrowPath = null;
+        let currentHighlighterPath = null;
+        
+        // Initialize the highlighter picker
+        function initHighlighterPicker() {
+            const highlighterColors = [
+                { color: 'yellow', hex: 'var(--note-yellow)' },
+                { color: 'pink', hex: 'var(--note-pink)' },
+                { color: 'mint', hex: 'var(--note-mint)' },
+                { color: 'lilac', hex: 'var(--note-lilac)' }
+            ];
+            
+            highlighterPicker.innerHTML = '';
+            highlighterColors.forEach((c, i) => {
+                const btn = document.createElement('div');
+                btn.className = `highlighter-color-btn${i === 0 ? ' active' : ''}`;
+                btn.dataset.color = c.color;
+                btn.style.backgroundColor = c.hex;
+                btn.style.border = i === 0 ? '2px solid var(--button-color)' : '2px solid #eee';
+                
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.highlighter-color-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.style.border = '2px solid #eee';
+                    });
+                    btn.classList.add('active');
+                    btn.style.border = '2px solid var(--button-color)';
+                    highlighterColor = c.color;
+                });
+                
+                highlighterPicker.appendChild(btn);
+            });
+        }
+        
+        // Initialize the application
+        function init() {
+            initHighlighterPicker();
+            setupEventListeners();
+            initTemplateButtons();
+            
+            // Make existing notes interactive
+            document.querySelectorAll('.sticky-note').forEach(note => {
+                makeNoteDraggable(note);
+                makeNoteResizable(note);
+            });
+            
+            // Show welcome notification
+            showNotification('Welcome to Purr:fect Notes! Try the different tools.');
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Add note button
+            addNoteBtn.addEventListener('click', function() {
+                createNewNote();
+            });
+            
+            // Canvas panning
+            notesCanvas.addEventListener('mousedown', function(e) {
+                // Only pan when clicking the canvas itself, not elements
+                if (e.target === notesCanvas) {
+                    isPanning = true;
+                    notesCanvas.classList.add('panning');
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    e.preventDefault();
+                }
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (isPanning) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    
+                    mainContent.scrollBy(-dx, -dy);
+                    
+                    startX = e.clientX;
+                    startY = e.clientY;
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isPanning = false;
+                notesCanvas.classList.remove('panning');
+            });
+            
+            // Tool buttons
+            drawModeBtn.addEventListener('click', function() {
+                toggleTool('draw');
+            });
+            
+            arrowModeBtn.addEventListener('click', function() {
+                toggleTool('arrow');
+            });
+            
+            highlighterModeBtn.addEventListener('click', function() {
+                toggleTool('highlight');
+            });
+            
+            // Clear canvas
+            clearCanvasBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear the canvas? This will remove all notes and drawings.')) {
+                    clearCanvas();
+                }
+            });
+            
+            // Download canvas
+            downloadBtn.addEventListener('click', function() {
+                downloadCanvas();
+            });
+            
+            // Save note
+            saveNoteBtn.addEventListener('click', function() {
+                saveNote();
+            });
+            
+            // Text formatting
+            toggleFontBtn.addEventListener('click', function() {
+                usePatrickHand = !usePatrickHand;
+                toggleFont();
+            });
+            
+            makeBoldBtn.addEventListener('click', function() {
+                formatSelectedText('bold');
+            });
+            
+            makeItalicBtn.addEventListener('click', function() {
+                formatSelectedText('italic');
+            });
+            
+            increaseSizeBtn.addEventListener('click', function() {
+                changeFontSize(2);
+            });
+            
+            decreaseSizeBtn.addEventListener('click', function() {
+                changeFontSize(-2);
+            });
+            
+            // Color picker
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentColor = this.getAttribute('data-color');
+                });
+            });
+            
+            // Canvas events for drawing tools
+            notesCanvas.addEventListener('mousedown', handleCanvasMouseDown);
+            notesCanvas.addEventListener('mousemove', handleCanvasMouseMove);
+            document.addEventListener('mouseup', handleCanvasMouseUp);
+        }
+        
+        // Initialize template buttons
+        function initTemplateButtons() {
+            document.querySelectorAll('.template-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const template = this.dataset.template;
+                    loadTemplate(template);
+                });
+            });
+        }
+        
+        // Load a template
+        function loadTemplate(template) {
+            // Clear existing notes
+            clearCanvas();
+            
+            switch(template) {
+                case 'cs':
+                    // Computer Science basics template
+                    createTemplateNote("Computer Science Fundamentals", 50, 50, "var(--note-pink)", "tape", [
+                        "1. Programming Fundamentals",
+                        "2. Data Structures",
+                        "3. Algorithms",
+                        "4. Computer Architecture",
+                        "5. Operating Systems",
+                        "6. Databases",
+                        "7. Networks"
+                    ]);
+                    break;
+                    
+                case 'algorithms':
+                    // Algorithms template
+                    createTemplateNote("Algorithm Analysis", 50, 50, "var(--note-mint)", "grid", [
+                        "Time Complexity:",
+                        "- Best Case",
+                        "- Average Case",
+                        "- Worst Case",
+                        "",
+                        "Space Complexity:",
+                        "- Auxiliary Space",
+                        "- Input Space"
+                    ]);
+                    createTemplateNote("Common Algorithms", 300, 50, "var(--note-lilac)", "lined", [
+                        "Search Algorithms:",
+                        "- Linear Search: O(n)",
+                        "- Binary Search: O(log n)",
+                        "",
+                        "Graph Algorithms:",
+                        "- BFS, DFS",
+                        "- Dijkstra's Algorithm",
+                        "- A* Search"
+                    ]);
+                    break;
+                    
+                case 'datastructures':
+                    // Data structures template
+                    createTemplateNote("Linear Data Structures", 50, 50, "var(--note-yellow)", "", [
+                        "1. Arrays",
+                        "2. Linked Lists",
+                        "3. Stacks",
+                        "4. Queues"
+                    ]);
+                    createTemplateNote("Non-Linear Data Structures", 300, 50, "var(--note-pink)", "tape", [
+                        "1. Trees",
+                        "2. Graphs",
+                        "3. Heaps",
+                        "4. Hash Tables"
+                    ]);
+                    createTemplateNote("Operations & Complexity", 50, 250, "var(--note-mint)", "grid", [
+                        "Array operations:",
+                        "- Access: O(1)",
+                        "- Search: O(n)",
+                        "- Insert/Delete: O(n)",
+                        "",
+                        "LinkedList operations:",
+                        "- Access: O(n)",
+                        "- Search: O(n)",
+                        "- Insert/Delete at beginning: O(1)"
+                    ]);
+                    break;
+                    
+                case 'blank':
+                    // Blank canvas - nothing to add
+                    break;
+            }
+            
+            showNotification(`${template.charAt(0).toUpperCase() + template.slice(1)} template loaded!`);
+        }
+        
+        // Create a template note with predefined content
+        function createTemplateNote(title, x, y, color, style, contentLines) {
+            const note = document.createElement('div');
+            note.className = 'sticky-note note-pop-in ' + style;
+            note.dataset.id = noteCounter++;
+            
+            note.style.width = '250px';
+            note.style.height = '280px';
+            note.style.left = `${x}px`;
+            note.style.top = `${y}px`;
+            note.style.backgroundColor = color;
+            
+            const content = document.createElement('div');
+            content.className = 'note-content font-patrick';
+            content.contentEditable = true;
+            
+            // Create the content with title and lines
+            let html = `<h3>${title}</h3><ul>`;
+            contentLines.forEach(line => {
+                if (line.startsWith('-')) {
+                    html += `<li>${line.substring(2)}</li>`;
+                } else if (line === '') {
+                    html += '<br>';
+                } else {
+                    html += `<p>${line}</p>`;
+                }
+            });
+            html += '</ul>';
+            
+            content.innerHTML = html;
+            note.appendChild(content);
+            
+            // Add resize handle
+            const resizeHandle = document.createElement('div');
+            resizeHandle.className = 'note-resize';
+            resizeHandle.innerHTML = '⌟';
+            note.appendChild(resizeHandle);
+            
+            // Make the note interactive
+            makeNoteDraggable(note);
+            makeNoteResizable(note);
+            
+            // Add to canvas
+            notesCanvas.appendChild(note);
+            return note;
+        }
+        
+        // Toggle between tools
+        function toggleTool(tool) {
+            // Reset all tool buttons
+            [drawModeBtn, arrowModeBtn, highlighterModeBtn].forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Set active tool
+            if (currentTool === tool) {
+                currentTool = 'select';
+            } else {
+                currentTool = tool;
+                switch(tool) {
+                    case 'draw':
+                        drawModeBtn.classList.add('active');
+                        break;
+                    case 'arrow':
+                        arrowModeBtn.classList.add('active');
+                        break;
+                    case 'highlight':
+                        highlighterModeBtn.classList.add('active');
+                        break;
+                }
+            }
+            
+            // Update cursor based on tool
+            switch(currentTool) {
+                case 'select':
+                    notesCanvas.style.cursor = 'grab';
+                    break;
+                case 'draw':
+                    notesCanvas.style.cursor = 'crosshair';
+                    break;
+                case 'arrow':
+                    notesCanvas.style.cursor = 'crosshair';
+                    break;
+                case 'highlight':
+                    notesCanvas.style.cursor = 'crosshair';
+                    break;
+            }
+        }
+        
+        // Create a new note
+        function createNewNote(options = {}) {
+            const note = document.createElement('div');
+            note.className = 'sticky-note note-pop-in';
+            note.dataset.id = noteCounter++;
+            
+            // Set position to center of visible area if not provided
+            const x = options.x !== undefined ? options.x : 
+                (mainContent.scrollLeft + mainContent.clientWidth / 2 - 100);
+            const y = options.y !== undefined ? options.y : 
+                (mainContent.scrollTop + mainContent.clientHeight / 2 - 100);
+            
+            // Set size and position
+            note.style.width = options.width || '200px';
+            note.style.height = options.height || '200px';
+            note.style.left = `${x}px`;
+            note.style.top = `${y}px`;
+            note.style.backgroundColor = options.color || currentColor;
+            
+            // Create editable content
+            const content = document.createElement('div');
+            content.className = 'note-content';
+            content.classList.add(usePatrickHand ? 'font-patrick' : 'font-standard');
+            content.contentEditable = true;
+            content.innerHTML = options.content || 'Type your note here...';
+            content.addEventListener('focus', function() {
+                if (this.innerHTML === 'Type your note here...') {
+                    this.innerHTML = '';
+                }
+            });
+            note.appendChild(content);
+            
+            // Create resize handle
+            const resizeHandle = document.createElement('div');
+            resizeHandle.className = 'note-resize';
+            resizeHandle.innerHTML = '⌟';
+            note.appendChild(resizeHandle);
+            
+            // Make the note interactive
+            makeNoteDraggable(note);
+            makeNoteResizable(note);
+            
+            // Add to canvas
+            notesCanvas.appendChild(note);
+            
+            // Show notification
+            showNotification('New note added!');
+            
+            return note;
+        }
+        
+        // Make a note draggable
+        function makeNoteDraggable(note) {
+            note.addEventListener('mousedown', function(e) {
+                // Skip if clicked on resize handle or content when editing
+                if (e.target.className === 'note-resize' || 
+                    (e.target.isContentEditable && document.activeElement === e.target)) {
+                    return;
+                }
+                
+                // Bring to front
+                bringToFront(note);
+                
+                isDragging = true;
+                currentElement = note;
+                
+                const rect = note.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+                
+                e.preventDefault();
+            });
+        }
+        
+        // Make a note resizable
+        function makeNoteResizable(note) {
+            const resizeHandle = note.querySelector('.note-resize');
+            
+            resizeHandle.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                currentElement = note;
+                
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                const style = window.getComputedStyle(note);
+                offsetX = parseInt(style.width);
+                offsetY = parseInt(style.height);
+                
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        }
+        
+        // Bring an element to the front
+        function bringToFront(element) {
+            const notes = document.querySelectorAll('.sticky-note');
+            let maxZ = 1;
+            
+            notes.forEach(note => {
+                const z = parseInt(note.style.zIndex || 1);
+                maxZ = Math.max(maxZ, z);
+                
+                // Remove selected class from all notes
+                note.classList.remove('selected');
+            });
+            
+            element.style.zIndex = maxZ + 1;
+            element.classList.add('selected');
+        }
+        
+        // Toggle font between Patrick Hand and standard
+        function toggleFont() {
+            document.querySelectorAll('.note-content').forEach(content => {
+                if (usePatrickHand) {
+                    content.classList.add('font-patrick');
+                    content.classList.remove('font-standard');
+                } else {
+                    content.classList.add('font-standard');
+                    content.classList.remove('font-patrick');
+                }
+            });
+            
+            showNotification(usePatrickHand ? 'Handwriting font enabled' : 'Standard font enabled');
+        }
+        
+        // Format selected text
+        function formatSelectedText(format) {
+            const selection = window.getSelection();
+            
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const selectedContent = range.extractContents();
+                
+                let wrapper;
+                switch(format) {
+                    case 'bold':
+                        wrapper = document.createElement('strong');
+                        break;
+                    case 'italic':
+                        wrapper = document.createElement('em');
+                        break;
+                    default:
+                        return;
+                }
+                
+                wrapper.appendChild(selectedContent);
+                range.insertNode(wrapper);
+                
+                // Restore selection
+                selection.removeAllRanges();
+                selection.addRange(range);
+                
+                // Show notification
+                showNotification(`Text formatted: ${format}`);
+            }
+        }
+        
+        // Change font size
+        function changeFontSize(delta) {
+            const selection = window.getSelection();
+            
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const selectedContent = range.extractContents();
+                const span = document.createElement('span');
+                
+                // Get current font size or start with default
+                let fontSize = 16; // default size
+                const selectedNode = selection.anchorNode.parentElement;
+                if (selectedNode && selectedNode.style && selectedNode.style.fontSize) {
+                    fontSize = parseInt(selectedNode.style.fontSize);
+                }
+                
+                // Apply new size
+                fontSize += delta;
+                fontSize = Math.max(10, Math.min(36, fontSize)); // Min 10px, max 36px
+                
+                span.style.fontSize = `${fontSize}px`;
+                span.appendChild(selectedContent);
+                range.insertNode(span);
+                
+                // Show notification
+                showNotification(`Font size changed to ${fontSize}px`);
+            }
+        }
+        
+        // Handle canvas mouse down event
+        function handleCanvasMouseDown(e) {
+            if (currentTool === 'select' || e.target !== notesCanvas) {
+                return;
+            }
+            
+            isDrawing = true;
+            startX = e.clientX - notesCanvas.getBoundingClientRect().left + mainContent.scrollLeft;
+            startY = e.clientY - notesCanvas.getBoundingClientRect().top + mainContent.scrollTop;
+            
+            if (currentTool === 'arrow') {
+                // Create new arrow path
+                currentArrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                currentArrowPath.setAttribute("class", "arrow-path");
+                arrowSvg.appendChild(currentArrowPath);
+            } else if (currentTool === 'highlight') {
+                // Create new highlighter path
+                currentHighlighterPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                currentHighlighterPath.setAttribute("class", "highlighter-path highlighter-color-" + highlighterColor);
+                highlighterSvg.appendChild(currentHighlighterPath);
+            }
+            
+            e.preventDefault();
+        }
+        
+        // Handle canvas mouse move event
+        function handleCanvasMouseMove(e) {
+            if (isDragging && currentElement) {
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                
+                currentElement.style.left = `${x}px`;
+                currentElement.style.top = `${y}px`;
+            } else if (isResizing && currentElement) {
+                const width = offsetX + (e.clientX - startX);
+                const height = offsetY + (e.clientY - startY);
+                
+                // Minimum size constraints
+                currentElement.style.width = `${Math.max(150, width)}px`;
+                currentElement.style.height = `${Math.max(150, height)}px`;
+            } else if (isDrawing) {
+                const x = e.clientX - notesCanvas.getBoundingClientRect().left + mainContent.scrollLeft;
+                const y = e.clientY - notesCanvas.getBoundingClientRect().top + mainContent.scrollTop;
+                
+                if (currentTool === 'arrow') {
+                    // Update arrow path
+                    const d = `M ${startX} ${startY} L ${x} ${y}`;
+                    currentArrowPath.setAttribute("d", d);
+                } else if (currentTool === 'highlight') {
+                    // Update highlighter path
+                    const path = currentHighlighterPath.getAttribute("d") || `M ${startX} ${startY}`;
+                    currentHighlighterPath.setAttribute("d", path + ` L ${x} ${y}`);
+                }
+            }
+        }
+        
+        // Handle canvas mouse up event
+        function handleCanvasMouseUp(e) {
+            if (isDragging || isResizing) {
+                // Show notification on drag or resize end
+                showNotification(isDragging ? 'Note moved!' : 'Note resized!');
+            } else if (isDrawing) {
+                // Show notification when drawing is completed
+                if (currentTool === 'arrow') {
+                    showNotification('Arrow added!');
+                } else if (currentTool === 'highlight') {
+                    showNotification('Highlight added!');
+                }
+            }
+            
+            isDragging = false;
+            isResizing = false;
+            isDrawing = false;
+            currentElement = null;
+            currentArrowPath = null;
+            currentHighlighterPath = null;
+        }
+        
+        // Clear the canvas
+        function clearCanvas() {
+            // Remove all sticky notes
+            document.querySelectorAll('.sticky-note').forEach(note => {
+                note.remove();
+            });
+            
+            // Clear SVG elements
+            arrowSvg.innerHTML = `
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent)" />
+                    </marker>
+                </defs>
+            `;
+            
+            highlighterSvg.innerHTML = '';
+            
+            showNotification('Canvas cleared!');
+        }
+        
+        // Download the canvas as an image
+        function downloadCanvas() {
+            showNotification('Preparing download...');
+            
+            // This is a placeholder - in a real implementation,
+            // html2canvas would be used to convert the canvas to an image
+            setTimeout(() => {
+                showNotification('Canvas downloaded successfully!');
+            }, 1500);
+        }
+        
+        // Save the note
+        function saveNote() {
+            const title = noteTitle.value || 'Untitled Note';
+            
+            // In a real implementation, this would send data to the server
+            // Simulate AJAX request
+            showNotification('Saving note...');
+            
+            // Collect note data (simplified for demo)
+            const noteData = {
+                title: title,
+                content: notesCanvas.innerHTML,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Simulate server request
+            setTimeout(() => {
+                showNotification('Note saved successfully!');
+                
+                // In real app, would redirect to notes list or show saved status
+            }, 800);
+        }
+        
+        // Show a notification toast
+        function showNotification(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast' + (type === 'error' ? ' error' : '');
+            
+            // Show the toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

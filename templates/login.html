@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Login</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        /* Login container */
+        .login-container {
+            background-color: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 10px 30px var(--shadow);
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px 0;
+            position: relative;
+            z-index: 1;
+            border: 3px solid var(--pink-accent);
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Banner heart */
+        .banner-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--pink-accent);
+            font-size: 60px;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: bounce 4s infinite ease-in-out;
+        }
+
+        .logo h1 {
+            color: var(--pink-accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #ffd1e3;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: var(--white);
+        }
+
+        input:focus {
+            border-color: var(--pink-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+
+        .form-group.focus-animation input:focus + .floating-icon {
+            transform: translateY(-10px) scale(1.2);
+        }
+
+        .floating-icon {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        button {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        button:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.5);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: var(--pink-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: var(--pink-accent);
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .social-login:before {
+            content: "";
+            height: 1px;
+            background-color: #eee;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+        }
+
+        .social-login span {
+            background-color: #fff;
+            padding: 0 15px;
+            position: relative;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Social buttons */
+        .google {
+            color: #EA4335;
+            font-size: 1.5rem;
+        }
+        
+        .facebook {
+            color: #1877F2;
+            font-size: 1.5rem;
+        }
+        
+        .twitter {
+            color: #1DA1F2;
+            font-size: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animation for form groups */
+        .form-group {
+            animation: slideFromRight 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .form-button {
+            animation: fadeIn 0.5s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+        
+        /* Animation for switching panels */
+        @keyframes switchPanelRight {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            51% {
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animation for cat faces to blink */
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .cat-face .eye {
+            animation: blink 4s infinite;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 30px;
+                margin: 20px;
+                width: 100%;
+            }
+            
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+    <!-- Cat faces -->
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <!-- Login container -->
+    <div class="login-container">
+        <div class="banner-heart">♥</div>
+        
+        <div class="logo">
+            <h1>Purr:fect</h1>
+            <p>Welcome back, study friend!</p>
+        </div>
+        
+        <form id="loginForm" method="POST" action="/login">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="form-group focus-animation">
+                <label for="username">Username or Email</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username or email" required>
+                <div class="floating-icon">👤</div>
+            </div>
+            
+            <div class="form-group focus-animation">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div class="floating-icon">🔒</div>
+            </div>
+            
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+            
+            <div class="form-button">
+                <button type="submit">Log In</button>
+            </div>
+        </form>
+        
+        <!--<div class="social-login">
+            <span>Or log in with</span>
+        </div>
+        
+        <div class="social-icons">
+            <div class="social-button">
+                <div class="google">G</div>
+            </div>
+            <div class="social-button">
+                <div class="facebook">f</div>
+            </div>
+            <div class="social-button">
+                <div class="twitter">𝕏</div>
+            </div>
+        </div>-->
+        
+        <div class="register-link">
+            Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+        </div>
+    </div>
+
+    <script>
+        // Add animations for elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Random positioning for decorative elements
+            const decorElements = document.querySelectorAll('.decorative-element');
+            decorElements.forEach(elem => {
+                // Add random animation delay
+                elem.style.animationDelay = `${Math.random() * 5}s`;
+            });
+
+            // Remove any code that prevents normal form submission
+            // Let the server handle login and redirect to dashboard
+            
+            // Eye follow mouse effect
+            const eyes = document.querySelectorAll('.eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+            
+            // Password toggle visibility
+            const passwordField = document.getElementById('password');
+            const passwordIcon = passwordField.nextElementSibling;
+            
+            passwordIcon.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                this.textContent = type === 'password' ? '🔒' : '👁️';
+            });
+            
+            // Add some fun when hovering over cat faces
+            const catFaces = document.querySelectorAll('.cat-face');
+            catFaces.forEach(cat => {
+                cat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '10px';
+                    mouth.style.borderRadius = '10px';
+                });
+                
+                cat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '8px';
+                    mouth.style.borderBottomLeftRadius = '10px';
+                    mouth.style.borderBottomRightRadius = '10px';
+                    mouth.style.borderTopLeftRadius = '0';
+                    mouth.style.borderTopRightRadius = '0';
+                });
+            });
+        });
+        
+        // Floating animation with parallax effect
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 20;
+            const moveY = (e.clientY - window.innerHeight / 2) / 20;
+            
+            document.querySelectorAll('.decorative-element').forEach(elem => {
+                const speedX = parseFloat(elem.getAttribute('data-speed-x') || Math.random() * 0.5);
+                const speedY = parseFloat(elem.getAttribute('data-speed-y') || Math.random() * 0.5);
+                
+                elem.style.transform = `translate(${moveX * speedX}px, ${moveY * speedY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

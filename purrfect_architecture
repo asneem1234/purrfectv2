@@ -1,0 +1,166 @@
+// Purrfect Platform Architecture
+digraph {
+	node [fontname=Arial margin="0.2,0.1" shape=box style=filled]
+	nodesep=0.8 overlap=false rankdir=TB ranksep=1.0 splines=true
+	node [fontsize=12]
+	edge [fontsize=10]
+	subgraph cluster_frontend {
+		color="#E0F7FA" fontcolor=black fontsize=14 label=Frontend style=filled
+		D1 [label=Dashboard fillcolor=white style=filled]
+		D2 [label="Features & Tools" fillcolor=white style=filled]
+		D3 [label="Exam Q&A Stepper" fillcolor=white style=filled]
+		D4 [label="Progress & Calendar" fillcolor=white style=filled]
+		D5 [label="Notes Editor" fillcolor=white style=filled]
+		D6 [label="Planning Forms" fillcolor=white style=filled]
+		D7 [label="Settings & Memory Control" fillcolor=white style=filled]
+	}
+	subgraph cluster_api {
+		color="#E8F5E9" fontcolor=black fontsize=14 label="API Layer" style=filled
+		A1 [label="Auth & Session Controller" fillcolor=white style=filled]
+		A2 [label="ExamAssist Controller" fillcolor=white style=filled]
+		A3 [label="Agent Runner Controller" fillcolor=white style=filled]
+		A4 [label="Memory Controller" fillcolor=white style=filled]
+	}
+	subgraph cluster_orchestrator {
+		color="#FFF9C4" fontcolor=black fontsize=14 label=Orchestrator style=filled
+		O1 [label="Clawdia Coordinator" fillcolor=white style=filled]
+		O2 [label="Dynamic Intent Router" fillcolor=white style=filled]
+		O3 [label="Multi-Agent Pipeline" fillcolor=white style=filled]
+	}
+	subgraph cluster_core_agents {
+		color="#F3E5F5" fontcolor=black fontsize=14 label="Core Agents" style=filled
+		AG1 [label=AnswerEvaluatorAgent fillcolor=white style=filled]
+		AG2 [label=TeachingAgent fillcolor=white style=filled]
+		AG3 [label=PlannerAgent fillcolor=white style=filled]
+		AG4 [label=FlashcardAgent fillcolor=white style=filled]
+		AG5 [label=CollabAgent fillcolor=white style=filled]
+		AG6 [label=GameAgent fillcolor=white style=filled]
+		AG7 [label=ExamCoachAgent fillcolor=white style=filled]
+	}
+	subgraph cluster_advanced_agents {
+		color="#FFE0B2" fontcolor=black fontsize=14 label="Advanced Agents" style=filled
+		AG8 [label=MetaLearnerAgent fillcolor=white style=filled]
+		AG9 [label=CurriculumGeneratorAgent fillcolor=white style=filled]
+		AG10 [label=SRSAgent fillcolor=white style=filled]
+		AG11 [label=MultimodalIngestAgent fillcolor=white style=filled]
+		AG12 [label=EmotionAgent fillcolor=white style=filled]
+		AG13 [label=SocialMatchAgent fillcolor=white style=filled]
+		AG14 [label=ExplainabilityAgent fillcolor=white style=filled]
+		AG15 [label=ArchivistAgent fillcolor=white style=filled]
+		AG16 [label=ContentCuratorAgent fillcolor=white style=filled]
+		AG17 [label=PluginManagerAgent fillcolor=white style=filled]
+	}
+	subgraph cluster_data_stores {
+		color="#E1F5FE" fontcolor=black fontsize=14 label="Data Stores" style=filled
+		DB1 [label=PostgreSQL fillcolor=white shape=cylinder style=filled]
+		DB2 [label=Qdrant fillcolor=white shape=cylinder style=filled]
+	}
+	subgraph cluster_external {
+		color="#FFEBEE" fontcolor=black fontsize=14 label="External Services" style=filled
+		S1 [label="LLM API" fillcolor=white style=filled]
+		S2 [label="Embeddings API" fillcolor=white style=filled]
+		S3 [label="OCR Service" fillcolor=white style=filled]
+		S4 [label="TTS/STT Service" fillcolor=white style=filled]
+		S5 [label="Emotion Detection API" fillcolor=white style=filled]
+		S6 [label="OER / Syllabus APIs" fillcolor=white style=filled]
+		S7 [label="Peer Matching Service" fillcolor=white style=filled]
+	}
+	D1 -> A1 [style=dashed]
+	D1 -> A2 [style=dashed]
+	D1 -> A3 [style=dashed]
+	D1 -> A4 [style=dashed]
+	A2 -> O1
+	A3 -> O2
+	A4 -> O3
+	O1 -> AG1
+	O1 -> AG2
+	O2 -> AG3
+	O2 -> AG4
+	O3 -> AG8
+	O3 -> AG9
+	AG1 -> DB1 [style=dotted]
+	AG1 -> DB2 [style=dotted]
+	AG2 -> DB1 [style=dotted]
+	AG2 -> DB2 [style=dotted]
+	AG3 -> DB1 [style=dotted]
+	AG3 -> DB2 [style=dotted]
+	AG4 -> DB1 [style=dotted]
+	AG4 -> DB2 [style=dotted]
+	AG5 -> DB1 [style=dotted]
+	AG5 -> DB2 [style=dotted]
+	AG6 -> DB1 [style=dotted]
+	AG6 -> DB2 [style=dotted]
+	AG7 -> DB1 [style=dotted]
+	AG7 -> DB2 [style=dotted]
+	AG8 -> DB1 [style=dotted]
+	AG8 -> DB2 [style=dotted]
+	AG9 -> DB1 [style=dotted]
+	AG9 -> DB2 [style=dotted]
+	AG10 -> DB1 [style=dotted]
+	AG10 -> DB2 [style=dotted]
+	AG11 -> DB1 [style=dotted]
+	AG11 -> DB2 [style=dotted]
+	AG12 -> DB1 [style=dotted]
+	AG12 -> DB2 [style=dotted]
+	AG13 -> DB1 [style=dotted]
+	AG13 -> DB2 [style=dotted]
+	AG14 -> DB1 [style=dotted]
+	AG14 -> DB2 [style=dotted]
+	AG15 -> DB1 [style=dotted]
+	AG15 -> DB2 [style=dotted]
+	AG16 -> DB1 [style=dotted]
+	AG16 -> DB2 [style=dotted]
+	AG17 -> DB1 [style=dotted]
+	AG17 -> DB2 [style=dotted]
+	AG2 -> S1
+	AG2 -> S2
+	AG3 -> S1
+	AG3 -> S2
+	AG4 -> S1
+	AG4 -> S2
+	AG5 -> S1
+	AG5 -> S2
+	AG6 -> S1
+	AG6 -> S2
+	AG7 -> S1
+	AG7 -> S2
+	AG8 -> S1
+	AG8 -> S2
+	AG9 -> S1
+	AG9 -> S2
+	AG10 -> S1
+	AG10 -> S2
+	AG14 -> S1
+	AG14 -> S2
+	AG1 -> S3
+	AG11 -> S3
+	AG11 -> S4
+	AG12 -> S5
+	AG13 -> S7
+	AG16 -> S6
+	AG15 -> DB1 [color=blue penwidth=2.0]
+	AG15 -> DB2 [color=blue penwidth=2.0]
+	AG17 -> AG1 [color=red style=dotted]
+	AG17 -> AG8 [color=red style=dotted]
+	AG17 -> S1 [color=red style=dotted]
+	AG17 -> S2 [color=red style=dotted]
+	AG17 -> DB1 [color=red style=dotted]
+	AG17 -> DB2 [color=red style=dotted]
+	fontname="Arial Bold" fontsize=20 label="Purrfect Platform Architecture"
+	size="12,10"
+	subgraph cluster_legend {
+		color=lightgrey fontcolor=black fontsize=12 label=Legend style=filled
+		l1 [label="Direct Connection" fillcolor=black shape=point style=filled]
+		l2 [label="UI Connection" fillcolor=black shape=point style=filled]
+		l3 [label="Data Access" fillcolor=black shape=point style=filled]
+		l4 [label="Special Connection" fillcolor=black shape=point style=filled]
+		l1_text [label="" style=invisible]
+		l2_text [label="" style=invisible]
+		l3_text [label="" style=invisible]
+		l4_text [label="" style=invisible]
+		l1 -> l1_text [label=" Normal Flow"]
+		l2 -> l2_text [label=" UI Flow" style=dashed]
+		l3 -> l3_text [label=" Data Flow" style=dotted]
+		l4 -> l4_text [label=" Plugin Flow" color=red style=dotted]
+	}
+}

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Season Plan Creator - Purr:fect</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        .form-container {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .form-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ff4757;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .form-title {
+            font-size: 28px;
+            color: var(--pink-accent);
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-submit {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+        }
+
+        .form-submit:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.4);
+        }
+
+        .date-input-container {
+            position: relative;
+        }
+
+        .date-input-container input {
+            padding-right: 40px;
+        }
+
+        .date-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #888;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation for cat faces to blink */
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .cat-face .eye {
+            animation: blink 4s infinite;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .flash-message {
+                padding: 10px;
+            }
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--pink-accent);
+            border: 2px solid var(--pink-accent);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;            color: #721c24;
+            transition: all 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 133, 180, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+    <!-- Cat faces -->
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="form-container">
+        <div class="form-header">
+            <div class="form-logo">
+                📚
+            </div>
+            <h1 class="form-title">Exam Season Plan Creator</h1>
+        </div>
+
+        <form id="examPlanForm" action="/add-calender" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="form-group">
+                <label class="form-label" for="examTitle">What exam do you want to plan for?</label>
+                <input type="text" id="examTitle" name="examTitle" class="form-input" placeholder="e.g., Physics Final Exam, Mathematics Board Exam..." required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="examType">Exam Type</label>
+                    <select id="examType" name="examType" class="form-select" required>
+                        <option value="" disabled selected>Select type</option>
+                        <option value="final">Final Exam</option>
+                        <option value="midterm">Midterm Exam</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="test">Test</option>
+                        <option value="standardized">Standardized Test</option>
+                        <option value="board">Board Exam</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="priority">Priority</label>
+                    <select id="priority" name="priority" class="form-select" required>
+                        <option value="" disabled selected>Select priority</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="startDate">Study Start Date</label>
+                    <div class="date-input-container">
+                        <input type="date" id="startDate" name="startDate" class="form-input" required>
+                        <div class="date-icon">📅</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="examDate">Exam Date</label>
+                    <div class="date-input-container">
+                        <input type="date" id="examDate" name="examDate" class="form-input" required>
+                        <div class="date-icon">📅</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="studyGoals">Study Goals & Topics (Optional)</label>
+                <textarea id="studyGoals" name="studyGoals" class="form-textarea" placeholder="Add topics to cover, study goals, or exam syllabus..."></textarea>
+            </div>
+
+            <button type="submit" class="form-submit">
+                Add to Calendar
+                <span>✨</span>
+            </button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/dashboard" class="back-button">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default dates
+            const today = new Date();
+            const examDate = new Date();
+            examDate.setDate(today.getDate() + 7); // Default exam date is 1 week from now
+            
+            // Format dates as YYYY-MM-DD for the date inputs
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+            
+            // Set the default values
+            document.getElementById('startDate').value = formatDate(today);
+            document.getElementById('examDate').value = formatDate(examDate);
+            
+            // Form submission
+            document.getElementById('examPlanForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const examTitle = document.getElementById('examTitle').value;
+                const examType = document.getElementById('examType').value;
+                const priority = document.getElementById('priority').value;
+                const startDate = document.getElementById('startDate').value;
+                const examDate = document.getElementById('examDate').value;
+                const studyGoals = document.getElementById('studyGoals').value;
+                
+                // Validate dates
+                const start = new Date(startDate);
+                const exam = new Date(examDate);
+                
+                if (exam < start) {
+                    alert('Exam date cannot be earlier than the study start date.');
+                    return;
+                }
+                
+                // Submit the form
+                console.log('Creating exam plan:', {
+                    examTitle,
+                    examType,
+                    priority,
+                    startDate,
+                    examDate,
+                    studyGoals
+                });
+                
+                // Submit the form
+                this.submit();
+            });
+            
+            // Add animations for decorative elements
+            const decorElements = document.querySelectorAll('.decorative-element');
+            decorElements.forEach(elem => {
+                // Add random animation delay
+                elem.style.animationDelay = `${Math.random() * 5}s`;
+            });
+            
+            // Eye follow mouse effect
+            const eyes = document.querySelectorAll('.eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+            
+            // Add some fun when hovering over cat faces
+            const catFaces = document.querySelectorAll('.cat-face');
+            catFaces.forEach(cat => {
+                cat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '10px';
+                    mouth.style.borderRadius = '10px';
+                });
+                
+                cat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '8px';
+                    mouth.style.borderBottomLeftRadius = '10px';
+                    mouth.style.borderBottomRightRadius = '10px';
+                    mouth.style.borderTopLeftRadius = '0';
+                    mouth.style.borderTopRightRadius = '0';
+                });
+            });
+        });
+        
+        // Floating animation with parallax effect
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 20;
+            const moveY = (e.clientY - window.innerHeight / 2) / 20;
+            
+            document.querySelectorAll('.decorative-element').forEach(elem => {
+                const speedX = parseFloat(elem.getAttribute('data-speed-x') || Math.random() * 0.5);
+                const speedY = parseFloat(elem.getAttribute('data-speed-y') || Math.random() * 0.5);
+                
+                elem.style.transform = `translate(${moveX * speedX}px, ${moveY * speedY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

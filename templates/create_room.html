@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Study Room - Purr:fect</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 4s infinite;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        /* Main content - centered */
+        .main-content {
+            width: 100%;
+            max-width: 600px;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Top logo section */
+        .top-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .top-logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .top-logo h1 {
+            color: var(--pink-accent);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* Create Room Card */
+        .create-room-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .card-header p {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #d32f2f;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input[type="text"]:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+            outline: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+        }
+
+        .btn {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+        }
+
+        .room-types {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .room-type {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .room-type:hover {
+            border-color: var(--pink-accent);
+            background-color: var(--pink-bg);
+        }
+
+        .room-type.selected {
+            border-color: var(--pink-accent);
+            background-color: var(--pink-bg);
+            box-shadow: 0 3px 8px rgba(255, 133, 180, 0.2);
+        }
+
+        .room-type-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .room-type-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .room-type-desc {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Back to Features button */
+        .features-btn {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+        }
+
+        .features-btn:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 133, 180, 0.4);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+    <!-- Cat faces -->
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <!-- Top Logo -->
+    <div class="top-logo">
+        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0id2hpdGUiIHN0cm9rZT0iI2ZmODViNCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjE1IiByPSIzIiBmaWxsPSJibGFjayIvPgogICAgPGNpcmNsZSBjeD0iMjgiIGN5PSIxNSIgcj0iMyIgZmlsbD0iYmxhY2siLz4KICAgIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTQiIHI9IjEiIGZpbGw9IndoaXRlIi8+CiAgICA8Y2lyY2xlIGN4PSIyOCIgY3k9IjE0IiByPSIxIiBmaWxsPSJ3aGl0ZSIvPgogICAgPGNpcmNsZSBjeD0iMTUiIGN5PSIyMyIgcj0iMi41IiBmaWxsPSIjZmZjYmNiIi8+CiAgICA8Y2lyY2xlIGN4PSIyNSIgY3k9IjIzIiByPSIyLjUiIGZpbGw9IiNmZmNiY2IiLz4KICAgIDxwYXRoIGQ9Ik0xNSAyNnEgNSA3IDEwIDAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMS45IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt="Logo">
+        <h1>Purr:fect</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="create-room-card">
+            <div class="card-header">
+                <h1>Create a Study Room</h1>
+                <p>Set up a virtual space to study with friends or classmates</p>
+            </div>
+            
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+            
+            <form action="{{ url_for('studyroom.create_room') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                    <label for="room_name">Room Name</label>
+                    <input type="text" id="room_name" name="room_name" placeholder="Give your study room a name" required>
+                </div>
+                
+                <div class="room-types">
+                    <div class="room-type selected" id="publicRoom">
+                        <div class="room-type-icon">🌐</div>
+                        <div class="room-type-title">Public</div>
+                        <div class="room-type-desc">Anyone can join your study room</div>
+                    </div>
+                    <div class="room-type" id="privateRoom">
+                        <div class="room-type-icon">🔒</div>
+                        <div class="room-type-title">Private</div>
+                        <div class="room-type-desc">Only those with the link can join</div>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="is_public" name="is_public" checked>
+                    <label for="is_public">Make this room public</label>
+                </div>
+                
+                <button type="submit" class="btn">Create Room</button>
+            </form>
+        </div>
+        
+        <!-- Back to Features Button -->
+        <a href="/features" class="features-btn">Back to Features</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Random positioning for decorative elements
+            const decorElements = document.querySelectorAll('.decorative-element');
+            decorElements.forEach(elem => {
+                // Add random animation delay
+                elem.style.animationDelay = `${Math.random() * 5}s`;
+            });
+
+            // Eye follow mouse effect
+            const eyes = document.querySelectorAll('.eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+
+            // Add some fun when hovering over cat faces
+            const catFaces = document.querySelectorAll('.cat-face');
+            catFaces.forEach(cat => {
+                cat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '10px';
+                    mouth.style.borderRadius = '10px';
+                });
+                
+                cat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '8px';
+                    mouth.style.borderBottomLeftRadius = '10px';
+                    mouth.style.borderBottomRightRadius = '10px';
+                    mouth.style.borderTopLeftRadius = '0';
+                    mouth.style.borderTopRightRadius = '0';
+                });
+            });
+
+            // Room type selection functionality
+            const publicRoom = document.getElementById('publicRoom');
+            const privateRoom = document.getElementById('privateRoom');
+            const isPublicCheckbox = document.getElementById('is_public');
+            
+            publicRoom.addEventListener('click', function() {
+                publicRoom.classList.add('selected');
+                privateRoom.classList.remove('selected');
+                isPublicCheckbox.checked = true;
+            });
+            
+            privateRoom.addEventListener('click', function() {
+                privateRoom.classList.add('selected');
+                publicRoom.classList.remove('selected');
+                isPublicCheckbox.checked = false;
+            });
+        });
+        
+        // Floating animation with parallax effect
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 20;
+            const moveY = (e.clientY - window.innerHeight / 2) / 20;
+            
+            document.querySelectorAll('.decorative-element').forEach(elem => {
+                const speedX = parseFloat(elem.getAttribute('data-speed-x') || Math.random() * 0.5);
+                const speedY = parseFloat(elem.getAttribute('data-speed-y') || Math.random() * 0.5);
+                
+                elem.style.transform = `translate(${moveX * speedX}px, ${moveY * speedY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Room - {{ data.room_name }}</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Decorative elements */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .cat-face .eye {
+            animation: blink 4s infinite;
+        }
+
+        /* Main content - modified to take full width */
+        .main-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 30px;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            grid-gap: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Bottom navigation buttons */
+        .bottom-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .nav-button {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+            text-align: center;
+        }
+        
+        .nav-button:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.4);
+        }
+
+        /* Study room header - updated to remove margin-left */
+        .room-header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .room-title h1 {
+            color: var(--pink-accent);
+            margin-bottom: 5px;
+        }
+
+        .room-title p {
+            color: var(--text-color);
+        }
+
+        .room-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-button {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            background-color: #ff6ba7;
+        }
+
+        /* Study area */
+        .study-area {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 20px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .study-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .study-tab {
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .study-tab.active {
+            background-color: var(--pink-accent);
+            color: var(--white);
+        }
+
+        .study-tab:not(.active):hover {
+            background-color: var(--pink-secondary);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Whiteboard */
+        .whiteboard-container {
+            flex: 1;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            position: relative;
+            background-color: #f9f9f9;
+        }
+
+        #whiteboard {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+
+        .whiteboard-tools {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 8px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            background-color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .tool-btn.active {
+            background-color: var(--pink-secondary);
+            border-color: var(--pink-accent);
+        }
+
+        .tool-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Notes */
+        .notes-container {
+            flex: 1;
+        }
+
+        .notes-editor {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .notes-editor:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 2px rgba(255, 133, 180, 0.2);
+        }
+
+        /* Timer */
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--pink-accent);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .timer-btn {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .timer-btn:hover {
+            background-color: #ff6ba7;
+        }
+
+        .timer-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .timer-preset {
+            background-color: var(--pink-secondary);
+            color: var(--text-color);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .timer-preset:hover {
+            background-color: #ffc0d3;
+        }
+
+        /* Participants */
+        .participants-panel {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 20px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .panel-title {
+            color: var(--pink-accent);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .participant-count {
+            background-color: var(--pink-secondary);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .participant-list {
+            list-style: none;
+        }
+
+        .participant-item {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .participant-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--pink-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--pink-accent);
+        }
+
+        .participant-info {
+            flex: 1;
+        }
+
+        .participant-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .participant-status {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .participant-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .participant-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            padding: 5px;
+            transition: all 0.2s;
+        }
+
+        .participant-action:hover {
+            color: var(--pink-accent);
+        }
+
+        /* Chat panel */
+        .chat-panel {
+            margin-top: 20px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-title {
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 90%;
+        }
+
+        .chat-message.sent {
+            align-self: flex-end;
+            background-color: var(--pink-accent);
+            color: var(--white);
+        }
+
+        .chat-message.received {
+            align-self: flex-start;
+            background-color: #eee;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 2px rgba(255, 133, 180, 0.2);
+        }
+
+        .chat-send-btn {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .logo h1, .menu-text {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .menu-item {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .menu-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .room-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .timer-display {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .study-tabs {
+                flex-wrap: wrap;
+            }
+
+            .timer-controls {
+                flex-direction: column;
+            }
+
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <!--<div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>-->
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+    <!-- Cat faces 
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>-->
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Room Header -->
+        <div class="room-header">
+            <div class="room-title">
+                <h1>Study Room: {{ data.room_name }}</h1>
+                <p>{{ 'Public Room' if data.public else 'Private Room' }} • Created {{ data.created_at.strftime('%B %d, %Y') if data.created_at else 'Unknown date' }}</p>
+            </div>
+            <div class="room-actions">
+                <button class="action-button" id="copy-link">
+                    <span>📋</span> Copy Invite Link
+                </button>
+                <button class="action-button" id="room-settings">
+                    <span>⚙️</span> Room Settings
+                </button>
+                <button class="action-button" id="leave-room" style="background-color: #e74c3c;">
+                    <span>🚪</span> Leave Room
+                </button>
+            </div>
+        </div>
+
+        <!-- Study Area -->
+        <div class="study-area">
+            <div class="study-tabs">
+                <div class="study-tab active" data-tab="whiteboard">Whiteboard</div>
+                <div class="study-tab" data-tab="notes">Shared Notes</div>
+                <div class="study-tab" data-tab="timer">Study Timer</div>
+            </div>
+
+            <div class="tab-content active" id="whiteboard-tab">
+                <div class="whiteboard-container">
+                    <canvas id="whiteboard" width="800" height="600"></canvas>
+                    <div class="whiteboard-tools">
+                        <button class="tool-btn active" data-tool="pen" title="Pen">✏️</button>
+                        <button class="tool-btn" data-tool="eraser" title="Eraser">🧹</button>
+                        <button class="tool-btn" data-tool="text" title="Add text">🔤</button>
+                        <button class="tool-btn" data-tool="shape" title="Add shape">⭐</button>
+                        <button class="tool-btn" data-tool="clear" title="Clear all">🗑️</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="notes-tab">
+                <div class="notes-container">
+                    <textarea id="shared-notes" class="notes-editor" placeholder="Type shared notes here. Everyone in the room can see and edit these notes."></textarea>
+                </div>
+            </div>
+
+            <div class="tab-content" id="timer-tab">
+                <div class="timer-container">
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn" id="start-timer">Start</button>
+                        <button class="timer-btn" id="pause-timer">Pause</button>
+                        <button class="timer-btn" id="reset-timer">Reset</button>
+                    </div>
+                    <div class="timer-settings">
+                        <button class="timer-preset" data-minutes="25">Pomodoro (25m)</button>
+                        <button class="timer-preset" data-minutes="5">Short Break (5m)</button>
+                        <button class="timer-preset" data-minutes="15">Long Break (15m)</button>
+                        <button class="timer-preset" data-minutes="50">Focus (50m)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Participants Panel -->
+        <div class="participants-panel">
+            <div class="panel-title">
+                <h3>Participants</h3>
+                <div class="participant-count">{{ data.participants|length }}</div>
+            </div>
+
+            <ul class="participant-list">
+                {% for participant in data.participants %}
+                <li class="participant-item">
+                    <div class="participant-avatar">
+                        {{ participant[0] }}
+                    </div>
+                    <div class="participant-info">
+                        <div class="participant-name">{{ participant }}</div>
+                        <div class="participant-status">{% if loop.first %}Host{% else %}Member{% endif %}</div>
+                    </div>
+                    <div class="participant-actions">
+                        <button class="participant-action" title="Message">💬</button>
+                        <button class="participant-action mute-button" title="Mute/Unmute" data-state="muted">🔇</button>
+                        <button class="participant-action" title="More">⋯</button>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Chat Panel -->
+            <div class="chat-panel">
+                <h3 class="chat-title">Room Chat</h3>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Chat messages will be added here dynamically -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+                    <button class="chat-send-btn" id="sendButton">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Buttons -->
+    <div class="bottom-navigation">
+        <a href="/rooms" class="nav-button">Back to Rooms</a>
+        <a href="/features" class="nav-button">Back to Features</a>
+    </div>
+
+    <!-- Add Socket.IO client library -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get username from Flask template
+            const username = "{{ current_user.username }}";
+            // Get room name directly from Flask template 
+            const room = "{{ data.room_name }}";
+            
+            console.log("Room:", room, "Username:", username);
+            
+            // Initialize Socket.IO
+            const socket = io();
+            
+            // Tab switching functionality - this was missing
+            const tabs = document.querySelectorAll('.study-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabTarget = tab.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(`${tabTarget}-tab`).classList.add('active');
+                });
+            });
+            
+            // Join the room with username
+            socket.emit("join_room", { 
+                room: room, 
+                username: username 
+            });
+            
+            // Before closing tab, leave room
+            window.addEventListener("beforeunload", () => {
+                socket.emit("leave_room", { room: room, username: username });
+            });
+
+            // Receive join/leave events
+            socket.on("user_event", (data) => {
+                const logMsg = `${data.username} ${data.event} the room.`;
+                console.log(logMsg);
+                
+                // Add to chat messages as system notification
+                const messageEl = document.createElement('div');
+                messageEl.className = 'chat-message';
+                messageEl.innerHTML = `<em>System: ${data.username} has ${data.event} the room.</em>`;
+                document.getElementById('chatMessages').appendChild(messageEl);
+                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+            });
+            
+            // Load initial shared notes
+            socket.on("load_shared_notes", data => {
+                document.getElementById("shared-notes").value = data.content;
+                console.log("Initial notes loaded:", data.content);
+            });
+            
+            // Send note updates when typing
+            document.getElementById("shared-notes").addEventListener("input", () => {
+                const content = document.getElementById("shared-notes").value;
+                socket.emit("notes_update", { room: room, content: content });
+                console.log("Sent notes update:", content.substring(0, 50) + (content.length > 50 ? "..." : ""));
+            });
+            
+            // Receive note updates from others
+            socket.on("notes_update", data => {
+                console.log("Received notes update:", data.content.substring(0, 50) + (data.content.length > 50 ? "..." : ""));
+                document.getElementById("shared-notes").value = data.content;
+                
+                // Save cursor position
+                const textarea = document.getElementById("shared-notes");
+                const selectionStart = textarea.selectionStart;
+                const selectionEnd = textarea.selectionEnd;
+                
+                // Update content
+                textarea.value = data.content;
+                
+                // Restore cursor position if this client is currently typing
+                if (document.activeElement === textarea) {
+                    textarea.setSelectionRange(selectionStart, selectionEnd);
+                }
+            });
+            
+            // Whiteboard functionality with Socket.IO integration
+            const canvas = document.getElementById('whiteboard');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let tool = 'pen';
+            
+            // Set canvas size
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Tool selection
+            const toolButtons = document.querySelectorAll('.tool-btn');
+            toolButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    toolButtons.forEach(b => b.classList.remove('active'));
+                    button.classList.add('active');
+                    tool = button.getAttribute('data-tool');
+                    
+                    if (tool === 'clear') {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    } else {
+                        canvas.style.cursor = tool === 'eraser' ? 'cell' : 'crosshair';
+                    }
+                });
+            });
+            
+            // Drawing events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+                
+                // Begin a new path for this drawing segment
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                
+                // Emit starting point to other users
+                socket.emit('draw', { 
+                    room: room, 
+                    x: lastX, 
+                    y: lastY, 
+                    type: 'start',
+                    tool: tool,
+                    color: tool === 'pen' ? '#ff85b4' : '#f9f9f9',
+                    width: tool === 'pen' ? 3 : 20
+                });
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const currentX = e.offsetX;
+                const currentY = e.offsetY;
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                
+                // Set drawing properties based on selected tool
+                if (tool === 'pen') {
+                    ctx.strokeStyle = '#ff85b4';
+                    ctx.lineWidth = 3;
+                } else if (tool === 'eraser') {
+                    ctx.strokeStyle = '#f9f9f9'; // Match the background color
+                    ctx.lineWidth = 20;
+                }
+                
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                // Emit draw event to other users
+                socket.emit('draw', { 
+                    room: room, 
+                    x: currentX, 
+                    y: currentY, 
+                    lastX: lastX,
+                    lastY: lastY,
+                    type: 'draw',
+                    tool: tool,
+                    color: tool === 'pen' ? '#ff85b4' : '#f9f9f9',
+                    width: tool === 'pen' ? 3 : 20
+                });
+                
+                [lastX, lastY] = [currentX, currentY];
+            }
+            
+            function stopDrawing() {
+                if (isDrawing) {
+                    isDrawing = false;
+                    socket.emit('draw', { room: room, type: 'end' });
+                }
+            }
+            
+            // Touch support functions (with Socket.IO integration)
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const offsetX = touch.clientX - rect.left;
+                const offsetY = touch.clientY - rect.top;
+                
+                isDrawing = true;
+                [lastX, lastY] = [offsetX, offsetY];
+                
+                // Begin a new path for this drawing segment
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                
+                // Emit starting point to other users
+                socket.emit('draw', { 
+                    room: room, 
+                    x: lastX, 
+                    y: lastY, 
+                    type: 'start',
+                    tool: tool,
+                    color: tool === 'pen' ? '#ff85b4' : '#f9f9f9',
+                    width: tool === 'pen' ? 3 : 20
+                });
+            }
+            
+            function handleTouchMove(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const currentX = touch.clientX - rect.left;
+                const currentY = touch.clientY - rect.top;
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                
+                if (tool === 'pen') {
+                    ctx.strokeStyle = '#ff85b4';
+                    ctx.lineWidth = 3;
+                } else if (tool === 'eraser') {
+                    ctx.strokeStyle = '#f9f9f9';
+                    ctx.lineWidth = 20;
+                }
+                
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                // Emit draw event to other users
+                socket.emit('draw', { 
+                    room: room, 
+                    x: currentX, 
+                    y: currentY, 
+                    lastX: lastX,
+                    lastY: lastY,
+                    type: 'draw',
+                    tool: tool,
+                    color: tool === 'pen' ? '#ff85b4' : '#f9f9f9',
+                    width: tool === 'pen' ? 3 : 20
+                });
+                
+                [lastX, lastY] = [currentX, currentY];
+            }
+            
+            // Receive drawing from other users
+            socket.on('draw', (data) => {
+                const { x, y, lastX, lastY, type, tool, color, width } = data;
+                
+                if (type === 'start') {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                } else if (type === 'draw') {
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = width;
+                    ctx.lineCap = 'round';
+                    ctx.stroke();
+                }
+                // For 'end' type, we don't need to do anything special
+            });
+            
+            // Load saved whiteboard
+            socket.on('load_whiteboard', (data) => {
+                const snapshot = data.snapshot;
+                if (snapshot) {
+                    const image = new Image();
+                    image.onload = () => ctx.drawImage(image, 0, 0);
+                    image.src = snapshot;
+                }
+            });
+            
+            // Save the current state of the whiteboard when tools are changed
+            toolButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Save current snapshot before changing tools
+                    saveWhiteboardSnapshot();
+                });
+            });
+            
+            // Clear button should also save a snapshot of the empty canvas
+            document.querySelector('[data-tool="clear"]').addEventListener('click', () => {
+                saveWhiteboardSnapshot();
+            });
+            
+            // Text and shape tools with Socket.IO integration
+            document.addEventListener('click', function(e) {
+                if (tool === 'text' && e.target === canvas) {
+                    const text = prompt('Enter text:');
+                    if (text) {
+                        ctx.font = '20px Arial';
+                        ctx.fillStyle = '#ff85b4';
+                        ctx.fillText(text, e.offsetX, e.offsetY);
+                        
+                        // Emit text addition to other users
+                        socket.emit('whiteboard_update', { 
+                            room: room, 
+                            type: 'text',
+                            text: text,
+                            x: e.offsetX,
+                            y: e.offsetY
+                        });
+                        
+                        // Save snapshot after adding text
+                        saveWhiteboardSnapshot();
+                    }
+                } else if (tool === 'shape' && e.target === canvas) {
+                    const size = 30;
+                    ctx.fillStyle = '#ff85b4';
+                    ctx.beginPath();
+                    ctx.arc(e.offsetX, e.offsetY, size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Emit shape addition to other users
+                    socket.emit('whiteboard_update', { 
+                        room: room, 
+                        type: 'shape',
+                        x: e.offsetX,
+                        y: e.offsetY,
+                        size: size
+                    });
+                    
+                    // Save snapshot after adding shape
+                    saveWhiteboardSnapshot();
+                }
+            });
+            
+            // Handle whiteboard updates from other users
+            socket.on('whiteboard_update', (data) => {
+                if (data.type === 'text') {
+                    ctx.font = '20px Arial';
+                    ctx.fillStyle = '#ff85b4';
+                    ctx.fillText(data.text, data.x, data.y);
+                } else if (data.type === 'shape') {
+                    ctx.fillStyle = '#ff85b4';
+                    ctx.beginPath();
+                    ctx.arc(data.x, data.y, data.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+            
+            // Function to save whiteboard snapshot
+            function saveWhiteboardSnapshot() {
+                const snapshot = canvas.toDataURL(); // Convert to base64
+                socket.emit('save_snapshot', { room: room, snapshot: snapshot });
+            }
+            
+            // Periodically save whiteboard state
+            setInterval(saveWhiteboardSnapshot, 60000); // Save every 60 seconds
+            
+            // Request initial whiteboard state when joining
+            socket.emit('request_whiteboard', { room: room });
+            
+            // Timer functionality with Socket.IO integration
+            const timerDisplay = document.getElementById('timer-display');
+            const startBtn = document.getElementById('start-timer');
+            const pauseBtn = document.getElementById('pause-timer');
+            const resetBtn = document.getElementById('reset-timer');
+            const presetBtns = document.querySelectorAll('.timer-preset');
+            
+            let timer;
+            let secondsRemaining = 25 * 60; // Default to 25 minutes in seconds
+            let isRunning = false;
+            
+            // Load timer state when joining room
+            socket.emit("request_timer_state", { room: room });
+            
+            socket.on("timer_state", (data) => {
+                secondsRemaining = data.value;
+                updateTimerDisplay();
+            });
+            
+            socket.on("timer_update", (data) => {
+                if (data.action === 'pause' || data.action === 'reset') {
+                    secondsRemaining = data.value;
+                    stopTimer();
+                    updateTimerDisplay();
+                    
+                    // Update button states
+                    startBtn.disabled = false;
+                    pauseBtn.disabled = true;
+                } else if (data.action === 'start') {
+                    startCountdown();
+                    
+                    // Update button states
+                    startBtn.disabled = true;
+                    pauseBtn.disabled = false;
+                }
+            });
+            
+            function updateTimerDisplay() {
+                const minutes = String(Math.floor(secondsRemaining / 60)).padStart(2, '0');
+                const seconds = String(secondsRemaining % 60).padStart(2, '0');
+                timerDisplay.textContent = `${minutes}:${seconds}`;
+            }
+            
+            function startTimer() {
+                if (!isRunning) {
+                    socket.emit("timer_update", { room: room, action: 'start' });
+                    startCountdown();
+                }
+            }
+            
+            function pauseTimer() {
+                socket.emit("timer_update", { room: room, action: 'pause', value: secondsRemaining });
+                stopTimer();
+            }
+            
+            function resetTimer() {
+                secondsRemaining = 25 * 60; // Reset to 25 minutes
+                socket.emit("timer_update", { room: room, action: 'reset', value: secondsRemaining });
+                updateTimerDisplay();
+                stopTimer();
+            }
+            
+            function startCountdown() {
+                isRunning = true;
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                
+                timer = setInterval(() => {
+                    if (secondsRemaining > 0) {
+                        secondsRemaining--;
+                        updateTimerDisplay();
+                    } else {
+                        stopTimer();
+                        // Play alarm sound when timer finishes
+                        const audio = new Audio('/static/sounds/timer-done.mp3');
+                        audio.play().catch(e => console.log('Audio play error:', e));
+                    }
+                }, 1000);
+            }
+            
+            function stopTimer() {
+                clearInterval(timer);
+                isRunning = false;
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+            }
+            
+            // Event listeners for timer buttons
+            startBtn.addEventListener('click', startTimer);
+            pauseBtn.addEventListener('click', pauseTimer);
+            resetBtn.addEventListener('click', resetTimer);
+            
+            // Handle timer presets with Socket.IO integration
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const minutes = parseInt(btn.getAttribute('data-minutes'));
+                    secondsRemaining = minutes * 60;
+                    
+                    // Emit timer update to all clients
+                    socket.emit("timer_update", { 
+                        room: room, 
+                        action: 'reset', 
+                        value: secondsRemaining 
+                    });
+                    
+                    // Update local display
+                    updateTimerDisplay();
+                    stopTimer();
+                });
+            });
+            
+            // Chat functionality
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            
+            // Receive chat history when joining room
+            socket.on("chat_history", (msgs) => {
+                // Clear any existing messages first
+                chatMessages.innerHTML = '';
+                
+                // Add all messages from history
+                msgs.forEach(msg => {
+                    addMessage(msg.username, msg.message, msg.username === username);
+                });
+                
+                // Scroll to bottom after loading history
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+            
+            // Handle incoming chat messages
+            socket.on("chat", (data) => {
+                addMessage(data.username, data.message, data.username === username);
+            });
+            
+            function addMessage(sender, message, isSelf = false) {
+                const messageEl = document.createElement('div');
+                messageEl.className = `chat-message ${isSelf ? 'sent' : 'received'}`;
+                messageEl.innerHTML = `<strong>${sender}:</strong> ${message}`;
+                chatMessages.appendChild(messageEl);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Send message to server to broadcast to all users
+                    socket.emit("chat", {
+                        room: room,
+                        username: username,
+                        message: message
+                    });
+                    
+                    // Clear input after sending
+                    chatInput.value = '';
+                }
+            }
+            
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Copy invite link functionality
+            document.getElementById("copy-link").addEventListener('click', function() {
+                const roomLink = window.location.href;
+                navigator.clipboard.writeText(roomLink).then(() => {
+                    alert('Invite link copied to clipboard!');
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                    
+                    // Fallback to the old method if the Clipboard API fails
+                    const dummy = document.createElement('input');
+                    document.body.appendChild(dummy);
+                    dummy.value = roomLink;
+                    dummy.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(dummy);
+                    
+                    alert('Invite link copied to clipboard!');
+                });
+            });
+            
+            // Room settings functionality
+            document.getElementById("room-settings").addEventListener("click", function() {
+                window.location.href = `/room-settings/${room}`;
+            });
+            
+            // Leave room functionality
+            document.getElementById("leave-room").addEventListener('click', function() {
+                if (confirm('Are you sure you want to leave this study room?')) {
+                    // Emit leave_room event to the server
+                    socket.emit("leave_room", { room: room, username: username });
+                    
+                    // Redirect to rooms list
+                    window.location.href = '/rooms';
+                }
+            });
+            
+            // Add mute/unmute functionality
+            document.querySelectorAll('.mute-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentState = this.getAttribute('data-state');
+                    
+                    if (currentState === 'muted') {
+                        // Change to unmuted state
+                        this.innerHTML = '🔊';
+                        this.setAttribute('data-state', 'unmuted');
+                        this.setAttribute('title', 'Mute');
+                        
+                        // If this is the current user's audio, actually unmute the audio stream
+                        if (this.closest('.participant-item').querySelector('.participant-name').textContent.trim() === username) {
+                            if (window.localStream) {
+                                window.localStream.getAudioTracks().forEach(track => {
+                                    track.enabled = true;
+                                });
+                            }
+                        }
+                    } else {
+                        // Change to muted state
+                        this.innerHTML = '🔇';
+                        this.setAttribute('data-state', 'muted');
+                        this.setAttribute('title', 'Unmute');
+                        
+                        // If this is the current user's audio, actually mute the audio stream
+                        if (this.closest('.participant-item').querySelector('.participant-name').textContent.trim() === username) {
+                            if (window.localStream) {
+                                window.localStream.getAudioTracks().forEach(track => {
+                                    track.enabled = false;
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

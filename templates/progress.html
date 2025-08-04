@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Exam Tracker</title>
+    <style>
+        :root {
+            --pink-primary: #ffb6c1;
+            --pink-secondary: #ffd6df;
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-lighter: #ffb6c1;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --green: #4cd964;
+            --yellow: #ffcc00;
+            --blue: #5ac8fa;
+            --purple: #af52de;
+            --red: #ff3b30;
+            --gray: #e0e0e0;
+            --mentor-clawdia: #9f7aea;
+            --mentor-meowkins: #38b2ac;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+        }
+
+        /* Global scrollbar style */
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: var(--pink-bg);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: var(--pink-accent);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-lighter);
+        }
+        
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--pink-accent) var(--pink-bg);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            line-height: 1.6;
+            overflow-x: hidden; /* Allow vertical scrolling but prevent horizontal */
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--white);
+            border-right: 3px solid var(--pink-accent);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--pink-accent) var(--pink-bg); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--pink-bg);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--pink-accent);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-lighter);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin-bottom: 20px;
+            background-color: var(--white);
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--pink-bg);
+            border-left-color: var(--pink-accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--pink-bg);
+            border-left-color: var(--pink-accent);
+            color: var(--pink-accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .menu-text {
+            font-size: 16px;
+        }
+        
+        .section-label {
+            padding: 12px 20px;
+            color: #999;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .profile-box {
+            margin: 20px;
+            padding: 12px;
+            background-color: var(--pink-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-box:hover {
+            background-color: var(--pink-lighter);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--pink-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .profile-status {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .logout-link {
+            margin: 10px 20px;
+            padding: 10px;
+            border: 1px solid var(--pink-lighter);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--pink-accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: var(--pink-bg);
+        }
+        
+        .logout-icon {
+            margin-right: 12px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Add vertical scrollbar when content overflows */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--pink-accent) var(--pink-bg); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .main-content::-webkit-scrollbar-track {
+            background: var(--pink-bg);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--pink-accent);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-lighter);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design for Sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: visible;
+            }
+            
+            .logo h1, .menu-text, .profile-info, .logout-text {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 10px 0;
+            }
+            
+            .logo img {
+                width: 40px !important;
+                margin: 5px 0 !important;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                /* Keep scrolling behavior in mobile view */
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .menu-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+            
+            .profile-box {
+                justify-content: center;
+                padding: 10px;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            color: var(--pink-accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink-accent), var(--pink-lighter));
+            border-radius: 3px;
+        }
+
+        .welcome-msg {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: var(--white);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .tab-button {
+            padding: 15px 25px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background-color: #f9f9f9;
+        }
+
+        .tab-button.active {
+            background-color: var(--pink-bg);
+            color: var(--pink-accent);
+            border-bottom: 3px solid var(--pink-accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Upcoming Exams */
+        .upcoming-exams {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .upcoming-exams h2 {
+            color: var(--pink-accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .exam-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .exam-card {
+            border: 2px solid var(--pink-lighter);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .exam-date {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--pink-lighter);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .exam-name {
+            color: var(--pink-accent);
+            font-size: 1.3rem;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .exam-subject {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .days-left {
+            color: var(--pink-accent);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .study-time {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--pink-lighter);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .study-time-item {
+            text-align: center;
+        }
+
+        .study-time-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--pink-accent);
+        }
+
+        .study-time-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        /* Exam History */
+        .exam-history {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .exam-history h2 {
+            color: var(--pink-accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .history-table th, 
+        .history-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .history-table th {
+            background-color: var(--pink-lighter);
+            color: var(--white);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .history-table tr {
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+
+        .history-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .view-details {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-details:hover {
+            background-color: #ff6ba7;
+        }
+
+        /* Study Habits Section */
+        .study-habits {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .study-habits h2 {
+            color: var(--pink-accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .habits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .habit-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .habit-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .habit-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: var(--pink-accent);
+        }
+
+        .habit-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .habit-stats {
+            margin-bottom: 15px;
+        }
+
+        .habit-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .habit-stat-label {
+            color: var(--text-color);
+        }
+
+        .habit-stat-value {
+            font-weight: 600;
+            color: var(--pink-accent);
+        }
+
+        .habit-progress {
+            height: 8px;
+            background-color: var(--gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .habit-progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background-color: var(--pink-accent);
+        }
+
+        /* Mentor Feedback Section */
+        .mentor-feedback {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .mentor-feedback h2 {
+            color: var(--pink-accent);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .mentor-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .mentor-column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .mentor-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .mentor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .clawdia-avatar {
+            background-color: var(--mentor-clawdia);
+            color: white;
+        }
+
+        .meowkins-avatar {
+            background-color: var(--mentor-meowkins);
+            color: white;
+        }
+
+        .mentor-info h3 {
+            color: var(--text-color);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .mentor-title {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .feedback-message {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .feedback-message:after {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            border-width: 0 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent #f9f9f9;
+        }
+
+        .feedback-date {
+            display: block;
+            text-align: right;
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .feedback-tags {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .feedback-tag {
+            background-color: var(--pink-lighter);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Cat decorations */
+        .cat-decoration {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 10;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .cat-face {
+            width: 100%;
+            height: 100%;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        /* Animation for cat face to blink */
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .cat-face .eye {
+            animation: blink 4s infinite;
+        }
+
+        /* Add Exam Button */
+        .add-exam-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--pink-accent);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 100;
+        }
+
+        .add-exam-button:hover {
+            transform: scale(1.1);
+            background-color: #ff6ba7;
+        }
+
+        /* Media Queries */
+        @media screen and (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+
+            .tab-button.active {
+                border-bottom: none;
+                border-left: 3px solid var(--pink-accent);
+            }
+
+            .mentor-container {
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .exam-cards, .habits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* RAG Insights Styles */
+        .rag-insights-section {
+            background: linear-gradient(145deg, #ffffff, #fef6fa);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rag-insights-section h3 {
+            color: var(--pink-accent);
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 22px;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 0;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--pink-lighter);
+            border-top-color: var(--pink-accent);
+            animation: spin 1s infinite linear;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .rag-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .rag-stat-item {
+            text-align: center;
+            padding: 15px 20px;
+            background-color: var(--white);
+            border-radius: 12px;
+            min-width: 150px;
+            box-shadow: 0 3px 10px var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .rag-stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .rag-stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--pink-accent);
+            margin-bottom: 5px;
+        }
+        
+        .rag-stat-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        .rag-disabled, .rag-error {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--white);
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .rag-disabled-icon, .rag-error-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .rag-disabled h3, .rag-error h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .rag-ai-insights {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 3px 10px var(--shadow);
+            position: relative;
+        }
+        
+        .rag-ai-insights h3 {
+            color: var(--mentor-clawdia);
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .rag-ai-content {
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 3px solid var(--mentor-clawdia);
+        }
+        
+        .rag-sources {
+            background-color: var(--pink-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .rag-sources h4 {
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .rag-sources ul {
+            list-style-type: none;
+        }
+        
+        .rag-sources li {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--pink-lighter);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .rag-sources li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .rag-source-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        .rag-source-type {
+            background-color: var(--pink-accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/images/purrfect-logo.svg" alt="Purrfect Logo" style="width: 200px; margin: 20px 0 10px 0;">
+        </div>
+        
+        <a href="/dashboard" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="/features" class="menu-item">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Feature/Tools</span>
+        </a>
+        
+        <a href="/progress" class="menu-item active">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">Progress</span>
+        </a>
+        
+        <a href="/notes-coming-soon" class="menu-item">
+            <span class="menu-icon">📝</span>
+            <span class="menu-text">Notes</span>
+        </a>
+        
+        <a href="/planning" class="menu-item">
+            <span class="menu-icon">📅</span>
+            <span class="menu-text">Planning</span>
+        </a>
+        
+        <div class="profile-box" onclick="window.location.href='/profile'" style="margin-top: auto;">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <div class="profile-name">{{ user.username|default('Student') }}</div>
+                <div class="profile-status">Active</div>
+            </div>
+        </div>
+        
+        <a href="/" class="logout-link">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Log Out</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <header>
+                <h1>Your Exam Tracker</h1>
+                <p class="welcome-msg">Track your progress and get personalized advice, {{ user.username|default('Student') }}! 📝✨</p>
+            </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'upcomingTab')">Upcoming Exams</button>
+            <button class="tab-button" onclick="openTab(event, 'historyTab')">Exam History</button>
+            <button class="tab-button" onclick="openTab(event, 'habitsTab')">Study Habits</button>
+            <button class="tab-button" onclick="openTab(event, 'feedbackTab')">Mentor Feedback</button>
+        </div>
+
+        <!-- Upcoming Exams Tab -->
+        <div id="upcomingTab" class="tab-content active">
+            <section class="upcoming-exams">
+                <h2>Upcoming Exams</h2>
+                <div class="exam-cards">
+                    {% if upcoming_exams %}
+                        {% for exam in upcoming_exams %}
+                            <div class="exam-card">
+                                <div class="exam-date">{{ exam.exam_date.strftime('%B %d, %Y') }}</div>
+                                <h3 class="exam-name">{{ exam.exam_name }}</h3>
+                                <div class="exam-subject">{{ exam.subject }}</div>
+                                
+                                {% set days_remaining = ((exam.exam_date - current_date).days)|abs %}
+                                <div class="days-left">{{ days_remaining }} day{% if days_remaining != 1 %}s{% endif %} remaining</div>
+                                
+                                <div class="study-time">
+                                    <div class="study-time-item">
+                                        <div class="study-time-value">{{ exam.hours_studied|default('0') }}h</div>
+                                        <div class="study-time-label">Studied</div>
+                                    </div>
+                                    <div class="study-time-item">
+                                        <div class="study-time-value">{{ exam.target_hours|default('20') }}h</div>
+                                        <div class="study-time-label">Target</div>
+                                    </div>
+                                    <div class="study-time-item">
+                                        {% set progress = ((exam.hours_studied|default(0) / exam.target_hours|default(20)) * 100)|round|int %}
+                                        {% if progress > 100 %}{% set progress = 100 %}{% endif %}
+                                        <div class="study-time-value">{{ progress }}%</div>
+                                        <div class="study-time-label">Progress</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align: center; padding: 40px 20px; width: 100%;">
+                            <div style="font-size: 40px; margin-bottom: 15px;">📝</div>
+                            <h3 style="color: var(--pink-accent); margin-bottom: 10px;">No upcoming exams</h3>
+                            <p>Create your first exam plan to start tracking your progress</p>
+                            <button onclick="window.location.href='/forms'" style="background-color: var(--pink-accent); color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 15px; cursor: pointer;">Create Exam Plan</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Exam History Tab -->
+        <div id="historyTab" class="tab-content">
+            <section class="exam-history">
+                <h2>Your Exam History</h2>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Exam Name</th>
+                            <th>Subject</th>
+                            <th>Score</th>
+                            <th>Study Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>July 15, 2025</td>
+                            <td>Final Assessment</td>
+                            <td>Advanced Data Structures</td>
+                            <td>92%</td>
+                            <td>22h</td>
+                            <td><button class="view-details">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>July 5, 2025</td>
+                            <td>Midterm Exam</td>
+                            <td>Algorithm Analysis</td>
+                            <td>87%</td>
+                            <td>18h</td>
+                            <td><button class="view-details">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>June 28, 2025</td>
+                            <td>Quiz 3</td>
+                            <td>Machine Learning</td>
+                            <td>75%</td>
+                            <td>10h</td>
+                            <td><button class="view-details">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>June 25, 2025</td>
+                            <td>Final Exam</td>
+                            <td>Mathematics</td>
+                            <td>98%</td>
+                            <td>25h</td>
+                            <td><button class="view-details">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>June 20, 2025</td>
+                            <td>Practical Assessment</td>
+                            <td>Database Systems</td>
+                            <td>89%</td>
+                            <td>20h</td>
+                            <td><button class="view-details">Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+        <!-- Study Habits Tab -->
+        <div id="habitsTab" class="tab-content">
+            <section class="study-habits">
+                <h2>Your Study Habits</h2>
+                <div class="habits-grid">
+                    <!-- Habit Card 1 -->
+                    <div class="habit-card">
+                        <div class="habit-header">
+                            <span class="habit-icon">⏱️</span>
+                            <h3 class="habit-title">Consistency</h3>
+                        </div>
+                        <div class="habit-stats">
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Daily Average</span>
+                                <span class="habit-stat-value">2.5 hours</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Study Streak</span>
+                                <span class="habit-stat-value">7 days</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Consistency Score</span>
+                                <span class="habit-stat-value">78%</span>
+                            </div>
+                        </div>
+                        <div class="habit-progress">
+                            <div class="habit-progress-bar" style="width: 78%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Habit Card 2 -->
+                    <div class="habit-card">
+                        <div class="habit-header">
+                            <span class="habit-icon">📚</span>
+                            <h3 class="habit-title">Study Sessions</h3>
+                        </div>
+                        <div class="habit-stats">
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Average Length</span>
+                                <span class="habit-stat-value">45 minutes</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Total This Week</span>
+                                <span class="habit-stat-value">12 sessions</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Focus Score</span>
+                                <span class="habit-stat-value">85%</span>
+                            </div>
+                        </div>
+                        <div class="habit-progress">
+                            <div class="habit-progress-bar" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Habit Card 3 -->
+                    <div class="habit-card">
+                        <div class="habit-header">
+                            <span class="habit-icon">🌙</span>
+                            <h3 class="habit-title">Study Times</h3>
+                        </div>
+                        <div class="habit-stats">
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Morning</span>
+                                <span class="habit-stat-value">20%</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Afternoon</span>
+                                <span class="habit-stat-value">35%</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Evening</span>
+                                <span class="habit-stat-value">45%</span>
+                            </div>
+                        </div>
+                        <div class="habit-progress">
+                            <div class="habit-progress-bar" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Habit Card 4 -->
+                    <div class="habit-card">
+                        <div class="habit-header">
+                            <span class="habit-icon">🧠</span>
+                            <h3 class="habit-title">Study Methods</h3>
+                        </div>
+                        <div class="habit-stats">
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Flashcards</span>
+                                <span class="habit-stat-value">30%</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Note-taking</span>
+                                <span class="habit-stat-value">45%</span>
+                            </div>
+                            <div class="habit-stat">
+                                <span class="habit-stat-label">Practice Problems</span>
+                                <span class="habit-stat-value">25%</span>
+                            </div>
+                        </div>
+                        <div class="habit-progress">
+                            <div class="habit-progress-bar" style="width: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Mentor Feedback Tab -->
+        <div id="feedbackTab" class="tab-content">
+            <section class="mentor-feedback">
+                <h2>Mentor Feedback</h2>
+                
+                <!-- RAG-powered Insights Section -->
+                <div class="rag-insights-section" id="rag-insights">
+                    <h3>Personalized Learning Insights</h3>
+                    <div class="loading-container" id="rag-loading">
+                        <div class="loading-spinner"></div>
+                        <p>Analyzing your learning patterns...</p>
+                    </div>
+                    <div class="rag-content" id="rag-content" style="display: none;">
+                        <!-- RAG content will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="mentor-container">
+                    <!-- Clawdia's Feedback -->
+                    <div class="mentor-column">
+                        <div class="mentor-header">
+                            <div class="mentor-avatar clawdia-avatar">🐱</div>
+                            <div class="mentor-info">
+                                <h3>Clawdia</h3>
+                                <div class="mentor-title">Study Habits Expert</div>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-message">
+                            <p>Your consistency has improved significantly this week! I've noticed you're studying more regularly and breaking up long sessions into shorter, more focused blocks. This is excellent for retention.</p>
+                            <p>For your upcoming Machine Learning exam, try incorporating more practice problems. Your note-taking is strong, but application is key for this subject.</p>
+                            <span class="feedback-date">July 19, 2025</span>
+                            <div class="feedback-tags">
+                                <span class="feedback-tag">Consistency</span>
+                                <span class="feedback-tag">Focus</span>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-message">
+                            <p>I'm concerned about your confidence level for the Software Engineering project. Your skills are strong, but your self-assessment is quite low. Let's work on building up your confidence through more practice implementations.</p>
+                            <p>Remember, coding projects benefit from daily small contributions rather than last-minute cramming.</p>
+                            <span class="feedback-date">July 17, 2025</span>
+                            <div class="feedback-tags">
+                                <span class="feedback-tag">Confidence</span>
+                                <span class="feedback-tag">Project Planning</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pawfessor Meowkins' Feedback -->
+                    <div class="mentor-column">
+                        <div class="mentor-header">
+                            <div class="mentor-avatar meowkins-avatar">🧠</div>
+                            <div class="mentor-info">
+                                <h3>Pawfessor Meowkins</h3>
+                                <div class="mentor-title">Subject Matter Expert</div>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-message">
+                            <p>Your work on the Advanced Data Structures exam was impressive! Your understanding of tree-based algorithms is particularly strong. For future study, I recommend focusing on graph algorithms where you showed some hesitation.</p>
+                            <p>Also, I've added some new resources to your study materials that should help with the upcoming Machine Learning exam.</p>
+                            <span class="feedback-date">July 18, 2025</span>
+                            <div class="feedback-tags">
+                                <span class="feedback-tag">Content Mastery</span>
+                                <span class="feedback-tag">Resources</span>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-message">
+                            <p>Your Advanced Database Systems knowledge is quite impressive. The SQL optimization techniques you've been practicing are paying off. Consider spending more time on NoSQL concepts, as your confidence there seems lower.</p>
+                            <p>For your upcoming exam, I suggest focusing on database normalization principles and transaction management - these are likely to be key topics.</p>
+                            <span class="feedback-date">July 15, 2025</span>
+                            <div class="feedback-tags">
+                                <span class="feedback-tag">Strategy</span>
+                                <span class="feedback-tag">Topic Focus</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        </div>
+    </div>
+
+    <!-- Add Exam Button -->
+    <div class="add-exam-button" title="Add New Exam" onclick="window.location.href='/forms'">+</div>
+
+    <!-- Cat decoration -->
+    <div class="cat-decoration">
+        <div class="cat-face">
+            <div class="eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+            <div class="cheeks">
+                <div class="cheek"></div>
+                <div class="cheek"></div>
+            </div>
+            <div class="mouth"></div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            const tabContent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the selected tab and add active class to the button
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize fetch request for upcoming exams if needed
+            // This is now handled by the server-side rendering with Jinja templates
+            
+            // Add click handlers for "View Details" buttons in exam history
+            const viewDetailsButtons = document.querySelectorAll('.view-details');
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const examId = this.getAttribute('data-exam-id');
+                    // Fetch exam details or redirect to details page
+                    window.location.href = `/exam-details/${examId}`;
+                });
+            });
+            
+            // Add mouse follow for cat eyes
+            const eyes = document.querySelectorAll('.cat-face .eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+
+            // Add Exam Button Functionality
+            document.querySelector('.add-exam-button').addEventListener('click', function() {
+                alert('Add new exam functionality will be implemented soon!');
+                // In the future, this would open a modal for adding a new exam
+            });
+            
+            // RAG Insights Functionality
+            function loadRagInsights() {
+                const ragLoading = document.getElementById('rag-loading');
+                const ragContent = document.getElementById('rag-content');
+                
+                // Show loading
+                if (ragLoading && ragContent) {
+                    ragLoading.style.display = 'flex';
+                    ragContent.style.display = 'none';
+                    
+                    // Fetch RAG insights
+                    fetch('/rag/progress')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to load insights');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Hide loading and show content
+                            ragLoading.style.display = 'none';
+                            ragContent.style.display = 'block';
+                            
+                            // Create insights content
+                            let insightsHTML = '<div class="rag-insights-container">';
+                            
+                            if (data.rag_enabled) {
+                                // Add memory stats
+                                insightsHTML += `
+                                    <div class="rag-stats">
+                                        <div class="rag-stat-item">
+                                            <div class="rag-stat-value">${data.short_term.count}</div>
+                                            <div class="rag-stat-label">Short-term Memories</div>
+                                        </div>
+                                        <div class="rag-stat-item">
+                                            <div class="rag-stat-value">${data.long_term.count}</div>
+                                            <div class="rag-stat-label">Long-term Memories</div>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                // Query the system for insights
+                                fetchAIInsights();
+                            } else {
+                                // RAG not enabled message
+                                insightsHTML += `
+                                    <div class="rag-disabled">
+                                        <div class="rag-disabled-icon">🔒</div>
+                                        <h3>Learning Memory Not Enabled</h3>
+                                        <p>Enable learning memory in your profile settings to get personalized insights about your study habits and progress.</p>
+                                    </div>
+                                `;
+                            }
+                            
+                            insightsHTML += '</div>';
+                            ragContent.innerHTML = insightsHTML;
+                        })
+                        .catch(error => {
+                            console.error('Error loading RAG insights:', error);
+                            ragLoading.style.display = 'none';
+                            ragContent.style.display = 'block';
+                            ragContent.innerHTML = `
+                                <div class="rag-error">
+                                    <div class="rag-error-icon">⚠️</div>
+                                    <h3>Couldn't Load Insights</h3>
+                                    <p>We had trouble analyzing your learning data. Please try again later.</p>
+                                </div>
+                            `;
+                        });
+                }
+            }
+            
+            function fetchAIInsights() {
+                // This function sends a query to get AI-generated insights
+                const ragContent = document.getElementById('rag-content');
+                const insightsSection = ragContent.querySelector('.rag-insights-container');
+                
+                if (insightsSection) {
+                    const loadingHTML = `
+                        <div class="rag-ai-insights-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Generating personalized insights...</p>
+                        </div>
+                    `;
+                    insightsSection.innerHTML += loadingHTML;
+                    
+                    // Make the RAG query
+                    fetch('/rag/query', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            query: "Based on my recent learning activities, what are my strengths and what areas should I improve? What learning patterns do you notice?"
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Remove loading indicator
+                        const loadingElement = ragContent.querySelector('.rag-ai-insights-loading');
+                        if (loadingElement) {
+                            loadingElement.remove();
+                        }
+                        
+                        // Add AI insights
+                        const insightsHTML = `
+                            <div class="rag-ai-insights">
+                                <h3>Your Learning Analysis</h3>
+                                <div class="rag-ai-content">${data.answer.replace(/\n/g, '<br>')}</div>
+                                
+                                ${data.sources && data.sources.length > 0 ? `
+                                <div class="rag-sources">
+                                    <h4>Based on your recent activities:</h4>
+                                    <ul>
+                                        ${data.sources.map(source => `
+                                            <li>
+                                                <span class="rag-source-text">${source.text}</span>
+                                                <span class="rag-source-type">${source.source}</span>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                                ` : ''}
+                            </div>
+                        `;
+                        
+                        insightsSection.innerHTML += insightsHTML;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching AI insights:', error);
+                        // Remove loading indicator
+                        const loadingElement = ragContent.querySelector('.rag-ai-insights-loading');
+                        if (loadingElement) {
+                            loadingElement.remove();
+                        }
+                        
+                        // Show error message
+                        insightsSection.innerHTML += `
+                            <div class="rag-ai-insights rag-error">
+                                <h3>Analysis Unavailable</h3>
+                                <p>We couldn't generate personalized insights at this time. Please try again later.</p>
+                            </div>
+                        `;
+                    });
+                }
+            }
+            
+            // Add event listener for tab buttons to load RAG insights
+            const feedbackTabButton = document.querySelector('.tab-button[onclick="openTab(event, \'feedbackTab\')"]');
+            if (feedbackTabButton) {
+                feedbackTabButton.addEventListener('click', function() {
+                    // Load RAG insights when the tab is clicked
+                    setTimeout(loadRagInsights, 100);
+                });
+            }
+            
+            // View Details Button Functionality
+            const detailButtons = document.querySelectorAll('.view-details');
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Exam details functionality will be implemented soon!');
+                    // In the future, this would show detailed information about the exam
+                });
+            });
+        });
+    </script>
+</body>
+</html>

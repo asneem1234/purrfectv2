@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}RAG Debug{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-12">
+            <h1 class="text-primary">RAG System Debug</h1>
+            <div class="card">
+                <div class="card-body">
+                    <h3>System Status</h3>
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            RAG Functionality
+                            {% if results.rag_enabled %}
+                            <span class="badge bg-success">Enabled</span>
+                            {% else %}
+                            <span class="badge bg-danger">Disabled</span>
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Embedding Model
+                            <span>{{ results.embedding_model }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            QDRANT_URL
+                            <span>{{ results.environment_vars.QDRANT_URL }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            QDRANT_API_KEY
+                            <span>{{ results.environment_vars.QDRANT_API_KEY }}</span>
+                        </li>
+                    </ul>
+
+                    <h3>Collections</h3>
+                    {% if results.collections %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Collection Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for collection in results.collections %}
+                                <tr>
+                                    <td>{{ collection }}</td>
+                                    <td>
+                                        {% if collection == results.user_collection %}
+                                        <span class="badge bg-info">Your Collection</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Other User</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning">No collections found in Qdrant</div>
+                    {% endif %}
+
+                    {% if results.user_collection_stats %}
+                    <h3>Your Collection Stats</h3>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>Collection: {{ results.user_collection }}</h5>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Points Count
+                                    <span class="badge bg-primary">{{ results.user_collection_stats.points_count }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Vector Size
+                                    <span>{{ results.user_collection_stats.vector_size }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Vector Distance
+                                    <span>{{ results.user_collection_stats.vector_distance }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% elif results.user_collection %}
+                    <div class="alert alert-warning">
+                        Your collection "{{ results.user_collection }}" exists but has no stats available
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger">You don't have a Qdrant collection yet</div>
+                    {% endif %}
+
+                    {% if results.error %}
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong> {{ results.error }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3>Check Your Study Plans</h3>
+                    <p>Use this tool to check if your study plans are properly stored in the RAG system:</p>
+                    
+                    <div class="input-group mb-3">
+                        <input type="number" id="plan-id" class="form-control" placeholder="Enter Plan ID">
+                        <button class="btn btn-primary" id="check-plan-btn">Check Plan</button>
+                    </div>
+                    
+                    <div id="check-result" class="mt-3 d-none">
+                        <!-- Results will be shown here -->
+                    </div>
+                    
+                    <script>
+                    document.getElementById('check-plan-btn').addEventListener('click', function() {
+                        const planId = document.getElementById('plan-id').value;
+                        if (!planId) {
+                            alert('Please enter a Plan ID');
+                            return;
+                        }
+                        
+                        // Show loading state
+                        document.getElementById('check-result').innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+                        document.getElementById('check-result').classList.remove('d-none');
+                        
+                        // Call the API
+                        fetch(`/studyplan/api/check-rag-storage/${planId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                let resultHtml = '';
+                                
+                                if (data.success) {
+                                    if (data.storage_exists) {
+                                        resultHtml = `
+                                            <div class="alert alert-success">
+                                                <h5>✅ Study Plan #${data.plan_id} is stored in RAG!</h5>
+                                                <p>The plan has ${data.points_count} points in collection "${data.collection_name}"</p>
+                                            </div>
+                                            <form action="/studyplan/reindex-plan/${data.plan_id}" method="POST" class="mt-3">
+                                                <button type="submit" class="btn btn-warning">Reindex This Plan</button>
+                                            </form>
+                                        `;
+                                    } else {
+                                        resultHtml = `
+                                            <div class="alert alert-warning">
+                                                <h5>⚠️ Study Plan #${data.plan_id} is NOT stored in RAG</h5>
+                                                <p>No data found in collection "${data.collection_name}"</p>
+                                            </div>
+                                            <form action="/studyplan/reindex-plan/${data.plan_id}" method="POST" class="mt-3">
+                                                <button type="submit" class="btn btn-primary">Index This Plan</button>
+                                            </form>
+                                        `;
+                                    }
+                                } else {
+                                    resultHtml = `
+                                        <div class="alert alert-danger">
+                                            <h5>❌ Error</h5>
+                                            <p>${data.error}</p>
+                                        </div>
+                                    `;
+                                }
+                                
+                                document.getElementById('check-result').innerHTML = resultHtml;
+                            })
+                            .catch(error => {
+                                document.getElementById('check-result').innerHTML = `
+                                    <div class="alert alert-danger">
+                                        <h5>❌ Error</h5>
+                                        <p>Failed to check plan: ${error}</p>
+                                    </div>
+                                `;
+                            });
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

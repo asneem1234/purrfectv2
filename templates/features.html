@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Features</title>
+    <style>
+        :root {
+            --pink-primary: #ffb6c1;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffe6ee;
+            --accent: #ff85b4;
+            --text-color: #555555;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+        }
+        
+        /* Global scrollbar style */
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: var(--pink-light);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--pink-light);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--pink-light);
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 3px solid var(--accent);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--accent) var(--pink-light); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--pink-light);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin-bottom: 20px;
+            background-color: var(--white);
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--pink-light);
+            border-left-color: var(--accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--pink-light);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .section-label {
+            padding: 12px 20px;
+            color: #999;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Add vertical scrollbar when content overflows */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--accent) var(--pink-light); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .main-content::-webkit-scrollbar-track {
+            background: var(--pink-light);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        /* Additional styles for feature cards */
+        .dashboard-content {
+            display: flex;
+            gap: 25px;
+            flex: 1;
+        }
+        
+        .features-section {
+            flex: 1;
+        }
+        
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--accent);
+        }
+        
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .card-decoration {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--pink-secondary);
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            width: 300px;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--pink-light);
+            font-size: 40px;
+        }
+        
+        .profile-box {
+            margin: 20px;
+            padding: 12px;
+            background-color: var(--pink-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-box:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .profile-status {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .logout-link {
+            margin: 10px 20px;
+            padding: 10px;
+            border: 1px solid var(--pink-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: var(--pink-light);
+        }
+        
+        .logout-icon {
+            margin-right: 12px;
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard-content {
+                flex-direction: column;
+            }
+            
+            .profile-section {
+                width: 100%;
+                margin-top: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: visible;
+            }
+            
+            .logo h1, .menu-text, .profile-info, .logout-text {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .menu-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+            
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-box {
+                justify-content: center;
+                padding: 10px;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+            }
+        }
+        
+        /* Search bar styling */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 50px;
+            padding: 0 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-container:focus-within {
+            box-shadow: 0 6px 20px rgba(255, 133, 180, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 15px 10px;
+            font-size: 16px;
+            background: transparent;
+            color: var(--text-color);
+            width: 100%;
+            outline: none;
+        }
+
+        .search-icon {
+            color: var(--accent);
+            font-size: 20px;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+            opacity: 0.8;
+        }
+
+        /* Animation for no results */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .no-results {
+            animation: shake 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/images/purrfect-logo.svg" alt="Purrfect Logo" style="width: 200px; margin: 20px 0 10px 0;">
+        </div>
+        
+        <a href="/dashboard" class="menu-item {{ 'active' if request.path == '/dashboard' else '' }}">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="/features" class="menu-item {{ 'active' if request.path == '/features' else '' }}">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Feature/Tools</span>
+        </a>
+        
+        <a href="/progress" class="menu-item {{ 'active' if request.path == '/progress' else '' }}">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">Progress</span>
+        </a>
+        
+        <a href="{{ url_for('notes.notes_home') }}" class="menu-item {{ 'active' if request.path.startswith('/notes') else '' }}">
+            <span class="menu-icon">📝</span>
+            <span class="menu-text">Notes</span>
+        </a>
+        
+        <a href="/planning" class="menu-item {{ 'active' if request.path == '/planning' else '' }}">
+            <span class="menu-icon">📅</span>
+            <span class="menu-text">Planning</span>
+        </a>
+        
+        <div class="profile-box" onclick="window.location.href='/profile'">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <div class="profile-name">{{ user.username|default('Student') }}</div>
+                <div class="profile-status">Active</div>
+            </div>
+        </div>
+        
+        <a href="/" class="logout-link">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Log Out</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="search-container">
+            <input type="text" id="feature-search" placeholder="Search features..." class="search-input">
+            <div class="search-icon">🔍</div>
+        </div>
+        
+        <div class="dashboard-content">
+            <!-- Features Section -->
+            <div class="features-section">
+                <div class="feature-cards">
+                    <!-- Study Plan Generator -->
+                    <a href="{{ url_for('study_plan.forms') }}" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card" data-keywords="study plan schedule calendar organize exam">
+                            <div class="feature-icon">📅</div>
+                            <h3>Generate Study Plan</h3>
+                            <p>Create a personalized study plan to concentrate better</p>
+                            <div class="card-decoration"></div>
+                        </div>
+                    </a>
+                    
+                    <!-- Study with AI Chatbot -->
+                    <a href="{{ url_for('bot_bp.bot') }}" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card" data-keywords="ai chatbot assistant help teach learn">
+                            <div class="feature-icon">🐱📝</div>
+                            <h3>Pawfessor Meowkins</h3>
+                            <p>Let Meowkins teach you based on your learning preferences</p>
+                            <div class="card-decoration"></div>
+                        </div>
+                    </a>
+                    
+                    <!-- Mind Games -->
+                    <a href="/game" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card" data-keywords="games puzzles fun cognitive skills">
+                            <div class="feature-icon">🎮</div>
+                            <h3>Mind Games</h3>
+                            <p>Enhance your cognitive abilities with fun educational puzzles and games</p>
+                            <div class="card-decoration"></div>
+                        </div>
+                    </a>
+                    
+                    <!-- Study with Team -->
+                    <a href="/rooms" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card" data-keywords="team collaborate group discord chat study rooms">
+                            <div class="feature-icon">👥</div>
+                            <h3>Study Rooms</h3>
+                            <p>Create or join virtual study rooms to collaborate with teammates in real-time</p>
+                            <div class="card-decoration"></div>
+                        </div>
+                    </a>
+                    
+                    <!-- Flashcard Generator -->
+                    <a href="/flashcardgenerator" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card" data-keywords="flashcards cards memorize pdf upload">
+                            <div class="feature-icon">🗂️</div>
+                            <h3>Generate Flashcards</h3>
+                            <p>Upload PDFs to create quick study flashcards</p>
+                            <div class="card-decoration"></div>
+                        </div>
+                    </a>
+                    
+                    <!-- After Exam Bot -->
+                    <a href="/exambot" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card" data-keywords="exam analysis feedback results paper review assessment">
+                            <div class="feature-icon">😼🎀</div>
+                            <h3>Clawdia</h3>
+                            <p>Upload your exam sheets. Analyze. Ace the next exam — with Clawdia!</p>
+                            <div class="card-decoration"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Removed duplicate search bar styles -->
+
+    <script>
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('feature-search');
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                let resultsFound = false;
+                
+                featureCards.forEach(card => {
+                    // Get searchable content from card
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const keywords = card.dataset.keywords ? card.dataset.keywords.toLowerCase() : '';
+                    const searchableText = title + ' ' + description + ' ' + keywords;
+                    
+                    // Check if the card matches the search term
+                    if (searchTerm === '' || searchableText.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                        card.parentElement.style.display = 'block'; // Show the parent <a> tag if it exists
+                        resultsFound = true;
+                    } else {
+                        card.style.display = 'none';
+                        if (card.parentElement.tagName === 'A') {
+                            card.parentElement.style.display = 'none'; // Hide the parent <a> tag
+                        }
+                    }
+                });
+                
+                // Show "no results" message if needed
+                const featuresSection = document.querySelector('.features-section');
+                const existingNoResults = document.querySelector('.no-results-message');
+                
+                if (!resultsFound && !existingNoResults && searchTerm !== '') {
+                    const noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results-message';
+                    noResultsMsg.innerHTML = `
+                        <div style="text-align: center; padding: 30px; color: #888;">
+                            <div style="font-size: 40px; margin-bottom: 15px;">🔍</div>
+                            <h3 style="color: var(--accent); margin-bottom: 10px;">No features found</h3>
+                            <p>Try different keywords or browse all features</p>
+                        </div>
+                    `;
+                    noResultsMsg.classList.add('no-results'); // Add animation class
+                    featuresSection.appendChild(noResultsMsg);
+                } else if ((resultsFound || searchTerm === '') && existingNoResults) {
+                    existingNoResults.remove();
+                }
+            });
+            
+            // Clear search when ESC key is pressed
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.activeElement === searchInput) {
+                    searchInput.value = '';
+                    searchInput.dispatchEvent(new Event('input'));
+                    searchInput.blur();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Study Planner</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --light-pink: #ffd1e3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 40px 0;
+        }
+
+        /* Decorative elements */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+
+        /* Form container */
+        .form-container {
+            background-color: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 10px 30px var(--shadow);
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px 0;
+            position: relative;
+            z-index: 1;
+            border: 3px solid var(--pink-accent);
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Banner heart */
+        .banner-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--pink-accent);
+            font-size: 80px;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo h1 {
+            color: var(--pink-accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        /* Form section styles */
+        .form-section {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            animation: slideFromRight 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-section h2 {
+            color: var(--pink-accent);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed var(--light-pink);
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+
+        .form-section h2 .icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid var(--light-pink);
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: var(--white);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--pink-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+
+        .form-group.focus-animation input:focus + .floating-icon,
+        .form-group.focus-animation select:focus + .floating-icon {
+            transform: translateY(-10px) scale(1.2);
+        }
+
+        .floating-icon {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 2px dashed var(--light-pink);
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--pink-accent);
+            background-color: rgba(255, 133, 180, 0.05);
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-icon {
+            font-size: 40px;
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .file-upload h3 {
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .file-upload p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Time inputs styling */
+        .time-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .time-inputs input {
+            flex: 1;
+        }
+
+        /* Meal time inputs */
+        .meal-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Slider styling */
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider-container label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slider-container label span {
+            font-weight: normal;
+            color: var(--pink-accent);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: var(--light-pink);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--pink-accent);
+            cursor: pointer;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--pink-accent);
+            cursor: pointer;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        button.submit-btn {
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.4);
+            margin-top: 20px;
+        }
+
+        button.submit-btn:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.5);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animation for form sections */
+        .form-section:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .form-section:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .form-section:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .form-section:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .submit-container {
+            animation: fadeIn 0.5s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        /* Animation for cat faces to blink */
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .cat-face .eye {
+            animation: blink 4s infinite;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px;
+                margin: 20px;
+                width: 95%;
+            }
+            
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .meal-times {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+    <!-- Cat faces -->
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <!-- Form container -->
+    <div class="form-container">
+        <div class="banner-heart">♥</div>
+        
+        <div class="logo">
+            <h1>Purr:fect Study Planner</h1>
+            <p>Create a personalized study plan to concentrate better</p>
+        </div>
+        
+        <form id="studyPlanForm" method="POST" action="/create-study-plan" enctype="multipart/form-data">
+            <!-- CSRF Token -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <!-- Upload Study Materials Section -->
+            <div class="form-section">
+                <h2><span class="icon">📚</span> Upload Your Study Materials</h2>
+                <div class="file-upload">
+                    <span class="file-upload-icon">📄</span>
+                    <h3>Drop your PDF files here</h3>
+                    <p>or click to browse your files</p>
+                    <input type="file" id="studyMaterials" name="studyMaterials" multiple accept=".pdf">
+                </div>
+                
+                <!-- Add Exam Name field -->
+                <div class="form-group focus-animation" style="margin-top: 20px;">
+                    <label for="examName">Exam Name</label>
+                    <input type="text" id="examName" name="examName" placeholder="e.g., Math Final, Chemistry Midterm" required>
+                    <div class="floating-icon">📝</div>
+                </div>
+            </div>
+            
+            <!-- Exam Details Section -->
+            <div class="form-section">
+                <h2><span class="icon">📝</span> Exam Details</h2>
+                <div class="form-grid">
+                    <div class="form-group focus-animation">
+                        <label for="examDate">Exam Date</label>
+                        <input type="date" id="examDate" name="examDate" required>
+                        <div class="floating-icon">📅</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="examTime">Exam Time</label>
+                        <input type="time" id="examTime" name="examTime" required>
+                        <div class="floating-icon">⏰</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="startPrep">Preparation Start Date</label>
+                        <input type="date" id="startPrep" name="startPrep" required>
+                        <div class="floating-icon">🗓️</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="startTime">Preparation Start Time</label>
+                        <input type="time" id="startTime" name="startTime" required>
+                        <div class="floating-icon">⏱️</div>
+                    </div>
+                </div>
+                <p style="color: #999; font-size: 0.9rem; margin-top: 5px;">Note: Preparation will end 2 hours before your exam.</p>
+            </div>
+            
+            <!-- Rest & Meal Schedule Section -->
+            <div class="form-section">
+                <h2><span class="icon">😴</span> Rest & Meal Schedule</h2>
+                
+                <div class="slider-container">
+                    <label for="sleepHours">Sleep Hours <span id="sleepHoursValue">6 hours</span></label>
+                    <input type="range" min="4" max="8" value="6" class="slider" id="sleepHours" name="sleepHours">
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group focus-animation">
+                        <label for="breakDuration">Break Duration (minutes)</label>
+                        <input type="number" id="breakDuration" name="breakDuration" min="5" max="60" value="15" required>
+                        <div class="floating-icon">⏱️</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="breakInterval">Break Interval (hours of study)</label>
+                        <input type="number" id="breakInterval" name="breakInterval" min="1" max="4" step="0.5" value="1.5" required>
+                        <div class="floating-icon">⌛</div>
+                    </div>
+                </div>
+                
+                <h3 style="color: var(--pink-accent); margin: 20px 0 15px 0;">Meal Times</h3>
+                <div class="meal-times">
+                    <div class="form-group focus-animation">
+                        <label for="breakfastTime">Breakfast Time</label>
+                        <input type="time" id="breakfastTime" name="breakfastTime" value="08:00" required>
+                        <div class="floating-icon">🍳</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="lunchTime">Lunch Time</label>
+                        <input type="time" id="lunchTime" name="lunchTime" value="13:00" required>
+                        <div class="floating-icon">🍱</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="snackTime">Snack Time</label>
+                        <input type="time" id="snackTime" name="snackTime" value="16:00" required>
+                        <div class="floating-icon">🍎</div>
+                    </div>
+                    
+                    <div class="form-group focus-animation">
+                        <label for="dinnerTime">Dinner Time</label>
+                        <input type="time" id="dinnerTime" name="dinnerTime" value="19:00" required>
+                        <div class="floating-icon">🍲</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="submit-container">
+                <button type="submit" class="submit-btn">Create My Study Plan!</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Add animations for elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Random positioning for decorative elements
+            const decorElements = document.querySelectorAll('.decorative-element');
+            decorElements.forEach(elem => {
+                // Add random animation delay
+                elem.style.animationDelay = `${Math.random() * 5}s`;
+            });
+            
+            // Update slider value display
+            const sleepHoursSlider = document.getElementById('sleepHours');
+            const sleepHoursValue = document.getElementById('sleepHoursValue');
+            
+            sleepHoursSlider.addEventListener('input', function() {
+                sleepHoursValue.textContent = this.value + ' hours';
+            });
+            
+            // Eye follow mouse effect
+            const eyes = document.querySelectorAll('.eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+            
+            // Add some fun when hovering over cat faces
+            const catFaces = document.querySelectorAll('.cat-face');
+            catFaces.forEach(cat => {
+                cat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '10px';
+                    mouth.style.borderRadius = '10px';
+                });
+                
+                cat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '8px';
+                    mouth.style.borderBottomLeftRadius = '10px';
+                    mouth.style.borderBottomRightRadius = '10px';
+                    mouth.style.borderTopLeftRadius = '0';
+                    mouth.style.borderTopRightRadius = '0';
+                });
+            });
+            
+            // File upload visual feedback
+            const fileUpload = document.querySelector('.file-upload');
+            const fileInput = document.getElementById('studyMaterials');
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const fileCount = this.files.length;
+                    fileUpload.querySelector('h3').textContent = `${fileCount} file${fileCount > 1 ? 's' : ''} selected`;
+                    fileUpload.style.borderColor = 'var(--pink-accent)';
+                    fileUpload.style.backgroundColor = 'rgba(255, 133, 180, 0.05)';
+                } else {
+                    fileUpload.querySelector('h3').textContent = 'Drop your PDF files here';
+                    fileUpload.style.borderColor = 'var(--light-pink)';
+                    fileUpload.style.backgroundColor = 'transparent';
+                }
+            });
+            
+            // Drag and drop for file upload
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileUpload.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileUpload.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileUpload.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                fileUpload.style.borderColor = 'var(--pink-accent)';
+                fileUpload.style.backgroundColor = 'rgba(255, 133, 180, 0.1)';
+                fileUpload.style.transform = 'scale(1.02)';
+            }
+            
+            function unhighlight() {
+                fileUpload.style.borderColor = 'var(--light-pink)';
+                fileUpload.style.backgroundColor = 'transparent';
+                fileUpload.style.transform = 'scale(1)';
+            }
+            
+            fileUpload.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                
+                if (files.length > 0) {
+                    const fileCount = files.length;
+                    fileUpload.querySelector('h3').textContent = `${fileCount} file${fileCount > 1 ? 's' : ''} selected`;
+                }
+            }
+        });
+        
+        // Floating animation with parallax effect
+        document.addEventListener('mousemove', function(e) {
+            const moveX = (e.clientX - window.innerWidth / 2) / 20;
+            const moveY = (e.clientY - window.innerHeight / 2) / 20;
+            
+            document.querySelectorAll('.decorative-element').forEach(elem => {
+                const speedX = parseFloat(elem.getAttribute('data-speed-x') || Math.random() * 0.5);
+                const speedY = parseFloat(elem.getAttribute('data-speed-y') || Math.random() * 0.5);
+                
+                elem.style.transform = `translate(${moveX * speedX}px, ${moveY * speedY}px)`;
+            });
+        });
+        
+        // Form validation before submission
+        document.getElementById('studyPlanForm').addEventListener('submit', function(e) {
+            const examDate = new Date(document.getElementById('examDate').value);
+            const startDate = new Date(document.getElementById('startPrep').value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time part for date comparison
+            
+            const now = new Date(); // Current date and time for time comparison
+            
+            // Reset previous error styling
+            document.querySelectorAll('.error-message').forEach(elem => elem.remove());
+            document.querySelectorAll('input').forEach(input => {
+                input.style.borderColor = '';
+            });
+            
+            let hasErrors = false;
+            
+            // Validate exam date is in the future
+            if (examDate <= today) {
+                showError('examDate', 'Exam date must be in the future');
+                hasErrors = true;
+            }
+            
+            // Validate start date is before exam date or on exam day with enough time
+            const examIsSameDay = isSameDay(examDate, startDate);
+            
+            if (examIsSameDay) {
+                // Check if there are at least 3 hours before exam time
+                const examTime = document.getElementById('examTime').value;
+                const startTime = document.getElementById('startTime').value;
+                
+                if (examTime && startTime) {
+                    const [examHours, examMinutes] = examTime.split(':').map(Number);
+                    const [startHours, startMinutes] = startTime.split(':').map(Number);
+                    
+                    const examTotalMinutes = examHours * 60 + examMinutes;
+                    const startTotalMinutes = startHours * 60 + startMinutes;
+                    
+                    const timeDiffHours = (examTotalMinutes - startTotalMinutes) / 60;
+                    
+                    if (timeDiffHours < 3) {
+                        showError('startTime', 'On exam day, you must start at least 3 hours before the exam');
+                        hasErrors = true;
+                    } else {
+                        // Show warning that this will be revision-only mode
+                        if (!document.querySelector('.revision-warning')) {
+                            const warningElem = document.createElement('p');
+                            warningElem.className = 'revision-warning';
+                            warningElem.textContent = 'You are starting on exam day. This will generate a revision-only plan.';
+                            warningElem.style.color = '#ff9800';
+                            warningElem.style.backgroundColor = '#fff8e1';
+                            warningElem.style.padding = '8px 12px';
+                            warningElem.style.borderRadius = '5px';
+                            warningElem.style.marginTop = '10px';
+                            
+                            document.getElementById('startTime').parentNode.appendChild(warningElem);
+                        }
+                    }
+                }
+            } else if (startDate > examDate) {
+                showError('startPrep', 'Preparation start date cannot be after exam date');
+                hasErrors = true;
+            }
+            
+            // Modify validation for start date - allow today but check the time
+            if (startDate < today) {
+                // If start date is before today (past date)
+                showError('startPrep', 'Preparation start date cannot be in the past');
+                hasErrors = true;
+            } else if (isSameDay(startDate, now)) {
+                // If start date is today, validate that the time is in the future
+                const startTime = document.getElementById('startTime').value;
+                if (startTime) {
+                    const [startHours, startMinutes] = startTime.split(':').map(Number);
+                    const startDateTime = new Date();
+                    startDateTime.setHours(startHours, startMinutes, 0, 0);
+                    
+                    if (startDateTime <= now) {
+                        showError('startTime', 'Preparation start time must be in the future');
+                        hasErrors = true;
+                    }
+                }
+            }
+            
+            // If there are errors, prevent form submission
+            if (hasErrors) {
+                e.preventDefault();
+            } else {
+                // Show loading state
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.textContent = "Generating Study Plan...";
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = "0.7";
+                
+                // Add a spinner icon
+                const spinner = document.createElement('span');
+                spinner.className = 'spinner';
+                spinner.style.display = 'inline-block';
+                spinner.style.width = '20px';
+                spinner.style.height = '20px';
+                spinner.style.border = '3px solid rgba(255,255,255,.3)';
+                spinner.style.borderRadius = '50%';
+                spinner.style.borderTopColor = '#fff';
+                spinner.style.animation = 'spin 1s linear infinite';
+                spinner.style.marginLeft = '10px';
+                
+                // Add keyframes for spinner animation
+                if (!document.querySelector('#spinner-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'spinner-style';
+                    style.textContent = `
+                        @keyframes spin {
+                            to { transform: rotate(360deg); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                submitBtn.appendChild(spinner);
+            }
+        });
+        
+        function showError(inputId, errorMessage) {
+            const input = document.getElementById(inputId);
+            input.style.borderColor = '#ff3860';
+            
+            const errorElem = document.createElement('p');
+            errorElem.className = 'error-message';
+            errorElem.textContent = errorMessage;
+            errorElem.style.color = '#ff3860';
+            errorElem.style.fontSize = '0.85rem';
+            errorElem.style.marginTop = '5px';
+            
+            input.parentNode.appendChild(errorElem);
+        }
+        
+        // Helper function to check if two dates represent the same day
+        function isSameDay(date1, date2) {
+            return date1.getFullYear() === date2.getFullYear() &&
+                   date1.getMonth() === date2.getMonth() &&
+                   date1.getDate() === date2.getDate();
+        }
+        
+        // Additional date-time validation
+        document.getElementById('startPrep').addEventListener('change', function() {
+            const examDate = new Date(document.getElementById('examDate').value);
+            const startDate = new Date(this.value);
+            
+            if (isSameDay(examDate, startDate)) {
+                // Show warning about exam day preparation
+                const warningElem = document.createElement('p');
+                warningElem.className = 'revision-warning';
+                warningElem.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Starting on exam day will create a revision-only plan';
+                warningElem.style.color = '#ff9800';
+                warningElem.style.backgroundColor = '#fff8e1';
+                warningElem.style.padding = '8px 12px';
+                warningElem.style.borderRadius = '5px';
+                warningElem.style.marginTop = '10px';
+                
+                // Remove any existing warnings
+                document.querySelectorAll('.revision-warning').forEach(el => el.remove());
+                
+                this.parentNode.appendChild(warningElem);
+            } else {
+                // Remove warning if dates are different
+                document.querySelectorAll('.revision-warning').forEach(el => el.remove());
+            }
+        });
+    </script>
+</body>
+</html>

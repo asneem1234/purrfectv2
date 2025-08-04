@@ -1,0 +1,4 @@
+-- database: ./app.db
+
+SELECT * FROM study_plan
+ORDER BY `title` ASC;

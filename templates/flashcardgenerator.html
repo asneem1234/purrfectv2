@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purr:fect Flashcard Generator</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffd1e3;
+            --text-color: #555555;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Decorative elements from login page */
+        .decorative-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart {
+            color: var(--pink-accent);
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .apple {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .pencil {
+            color: #ffc83d;
+            font-size: 24px;
+        }
+
+        .plus {
+            color: var(--pink-accent);
+            font-size: 30px;
+            opacity: 0.7;
+        }
+
+        .cat-face {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cat-face .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 45px;
+            margin-bottom: 5px;
+        }
+
+        .cat-face .eye {
+            width: 16px;
+            height: 16px;
+            background-color: #000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cat-face .eye::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .cat-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+        }
+
+        .cat-face .cheek {
+            width: 10px;
+            height: 10px;
+            background-color: #ffcbcb;
+            border-radius: 50%;
+        }
+
+        .cat-face .mouth {
+            width: 16px;
+            height: 8px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: 2px solid #000;
+            margin-top: 2px;
+        }
+        
+        /* Main content */
+        .main-content {
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 50px 0;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+            animation: bounce 4s infinite ease-in-out;
+        }
+        
+        .header h1 {
+            color: var(--pink-accent);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Form container */
+        .form-container {
+            background-color: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 10px 30px var(--shadow);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--pink-accent);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        /* Banner heart */
+        .banner-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--pink-accent);
+            font-size: 60px;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .form-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--pink-light), var(--pink-accent), var(--pink-light));
+            z-index: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            animation: slideFromRight 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .form-group:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        
+        .form-group:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        
+        .form-group:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        .form-group:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        input[type="text"], 
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--pink-light);
+            border-radius: 12px;
+            font-size: 16px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus, 
+        input[type="number"]:focus,
+        select:focus {
+            border-color: var(--pink-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+        
+        .upload-container {
+            border: 2px dashed var(--pink-light);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            margin-top: 10px;
+        }
+        
+        .upload-container:hover {
+            border-color: var(--pink-accent);
+            background-color: rgba(255, 133, 180, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 40px;
+            color: var(--pink-accent);
+            margin-bottom: 15px;
+        }
+        
+        .upload-container p {
+            margin: 10px 0 0;
+            color: #999;
+        }
+        
+        input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .source-toggle {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: var(--pink-light);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .toggle-option {
+            flex: 1;
+            margin: 0;
+            position: relative;
+        }
+        
+        .toggle-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-button {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.3s;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .toggle-option input[type="radio"]:checked + .toggle-button {
+            background-color: var(--pink-accent);
+            color: white;
+        }
+        
+        .source-section {
+            display: none;
+        }
+        
+        .source-section.active {
+            display: block;
+        }
+        
+        .submit-btn {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+            animation: pulse 2s infinite;
+            z-index: 1;
+        }
+        
+        .submit-btn:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.4);
+        }
+        
+        /* Card type selector */
+        .card-type-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .card-type-option {
+            flex: 1;
+            border: 2px solid var(--pink-light);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .card-type-option.selected {
+            border-color: var(--pink-accent);
+            background-color: rgba(255, 133, 180, 0.1);
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.15);
+        }
+        
+        .card-type-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-type-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Animation for cat faces to blink */
+        @keyframes blink {
+            0%, 45%, 55%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .cat-face .eye {
+            animation: blink 4s infinite;
+        }
+        
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .card-type-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .cat-face {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements -->
+    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
+    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
+    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
+    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
+    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
+    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
+    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
+    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
+    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
+    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
+    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
+    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
+    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+
+    <!-- Cat faces -->
+    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="cheeks">
+            <div class="cheek"></div>
+            <div class="cheek"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Create Flashcards</h1>
+            <p>Generate flashcards from your chosen topics or PDF materials</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="banner-heart">♥</div>
+            
+            <form id="flashcardForm" action="/generate-flashcards" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="source-toggle">
+                    <label class="toggle-option">
+                        <input type="radio" name="sourceType" value="topic" checked>
+                        <span class="toggle-button active" id="topicBtn">Enter Topic</span>
+                    </label>
+                    <label class="toggle-option">
+                        <input type="radio" name="sourceType" value="pdf">
+                        <span class="toggle-button" id="pdfBtn">Upload PDF</span>
+                    </label>
+                </div>
+                
+                <!-- Topic input section -->
+                <div id="topicSection" class="source-section active">
+                    <label for="topic">Enter Study Topic</label>
+                    <input type="text" id="topic" name="topic" placeholder="e.g., Photosynthesis, Python Programming, World War II..." required>
+                    <p style="margin-top: 5px; font-size: 14px; color: #666;">We'll generate flashcards based on the topic you provide.</p>
+                </div>
+                
+                <!-- PDF upload section -->
+                <div id="pdfSection" class="source-section">
+                    <label for="pdfUpload">Upload Study Materials (PDF)</label>
+                    <div class="upload-container" id="pdfUploadContainer">
+                        <span class="upload-icon">📄</span>
+                        <h3>Drop your PDF file here</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="pdfUpload" name="pdfUpload" accept=".pdf">
+                    </div>
+                    <p id="selectedFile" style="margin-top: 10px; font-size: 14px; color: #666;"></p>
+                    <p style="margin-top: 5px; font-size: 14px; color: #666;">We'll analyze your PDF and generate flashcards based on the content.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cardType">Flashcard Type</label>
+                    <div class="card-type-container">
+                        <div class="card-type-option selected" data-value="qna">
+                            <div class="card-type-icon">❓</div>
+                            <h4>Question & Answer</h4>
+                            <input type="radio" name="cardType" value="qna" checked style="display: none;">
+                        </div>
+                        <div class="card-type-option" data-value="definition">
+                            <div class="card-type-icon">📚</div>
+                            <h4>Term & Definition</h4>
+                            <input type="radio" name="cardType" value="definition" style="display: none;">
+                        </div>
+                        <div class="card-type-option" data-value="bullet">
+                            <div class="card-type-icon">📋</div>
+                            <h4>Concept & Bullets</h4>
+                            <input type="radio" name="cardType" value="bullet" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cardCount">Number of Cards</label>
+                    <input type="number" id="cardCount" name="cardCount" min="5" max="20" value="10">
+                    <p style="margin-top: 5px; font-size: 14px; color: #666;">Recommended: 5-20 cards</p>
+                </div>
+                
+                <div class="form-group" style="margin: 30px 0; text-align: center;">
+                    <button type="submit" class="submit-btn">Generate Flashcards</button>
+                    <a href="/reset-flashcards" class="reset-btn" style="
+                        display: inline-block;
+                        margin-left: 15px;
+                        padding: 10px 20px;
+                        background-color: #f0f0f0;
+                        color: #666;
+                        text-decoration: none;
+                        border-radius: 25px;
+                        font-weight: 500;
+                        transition: all 0.3s;
+                    ">Reset Session</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Back to Features button -->
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="/features" style="
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);">
+            Back to Features
+        </a>
+    </div>
+    
+    <script>
+        // Add a state tracker for submissions
+        let hasSubmitted = false;
+
+        document.getElementById('flashcardForm').addEventListener('submit', function(e) {
+            // Clear any previous flashcard session data if this is the first submission
+            if (!hasSubmitted) {
+                fetch('/reset-flashcards')
+                    .then(response => {
+                        console.log('Session reset before new submission');
+                    })
+                    .catch(err => {
+                        console.log('Error resetting session:', err);
+                    });
+            }
+            
+            hasSubmitted = true;
+            
+            // Additional validation could go here
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Source toggle functionality
+            const topicBtn = document.getElementById('topicBtn');
+            const pdfBtn = document.getElementById('pdfBtn');
+            
+            const topicSection = document.getElementById('topicSection');
+            const pdfSection = document.getElementById('pdfSection');
+            
+            // Use event delegation on the parent container
+            document.querySelector('.source-toggle').addEventListener('change', function(e) {
+                if (e.target.type === 'radio') {
+                    const value = e.target.value;
+                    
+                    // Hide all sections first
+                    [topicSection, pdfSection].forEach(sec => sec.classList.remove('active'));
+                    
+                    // Show the appropriate section based on selection
+                    if (value === 'topic') {
+                        topicSection.classList.add('active');
+                        document.getElementById('topic').setAttribute('required', '');
+                        document.getElementById('pdfUpload').removeAttribute('required');
+                    } else if (value === 'pdf') {
+                        pdfSection.classList.add('active');
+                        document.getElementById('pdfUpload').setAttribute('required', '');
+                        document.getElementById('topic').removeAttribute('required');
+                    }
+                    
+                    // Remove any previous error highlighting
+                    resetErrorStyles();
+                }
+            });
+            
+            function resetErrorStyles() {
+                // Clear any error messages
+                const existingError = document.getElementById('validationError');
+                if (existingError) {
+                    existingError.remove();
+                }
+                
+                // Reset border colors to default
+                document.getElementById('topic').style.borderColor = 'var(--pink-light)';
+                document.getElementById('pdfUploadContainer').style.borderColor = 'var(--pink-light)';
+            }
+            
+            // Card type selection
+            const cardTypeOptions = document.querySelectorAll('.card-type-option');
+            
+            cardTypeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    cardTypeOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Check the hidden radio button
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
+            
+            // Handle file selection
+            pdfUpload.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    if (this.files.length === 1) {
+                        selectedFile.textContent = `Selected file: ${this.files[0].name}`;
+                    } else {
+                        const fileNames = Array.from(this.files).map(file => file.name);
+                        selectedFile.textContent = `Selected ${this.files.length} files: ${fileNames.join(', ')}`;
+                    }
+                    // Also select the PDF radio button
+                    document.querySelector('input[name="sourceType"][value="pdf"]').checked = true;
+                    // Trigger the change event manually
+                    document.querySelector('input[name="sourceType"][value="pdf"]').dispatchEvent(new Event('change', { bubbles: true }));
+                } else {
+                    selectedFile.textContent = '';
+                }
+            });
+            
+            // PDF file selection feedback
+            const pdfUpload = document.getElementById('pdfUpload');
+            const selectedFile = document.getElementById('selectedFile');
+            
+            // Handle topic input
+            const topicInput = document.getElementById('topic');
+            topicInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    // Set topic radio button as selected when text is entered
+                    document.querySelector('input[name="sourceType"][value="topic"]').checked = true;
+                    // Trigger the change event manually
+                    document.querySelector('input[name="sourceType"][value="topic"]').dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+            
+            // Form submission with loading state
+            const flashcardForm = document.getElementById('flashcardForm');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            flashcardForm.addEventListener('submit', function(e) {
+                // Form validation
+                const pdfUpload = document.getElementById('pdfUpload');
+                const youtubeLink = document.getElementById('youtubeLink');
+                
+                const pdfActive = document.getElementById('pdfSection').classList.contains('active');
+                const youtubeActive = document.getElementById('youtubeSection').classList.contains('active');
+                
+                let isValid = true;
+                let errorMessage = "";
+                
+                // Clear previous error messages
+                const existingError = document.getElementById('validationError');
+                if (existingError) {
+                    existingError.remove();
+                }
+                
+                // Validate based on active section
+                const selectedSource = document.querySelector('input[name="sourceType"]:checked').value;
+                
+                // Validate based on the selected source
+                if (selectedSource === 'pdf') {
+                    if (!pdfUpload.files || pdfUpload.files.length === 0) {
+                        isValid = false;
+                        errorMessage = "Please upload a PDF file";
+                    } else {
+                        // PDF is selected, we don't need to set topic as it will be extracted from the PDF
+                    }
+                } else if (selectedSource === 'topic') {
+                    if (!topicInput.value.trim()) {
+                        isValid = false;
+                        errorMessage = "Please enter a topic";
+                        topicInput.focus();
+                    }
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Display error message
+                    const errorDiv = document.createElement('div');
+                    errorDiv.id = 'validationError';
+                    errorDiv.style.color = '#ff3860';
+                    errorDiv.style.marginTop = '10px';
+                    errorDiv.style.fontSize = '14px';
+                    errorDiv.style.fontWeight = 'bold';
+                    errorDiv.textContent = errorMessage;
+                    generateBtn.parentNode.insertBefore(errorDiv, generateBtn);
+                    
+                    // Highlight the error field with animation
+                    if (selectedSource === 'topic' && !topicInput.value.trim()) {
+                        topicInput.style.borderColor = '#ff3860';
+                        topicInput.style.animation = 'shake 0.5s';
+                        setTimeout(() => {
+                            topicInput.style.animation = '';
+                        }, 500);
+                    } else if (selectedSource === 'pdf' && (!pdfUpload.files || pdfUpload.files.length === 0)) {
+                        document.getElementById('pdfUploadContainer').style.borderColor = '#ff3860';
+                        document.getElementById('pdfUploadContainer').style.animation = 'shake 0.5s';
+                        setTimeout(() => {
+                            document.getElementById('pdfUploadContainer').style.animation = '';
+                        }, 500);
+                    }
+                    
+                    return false;
+                }
+                
+                // If valid, show loading state
+                generateBtn.innerHTML = 'Generating... <span style="display:inline-block;width:20px;height:20px;border:2px solid white;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;margin-left:10px;"></span>';
+                generateBtn.disabled = true;
+                
+                // Add spinner animation style
+                if (!document.getElementById('spinner-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'spinner-style';
+                    style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }';
+                    document.head.appendChild(style);
+                }
+            });
+            
+            // Drag and drop for PDF upload
+            const uploadContainer = document.getElementById('pdfUploadContainer');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadContainer.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadContainer.style.borderColor = 'var(--pink-accent)';
+                uploadContainer.style.backgroundColor = 'rgba(255, 133, 180, 0.1)';
+            }
+            
+            function unhighlight() {
+                uploadContainer.style.borderColor = 'var(--pink-light)';
+                uploadContainer.style.backgroundColor = 'transparent';
+            }
+            
+            uploadContainer.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                pdfUpload.files = files;
+                
+                if (files && files.length > 0) {
+                    if (files.length === 1) {
+                        selectedFile.textContent = `Selected file: ${files[0].name}`;
+                    } else {
+                        const fileNames = Array.from(files).map(file => file.name);
+                        selectedFile.textContent = `Selected ${files.length} files: ${fileNames.join(', ')}`;
+                    }
+                    // Also select the PDF radio button
+                    document.querySelector('input[name="sourceType"][value="pdf"]').checked = true;
+                    // Trigger the change event manually
+                    document.querySelector('input[name="sourceType"][value="pdf"]').dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+            
+            // Random positioning for decorative elements (from login page)
+            const decorElements = document.querySelectorAll('.decorative-element');
+            decorElements.forEach(elem => {
+                // Add random animation delay
+                elem.style.animationDelay = `${Math.random() * 5}s`;
+            });
+            
+            // Eye follow mouse effect (from login page)
+            const eyes = document.querySelectorAll('.eye');
+            document.addEventListener('mousemove', (e) => {
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
+                    const rot = rad * (180 / Math.PI) * -1 + 180;
+                    eye.style.transform = `rotate(${rot}deg)`;
+                });
+            });
+            
+            // Add some fun when hovering over cat faces (from login page)
+            const catFaces = document.querySelectorAll('.cat-face');
+            catFaces.forEach(cat => {
+                cat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '10px';
+                    mouth.style.borderRadius = '10px';
+                });
+                
+                cat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    const mouth = this.querySelector('.mouth');
+                    mouth.style.height = '8px';
+                    mouth.style.borderBottomLeftRadius = '10px';
+                    mouth.style.borderBottomRightRadius = '10px';
+                    mouth.style.borderTopLeftRadius = '0';
+                    mouth.style.borderTopRightRadius = '0';
+                });
+            });
+            
+            // Floating animation with parallax effect (from login page)
+            document.addEventListener('mousemove', function(e) {
+                const moveX = (e.clientX - window.innerWidth / 2) / 20;
+                const moveY = (e.clientY - window.innerHeight / 2) / 20;
+                
+                document.querySelectorAll('.decorative-element').forEach(elem => {
+                    const speedX = parseFloat(elem.getAttribute('data-speed-x') || Math.random() * 0.5);
+                    const speedY = parseFloat(elem.getAttribute('data-speed-y') || Math.random() * 0.5);
+                    
+                    elem.style.transform = `translate(${moveX * speedX}px, ${moveY * speedY}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

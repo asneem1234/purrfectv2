@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Purr:fect Study Planning</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffd1e3;
+            --pink-dark: #e56a99;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Global scrollbar style */
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: var(--pink-bg);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: var(--pink-accent);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--pink-accent) var(--pink-bg);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--white);
+            border-right: 3px solid var(--pink-accent);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--pink-accent) var(--pink-bg); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--pink-bg);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--pink-accent);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--pink-accent);
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--pink-light);
+            border-left-color: var(--pink-accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--pink-light);
+            border-left-color: var(--pink-accent);
+            color: var(--pink-accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 280px;
+            overflow-y: auto; /* Add vertical scrollbar when content overflows */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--pink-accent) var(--pink-bg); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .main-content::-webkit-scrollbar-track {
+            background: var(--pink-bg);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--pink-accent);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: var(--pink-accent);
+            margin-bottom: 10px;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .page-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink-light), var(--pink-accent), var(--pink-light));
+            border-radius: 3px;
+        }
+
+        .page-header p {
+            color: var(--text-color);
+            font-size: 1rem;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        /* Quick Action Buttons - updated for better alignment */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .action-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 40px 25px;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            cursor: pointer;
+            height: 100%;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--pink-accent);
+        }
+        
+        .action-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--pink-accent);
+        }
+        
+        .action-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--pink-dark);
+            margin-bottom: 10px;
+        }
+        
+        .action-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Planning Grid - updated for better alignment */
+        .planning-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Common Card Styles */
+        .card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: var(--pink-accent);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card h2 .icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        /* Planning Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            background-color: var(--pink-accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--pink-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Recent Plans */
+        .plans-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--pink-accent) var(--pink-bg); /* For Firefox */
+        }
+
+        .plan-item {
+            background-color: var(--pink-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .plan-item:hover {
+            background-color: var(--pink-light);
+            transform: translateX(5px);
+        }
+
+        .plan-details {
+            flex: 1;
+        }
+
+        .plan-title {
+            font-weight: 500;
+            color: var(--pink-dark);
+            margin-bottom: 5px;
+        }
+
+        .plan-info {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-bottom: 3px;
+        }
+
+        .plan-tag {
+            display: inline-block;
+            background-color: var(--pink-light);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: var(--pink-dark);
+            margin-right: 5px;
+        }
+
+        .plan-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Profile box and logout styles */
+        .profile-box {
+            margin: 20px;
+            padding: 12px;
+            background-color: var(--pink-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-box:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--pink-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .profile-status {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .logout-link {
+            margin: 10px 20px;
+            padding: 10px;
+            border: 1px solid var(--pink-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--pink-accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: var(--pink-light);
+        }
+        
+        .logout-icon {
+            margin-right: 12px;
+        }
+
+        /* Success Message */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        /* Exam Season Timer Styles - updated for better alignment */
+        .exam-status {
+            background: linear-gradient(135deg, var(--pink-light), var(--pink-secondary));
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .status-header h3 {
+            color: var(--pink-dark);
+            font-size: 1.3rem;
+            margin: 0;
+        }
+        
+        .status-badge {
+            background-color: var(--pink-accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .countdown-container {
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .countdown-display {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .time-unit {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .time-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--pink-accent);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .time-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .exam-setter {
+            margin-bottom: 25px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .exam-stats {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--pink-bg);
+            border-radius: 12px;
+            padding: 25px 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--pink-accent);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive adjustments for countdown */
+        @media (max-width: 768px) {
+            .countdown-display {
+                padding: 20px 10px;
+            }
+            
+            .time-number {
+                font-size: 2rem;
+            }
+            
+            .time-label {
+                font-size: 0.8rem;
+            }
+            
+            .exam-input-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .exam-input-row .btn {
+                width: 100%;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Media query adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .logo h1, .menu-text, .profile-info, .logout-text {
+                display: none;
+            }
+            
+            .profile-box {
+                justify-content: center;
+                padding: 10px;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/images/purrfect-logo.svg" alt="Purrfect Logo" style="width: 200px; margin: 20px 0 10px 0;">
+        </div>
+        
+        <a href="/dashboard" class="menu-item">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="/features" class="menu-item">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Feature/Tools</span>
+        </a>
+        
+        <a href="/progress" class="menu-item">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">Progress</span>
+        </a>
+        
+        <a href="/notes-coming-soon" class="menu-item">
+            <span class="menu-icon">📝</span>
+            <span class="menu-text">Notes</span>
+        </a>
+        
+        <a href="/planning" class="menu-item active">
+            <span class="menu-icon">📅</span>
+            <span class="menu-text">Planning</span>
+        </a>
+        
+        <div class="profile-box" onclick="window.location.href='/profile'">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <div class="profile-name">{{ user.username|default('Student') }}</div>
+                <div class="profile-status">Active</div>
+            </div>
+        </div>
+        
+        <a href="/" class="logout-link">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Log Out</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Study Planning</h1>
+            <p>Plan your study sessions, create study plans, and organize study groups all in one place.</p>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="quick-actions">
+            <div class="action-card" onclick="window.location.href='/exam-plan-creater'">
+                <div class="action-icon">📋</div>
+                <div class="action-title">Exam Season Plan</div>
+                <div class="action-desc">Create a comprehensive plan to tackle your upcoming exam season</div>
+            </div>
+            
+            <a href="/forms" class="action-card">
+                <div class="action-icon">📝</div>
+                <div class="action-title">Create Study Plan</div>
+                <div class="action-desc">Generate a personalized study plan with AI based on your schedule and exam dates</div>
+            </a>
+            
+           <!-- <a href="#" class="action-card" onclick="createStudyRoom()">
+                <div class="action-icon">👥</div>
+                <div class="action-title">Create Study Room</div>
+                <div class="action-desc">Set up a virtual study room to collaborate with friends and classmates</div>
+            </a>-->
+        </div>
+
+        <!-- Planning Grid -->
+        <div class="planning-grid">
+            <!-- Exam Season Timer -->
+            <div class="card">
+                <h2><span class="icon">⏰</span>Exam Season Countdown</h2>
+                
+                <!-- Exam Season Status -->
+                <div class="exam-status" id="examStatus">
+                    <div class="status-header">
+                        <h3 id="examStatusTitle">Next Exam Season</h3>
+                        <span class="status-badge" id="statusBadge">Approaching</span>
+                    </div>
+                </div>
+                
+                <!-- Countdown Timer -->
+                <div class="countdown-container">
+                    <div class="countdown-display" id="countdownDisplay">
+                        <div class="time-unit">
+                            <span class="time-number" id="days">00</span>
+                            <span class="time-label">Days</span>
+                        </div>
+                        <div class="time-unit">
+                            <span class="time-number" id="hours">00</span>
+                            <span class="time-label">Hours</span>
+                        </div>
+                        <div class="time-unit">
+                            <span class="time-number" id="minutes">00</span>
+                            <span class="time-label">Minutes</span>
+                        </div>
+                        <div class="time-unit">
+                            <span class="time-number" id="seconds">00</span>
+                            <span class="time-label">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Set Exam Date -->
+                <div class="exam-setter">
+                    <div class="form-group">
+                        <label for="examDate">Set Next Exam Date:</label>
+                        <div class="exam-input-row">
+                            <input type="date" id="examDate" min="">
+                            <button type="button" class="btn" onclick="setExamDate()" style="width: auto; padding: 10px 15px;">
+                                Set Date
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let examPlansCount = 0;
+        let examCountdownInterval;
+        let currentExamDate = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default dates
+            const today = new Date();
+            const nextWeek = new Date();
+            nextWeek.setDate(today.getDate() + 7);
+            
+            document.getElementById('startDate').valueAsDate = today;
+            document.getElementById('deadline').valueAsDate = nextWeek;
+            
+            // Set minimum date for exam date picker to today
+            document.getElementById('examDate').min = today.toISOString().split('T')[0];
+            
+            // Handle form submission
+            document.getElementById('quickPlanForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createExamPlan();
+            });
+            
+            // Initialize exam timer
+            initializeExamTimer();
+        });
+
+        function createExamPlan() {
+            const form = document.getElementById('quickPlanForm');
+            
+            // Get form values
+            const planTitle = document.getElementById('planTitle').value;
+            const planType = document.getElementById('planType').value;
+            const priority = document.getElementById('priority').value;
+            const startDate = document.getElementById('startDate').value;
+            const deadline = document.getElementById('deadline').value;
+            const description = document.getElementById('description').value;
+            
+            // Validate dates
+            if (new Date(startDate) > new Date(deadline)) {
+                alert('Study start date cannot be after exam date!');
+                return;
+            }
+            
+            // Increment exam plans count
+            examPlansCount++;
+            updateStats();
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = `Exam plan for "${planTitle}" created successfully! 🎉`;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+            
+            // Reset form
+            form.reset();
+            
+            // Reset default dates
+            const today = new Date();
+            const nextWeek = new Date();
+            nextWeek.setDate(today.getDate() + 7);
+            
+            document.getElementById('startDate').valueAsDate = today;
+            document.getElementById('deadline').valueAsDate = nextWeek;
+        }
+
+        function initializeExamTimer() {
+            // Set a default exam date (30 days from now)
+            const defaultExamDate = new Date();
+            defaultExamDate.setDate(defaultExamDate.getDate() + 30);
+            
+            currentExamDate = defaultExamDate;
+            document.getElementById('examDate').valueAsDate = defaultExamDate;
+            
+            startCountdown();
+            updateStats();
+        }
+
+        function setExamDate() {
+            const examDateInput = document.getElementById('examDate');
+            const selectedDate = new Date(examDateInput.value);
+            
+            if (!examDateInput.value) {
+                alert('Please select an exam date!');
+                return;
+            }
+            
+            const today = new Date();
+            if (selectedDate <= today) {
+                alert('Please select a future date for your exam!');
+                return;
+            }
+            
+            currentExamDate = selectedDate;
+            startCountdown();
+            updateStats();
+            
+            // Show confirmation
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = `Exam date set for ${selectedDate.toLocaleDateString()}! ⏰`;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function startCountdown() {
+            // Clear existing interval
+            if (examCountdownInterval) {
+                clearInterval(examCountdownInterval);
+            }
+            
+            examCountdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Initial call
+        }
+
+        function updateCountdown() {
+            if (!currentExamDate) return;
+            
+            const now = new Date().getTime();
+            const examTime = currentExamDate.getTime();
+            const distance = examTime - now;
+            
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+                
+                // Update status based on time remaining
+                updateExamStatus(days);
+            } else {
+                // Exam time has passed
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                
+                document.getElementById('examStatusTitle').textContent = 'Exam Time!';
+                document.getElementById('statusBadge').textContent = 'Now';
+                document.getElementById('statusBadge').style.backgroundColor = '#ff4757';
+                
+                clearInterval(examCountdownInterval);
+            }
+        }
+
+        function updateExamStatus(daysRemaining) {
+            const statusTitle = document.getElementById('examStatusTitle');
+            const statusBadge = document.getElementById('statusBadge');
+            
+            if (daysRemaining > 14) {
+                statusTitle.textContent = 'Next Exam Season';
+                statusBadge.textContent = 'Approaching';
+                statusBadge.style.backgroundColor = 'var(--pink-accent)';
+            } else if (daysRemaining > 7) {
+                statusTitle.textContent = 'Exam Season Soon';
+                statusBadge.textContent = 'Prepare Now';
+                statusBadge.style.backgroundColor = '#ffa502';
+            } else if (daysRemaining > 3) {
+                statusTitle.textContent = 'Exam Week';
+                statusBadge.textContent = 'Final Push';
+                statusBadge.style.backgroundColor = '#ff6348';
+            } else {
+                statusTitle.textContent = 'Exam Days';
+                statusBadge.textContent = 'Critical';
+                statusBadge.style.backgroundColor = '#ff4757';
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalPlans').textContent = examPlansCount;
+            
+            if (currentExamDate) {
+                const today = new Date();
+                const studyDaysLeft = Math.max(0, Math.ceil((currentExamDate - today) / (1000 * 60 * 60 * 24)));
+                document.getElementById('studyDays').textContent = studyDaysLeft;
+                
+                // Calculate preparation level (mock percentage)
+                const totalDays = 30; // Assuming 30 days total preparation time
+                const daysUsed = Math.max(0, totalDays - studyDaysLeft);
+                const preparationLevel = Math.min(100, Math.round((daysUsed / totalDays) * 100 + (examPlansCount * 10)));
+                document.getElementById('preparationLevel').textContent = preparationLevel + '%';
+            }
+        }
+
+        function openPlanModal() {
+            // Redirect to the dedicated exam plan creator page
+            window.location.href = '/exam-plan-creator';
+        }
+
+        function createStudyRoom() {
+            // Placeholder for study room creation
+            alert('Study Room creation feature would open here. This would typically redirect to a study room creation form.');
+        }
+    </script>
+</body>
+</html>

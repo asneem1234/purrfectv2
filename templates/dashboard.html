@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Purr:fect Dashboard</title>
+    <style>
+        :root {
+            --pink-primary: #ffb6c1;
+            --pink-secondary: #ffd6df;
+            --pink-light: #ffe6ee;
+            --accent: #ff85b4;
+            --text-color: #555555;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+        }
+        
+        /* Global scrollbar style */
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: var(--pink-light);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--pink-light);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--pink-light);
+            color: var(--text-color);
+            overflow-x: hidden; /* Allow vertical scrolling but prevent horizontal */
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 3px solid var(--accent);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--accent) var(--pink-light); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--pink-light);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin-bottom: 20px;
+            background-color: var(--white);
+        }
+        
+        .logo svg {
+            margin-right: 8px;
+        }
+        
+        .logo span {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 22px;
+            color: #f472b6;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--pink-light);
+            border-left-color: var(--accent);
+        }
+        
+        .menu-item.active {
+            background-color: var(--pink-light);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .menu-icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .section-label {
+            padding: 12px 20px;
+            color: #999;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Add vertical scrollbar when content overflows */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--accent) var(--pink-light); /* For Firefox */
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .main-content::-webkit-scrollbar-track {
+            background: var(--pink-light);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-secondary);
+        }
+        
+        .welcome-banner {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .welcome-banner h2 {
+            color: var(--accent);
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-banner p {
+            color: var(--text-color);
+            margin-top: 3px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            flex: 1;
+        }
+        
+        .dashboard-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--accent);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .card-icon {
+            font-size: 22px;
+            color: var(--accent);
+        }
+        
+        .progress-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--pink-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .progress-percentage {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .streak-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--pink-light);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .streak-icon {
+            font-size: 22px;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .streak-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .streak-count {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .streak-text {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: var(--pink-light);
+            transition: all 0.3s;
+        }
+        
+        .course-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-icon {
+            font-size: 22px;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .course-info {
+            flex: 1;
+        }
+        
+        .course-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .course-progress {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .course-action {
+            font-size: 14px;
+            color: var(--white);
+            background-color: var(--accent);
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .course-action:hover {
+            background-color: #ff6ba7;
+        }
+        
+        .calendar-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .month-select {
+            font-size: 16px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .calendar-nav-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--pink-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-nav-btn:hover {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day-header {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+        
+        .calendar-day {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .calendar-day.today {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+        
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: var(--pink-light);
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .event-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-date {
+            width: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .event-day {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .event-month {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .event-details {
+            flex: 1;
+        }
+        
+        .event-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .event-time {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            width: 300px;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--pink-light);
+            font-size: 40px;
+        }
+        
+        .edit-profile {
+            font-size: 18px;
+            color: var(--accent);
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .edit-profile:hover {
+            transform: scale(1.1);
+        }
+        
+        .profile-name {
+            font-size: 18px;
+            color: var(--text-color);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .profile-divider {
+            height: 1px;
+            background-color: var(--pink-secondary);
+            margin: 20px 0;
+        }
+        
+        .recent-activity {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .activity-icon {
+            width: 28px;
+            height: 28px;
+            background-color: var(--pink-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: var(--accent);
+            font-size: 12px;
+        }
+        
+        .activity-text {
+            color: var(--text-color);
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        
+        .logout-btn {
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            padding: 10px;
+            width: 100%;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.3);
+            margin-top: 15px;
+        }
+        
+        .logout-btn:hover {
+            background-color: #ff6ba7;
+            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.4);
+        }
+        
+        /* Animation for no results */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .no-results {
+            animation: shake 0.5s;
+        }
+        
+        /* Sidebar styles matching features.html */
+        
+        .profile-box {
+            margin: 20px;
+            padding: 12px;
+            background-color: var(--pink-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .profile-box:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .profile-status {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .logout-link {
+            margin: 10px 20px;
+            padding: 10px;
+            border: 1px solid var(--pink-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .logout-link:hover {
+            background-color: var(--pink-light);
+        }
+        
+        .logout-icon {
+            margin-right: 12px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-content {
+                flex-direction: column;
+            }
+            
+            .profile-section {
+                width: 100%;
+                margin-top: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: visible;
+            }
+            
+            .logo h1, .menu-text, .profile-info, .logout-text {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 10px 0;
+            }
+            
+            .logo img {
+                width: 40px !important;
+                margin: 5px 0 !important;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .menu-icon {
+                margin-right: 0;
+                font-size: 22px;
+            }
+            
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .profile-box {
+                justify-content: center;
+                padding: 10px;
+            }
+            
+            .profile-icon {
+                margin-right: 0;
+            }
+        }
+
+        /* Additional styles for the enhanced calendar */
+        .calendar-card {
+            grid-column: 1 / -1; /* Make the calendar span all columns */
+            margin-top: 25px;
+            background: linear-gradient(to bottom right, #ffffff, #fffbfd);
+        }
+        
+        .calendar-wrapper {
+            padding: 10px;
+        }
+        
+        .calendar-header {
+            justify-content: space-between;
+            padding: 0 10px 20px 10px;
+            border-bottom: 2px dashed var(--pink-light);
+            margin-bottom: 20px;
+        }
+        
+        .month-select {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .calendar-nav-btn {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(to bottom right, var(--pink-light), var(--white));
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-nav-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent);
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .calendar-day {
+            height: 80px;
+            padding: 8px;
+            border-radius: 10px;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .calendar-day:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        .calendar-day.today {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+        
+        /* Enhanced calendar event styling */
+        .calendar-day.has-event {
+            border: 2px solid var(--accent);
+            background-color: rgba(255, 133, 180, 0.05);
+            position: relative;
+            overflow: visible;
+        }
+        
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            bottom: 5px;
+            right: 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        .calendar-day.has-prep-start {
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+        
+        .calendar-day .event-list {
+            font-size: 8px;
+            color: var(--accent);
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 4px;
+            text-align: center;
+        }
+        
+        .calendar-day .event-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            margin: 2px auto;
+            display: block;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 133, 180, 0.4); }
+            70% { box-shadow: 0 0 0 5px rgba(255, 133, 180, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 133, 180, 0); }
+        }
+        
+        /* Calendar empty state message */
+        .calendar-empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        /* Calendar day hover effect */
+        .calendar-day:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        /* Modal Popup for Exam Plan Details */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            padding: 25px;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            color: #aaa;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: var(--accent);
+        }
+        
+        .modal-header {
+            border-bottom: 2px solid var(--pink-light);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .exam-info {
+            margin-bottom: 20px;
+        }
+        
+        .exam-detail {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .detail-label {
+            width: 120px;
+            font-weight: 500;
+            color: #777;
+        }
+        
+        .detail-value {
+            flex: 1;
+            color: var(--text-color);
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        
+        .priority-high {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        .priority-medium {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+        
+        .priority-low {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+        
+        .action-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #ff6ba7;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--pink-light);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--pink-secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        .btn-danger:hover {
+            background-color: #f44336;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .study-goals {
+            background-color: var(--pink-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .study-goals h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .study-goals p {
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/images/purrfect-logo.svg" alt="Purrfect Logo" style="width: 200px; margin: 20px 0 10px 0;">
+        </div>
+        
+        <a href="/dashboard" class="menu-item active">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Dashboard</span>
+        </a>
+        
+        <a href="/features" class="menu-item">
+            <span class="menu-icon">🔧</span>
+            <span class="menu-text">Feature/Tools</span>
+        </a>
+        
+        <a href="/progress" class="menu-item">
+            <span class="menu-icon">📈</span>
+            <span class="menu-text">Progress</span>
+        </a>
+        
+        <a href="/notes-coming-soon" class="menu-item">
+            <span class="menu-icon">📝</span>
+            <span class="menu-text">Notes</span>
+        </a>
+        
+        <a href="/planning" class="menu-item">
+            <span class="menu-icon">📅</span>
+            <span class="menu-text">Planning</span>
+        </a>
+        
+        <div class="profile-box" onclick="window.location.href='/profile'">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <div class="profile-name">{{ user.username|default('Student') }}</div>
+                <div class="profile-status">Active</div>
+            </div>
+        </div>
+        
+        <a href="/" class="logout-link">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Log Out</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="welcome-banner">
+            <h2>Welcome back, {{ user.username|default('Student') }}!</h2>
+            <p>Continue your learning journey where you left off. Your study buddy is ready to help!</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Replace My Study Rooms card with My Private Rooms -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">My Private Rooms</div>
+                    <div class="card-icon">🔒</div>
+                </div>
+                <div class="upcoming-events" id="my-private-rooms" style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                    {% if private_rooms and private_rooms|length > 0 %}
+                        {% for room in private_rooms %}
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">{{ room.created_at.strftime('%d') }}</div>
+                                    <div class="event-month">{{ room.created_at.strftime('%b') }}</div>
+                                </div>
+                                <div class="event-details">
+                                    <div class="event-title">{{ room.name }}</div>
+                                    <div class="event-time">Private Study Room</div>
+                                </div>
+                                <div class="event-actions" style="display: flex; flex-direction: column; align-items: center;">
+                                    <a href="{{ url_for('studyroom.studyroom', room_name=room.name) }}" style="color: var(--accent); font-size: 16px; margin-bottom: 12px;" title="Enter room">
+                                        →
+                                    </a>
+                                    <form action="{{ url_for('studyroom.delete_room', room_name=room.name) }}" method="POST" class="event-delete-form" onsubmit="return confirm('Are you sure you want to delete the room &quot;{{ room.name }}&quot;? This action cannot be undone.');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="event-delete-btn" title="Delete room" style="color: #ff4757; font-size: 16px; background: transparent; border: none; cursor: pointer; padding: 0;">
+                                            🗑️
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-events-message" style="text-align: center; padding: 30px 20px;">
+                            <div style="font-size: 40px; margin-bottom: 15px;">📭</div>
+                            <h3 style="color: var(--accent); margin-bottom: 10px;">No private rooms yet</h3>
+                            <p>Join or create a private study room to see it here.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="{{ url_for('studyroom.create_room') }}" style="
+                        background-color: var(--accent);
+                        color: white;
+                        padding: 8px 15px;
+                        border-radius: 20px;
+                        text-decoration: none;
+                        display: inline-block;
+                        font-size: 14px;
+                        font-weight: 500;
+                        box-shadow: 0 3px 8px rgba(255, 133, 180, 0.3);
+                    ">
+                        Create New Study Room
+                    </a>
+                </div>
+            </div>
+
+            <!-- Upcoming Events Card - Modified to show only study plans, not exam plans -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">Upcoming Study Sessions</div>
+                    <div class="card-icon">🔔</div>
+                </div>
+                <div class="upcoming-events" id="upcoming-events" style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                    {% if upcoming_plans and upcoming_plans|length > 0 %}
+                        {% for plan in upcoming_plans[:3] %}
+                            {% if not plan.is_exam_plan %}
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <div class="event-day">{{ plan.exam_date.strftime('%d') if plan.exam_date else 'N/A' }}</div>
+                                    <div class="event-month">{{ plan.exam_date.strftime('%b') if plan.exam_date else '' }}</div>
+                                </div>
+                                <div class="event-details">
+                                    <div class="event-title">{{ plan.title }}</div>
+                                    <div class="event-time">Study session: {{ plan.exam_date.strftime('%d %b, %Y') if plan.exam_date else 'Not set' }}</div>
+                                    {% if plan.prep_start_date %}
+                                        <div class="event-meta" style="font-size: 11px; color: #999; margin-top: 3px;">
+                                            Prep starts: {{ plan.prep_start_date.strftime('%d %b, %Y') }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="event-actions" style="display: flex; flex-direction: column; align-items: center;">
+                                    <a href="{{ url_for('study_plan.studyplan_live', plan_id=plan.id) }}" style="color: var(--accent); font-size: 16px; margin-bottom: 12px;" title="View plan">→</a>
+                                    <form action="{{ url_for('study_plan.delete_study_plan', plan_id=plan.id) }}" method="POST" class="event-delete-form" onsubmit="return confirm('Are you sure you want to delete the study plan &quot;{{ plan.title }}&quot;?');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="event-delete-btn" title="Delete study plan" style="color: #ff4757; font-size: 16px; background: transparent; border: none; cursor: pointer; padding: 0;">
+                                            🗑️
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-events-message" style="text-align: center; padding: 30px 20px;">
+                            <div style="font-size: 40px; margin-bottom: 15px;">🔔</div>
+                            <h3 style="color: var(--accent); margin-bottom: 10px;">No upcoming sessions</h3>
+                            <p>Plan and save study sessions to see them here.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="{{ url_for('study_plan.forms') }}" style="
+                        background-color: var(--accent);
+                        color: white;
+                        padding: 8px 15px;
+                        border-radius: 20px;
+                        text-decoration: none;
+                        display: inline-block;
+                        font-size: 14px;
+                        font-weight: 500;
+                        box-shadow: 0 3px 8px rgba(255, 133, 180, 0.3);
+                    ">
+                        Create New Study Plan
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Remove Study History Card and add Tools Quick Access -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">Study Tools</div>
+                    <div class="card-icon">🔧</div>
+                </div>
+                <div class="tools-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <a href="/bot" class="tool-item" style="text-decoration: none; color: inherit;">
+                        <div style="background-color: var(--pink-light); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🐱</div>
+                            <div style="font-weight: 500; margin-bottom: 5px;">Pawfessor</div>
+                            <div style="font-size: 12px; color: #888;">Learn with AI</div>
+                        </div>
+                    </a>
+                    <a href="/flashcardgenerator" class="tool-item" style="text-decoration: none; color: inherit;">
+                        <div style="background-color: var(--pink-light); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🗂️</div>
+                            <div style="font-weight: 500; margin-bottom: 5px;">Flashcards</div>
+                            <div style="font-size: 12px; color: #888;">Create & study</div>
+                        </div>
+                    </a>
+                    <a href="/exambot" class="tool-item" style="text-decoration: none; color: inherit;">
+                        <div style="background-color: var(--pink-light); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">😼</div>
+                            <div style="font-weight: 500; margin-bottom: 5px;">Clawdia</div>
+                            <div style="font-size: 12px; color: #888;">Analyze exams</div>
+                        </div>
+                    </a>
+                    <a href="/game" class="tool-item" style="text-decoration: none; color: inherit;">
+                        <div style="background-color: var(--pink-light); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎮</div>
+                            <div style="font-weight: 500; margin-bottom: 5px;">Games</div>
+                            <div style="font-size: 12px; color: #888;">Fun learning</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar Card - Now explicitly shows that it contains exam plans -->
+        <div class="dashboard-card calendar-card">
+            <div class="card-header">
+                <div class="card-title">Exam Plans Calendar</div>
+                <div class="card-icon">📅</div>
+            </div>
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <div class="month-select" id="current-month-year">May 2023</div>
+                    <div class="calendar-nav">
+                        <div class="calendar-nav-btn" id="prev-month">←</div>
+                        <div class="calendar-nav-btn" id="next-month">→</div>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar will be generated by JavaScript -->
+                </div>
+                <div style="padding: 15px; text-align: center; color: #888; font-size: 14px;">
+                    Plan your exams to see them on your calendar.
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Plans Section -->
+        <div class="section" id="study-plans-section">
+            <!--<h2>Your Study Plans</h2>-->
+            
+            <!-- Calendar View -->
+            <div class="calendar-container">
+                <div id="study-calendar"></div>
+            </div>
+            
+           
+
+    <script>
+        // Simple script to highlight the current day in the calendar
+        document.addEventListener('DOMContentLoaded', function() {
+            initCalendar();
+            
+            // Add event listeners for calendar navigation
+            document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
+            document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
+            
+            // Load any saved sessions from the server
+            loadSavedSessions();
+        });
+        
+        // Current date tracking
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        
+        // Empty events array - will be populated from server
+        const events = [];
+        
+        // Function to load saved sessions from server
+        function loadSavedSessions() {
+            // Here you would fetch the user's saved sessions
+            // For now we'll just leave it empty
+            
+            // Example of how to fetch:
+            /*
+            fetch('/api/user-sessions')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ongoing_sessions && data.ongoing_sessions.length > 0) {
+                        showOngoingSessions(data.ongoing_sessions);
+                    }
+                    
+                    if (data.upcoming_sessions && data.upcoming_sessions.length > 0 ) {
+                        showUpcomingSessions(data.upcoming_sessions);
+                    }
+                    
+                    if (data.events && data.events.length > 0) {
+                        events.push(...data.events);
+                        renderCalendar(currentMonth, currentYear);
+                    }
+                })
+                .catch(error => console.error('Error loading sessions:', error));
+            */
+        }
+        
+        function showOngoingSessions(sessions) {
+            const container = document.getElementById('ongoing-sessions');
+            container.innerHTML = ''; // Clear the container
+            
+            sessions.forEach(session => {
+                const sessionEl = document.createElement('div');
+                sessionEl.className = 'course-item';
+                sessionEl.innerHTML = `
+                    <div class="course-icon">${session.icon || '📚'}</div>
+                    <div class="course-info">
+                        <div class="course-name">${session.title}</div>
+                        <div class="course-progress">Last studied: ${session.last_studied}</div>
+                    </div>
+                    <div class="course-action">Resume</div>
+                `;
+                container.appendChild(sessionEl);
+            });
+        }
+        
+        function showUpcomingSessions(sessions) {
+            const container = document.getElementById('upcoming-events');
+            container.innerHTML = ''; // Clear the container
+            
+            sessions.forEach(session => {
+                const sessionDate = new Date(session.date);
+                const day = sessionDate.getDate();
+                const month = new Intl.DateTimeFormat('en', { month: 'short' }).format(sessionDate).toUpperCase();
+                
+                const sessionEl = document.createElement('div');
+                sessionEl.className = 'event-item';
+                sessionEl.innerHTML = `
+                    <div class="event-date">
+                        <div class="event-day">${day}</div>
+                        <div class="event-month">${month}</div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">${session.title}</div>
+                        <div class="event-time">${session.time}</div>
+                    </div>
+                `;
+                container.appendChild(sessionEl);
+            });
+        }
+        
+        // Function to load study plans status
+        function loadStudyPlansStatus() {
+            /* Comment out this API call until it's implemented
+            fetch('/api/study-plans-status')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Update ongoing plans
+                        const ongoingContainer = document.getElementById('ongoing-sessions');
+                        if (ongoingContainer && data.ongoing_plans.length > 0) {
+                            let ongoingHtml = '';
+                            data.ongoing_plans.forEach(plan => {
+                                ongoingHtml += `
+                                    <div class="course-item">
+                                        <div class="course-icon">📚</div>
+                                        <div class="course-info">
+                                            <div class="course-name">${plan.title}</div>
+                                            <div class="course-progress">Starts today! Exam date: ${plan.exam_date || 'Not set'}</div>
+                                        </div>
+                                        <a href="/studyplan/${plan.id}" class="course-action">Open</a>
+                                    </div>
+                                `;
+                            });
+                            ongoingContainer.innerHTML = ongoingHtml;
+                        }
+                        
+                        // Update upcoming plans
+                        const upcomingContainer = document.getElementById('upcoming-events');
+                        if (upcomingContainer && data.upcoming_plans.length > 0) {
+                            let upcomingHtml = '';
+                            data.upcoming_plans.slice(0, 3).forEach(plan => {
+                                const examDate = plan.exam_date ? new Date(plan.exam_date) : null;
+                                const day = examDate ? examDate.getDate() : 'N/A';
+                                const month = examDate ? examDate.toLocaleString('default', { month: 'short' }) : '';
+                                
+                                upcomingHtml += `
+                                    <a href="/studyplan/${plan.id}" style="text-decoration: none; color: inherit;">
+                                        <div class="event-item">
+                                            <div class="event-date">
+                                                <div class="event-day">${day}</div>
+                                                <div class="event-month">${month}</div>
+                                            </div>
+                                            <div class="event-details">
+                                                <div class="event-title">${plan.title}</div>
+                                                <div class="event-time">Exam date: ${plan.exam_date || 'Not set'}</div>
+                                                ${plan.prep_start_date ? `
+                                                <div class="event-meta" style="font-size: 11px; color: #999; margin-top: 3px;">
+                                                    Prep starts: ${plan.prep_start_date}
+                                                </div>` : ''}
+                                            </div>
+                                            <div class="event-action" style="margin-left: 8px; color: var(--accent);">→</div>
+                                        </div>
+                                    </a>
+                                `;
+                            });
+                            
+                            if (data.upcoming_plans.length > 3) {
+                                upcomingHtml += `
+                                    <div style="text-align: center; padding: 10px;">
+                                        <a href="/studyplan" style="color: var(--accent); text-decoration: none; font-size: 14px;">
+                                            + ${data.upcoming_plans.length - 3} more sessions
+                                        </a>
+                                    </div>
+                                `;
+                            }
+                            
+                            upcomingContainer.innerHTML = upcomingHtml;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading study plans status:', error);
+                });
+            */
+            console.log('Study plans status loading disabled until API is implemented');
+        }
+        
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existing code...
+            
+            // Load study plans status
+            loadStudyPlansStatus();
+        });
+    </script>
+
+    <!-- Add this to the bottom of the file, before the closing </body> tag -->
+    <script>
+        // Load FullCalendar for the study calendar if element exists
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar-grid');
+            if (calendarEl) {
+                try {
+                    // Load exam plans from the data passed by Flask
+                    window.examPlans = JSON.parse('{{ exam_plans|tojson }}' || '[]');
+                    
+                    // Generate calendar UI with exam plans
+                    generateCalendar(calendarEl);
+                    
+                    // Set up calendar navigation
+                    document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
+                    document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
+                } catch (e) {
+                    console.error('Error initializing calendar:', e);
+                }
+            }
+        });
+        
+        // Current date tracking for calendar
+        // Use the already declared currentDate, currentMonth, and currentYear if they exist
+        if (typeof currentDate === 'undefined') {
+            let currentDate = new Date();
+        }
+        if (typeof currentMonth === 'undefined') {
+            let currentMonth = currentDate.getMonth();
+        }
+        if (typeof currentYear === 'undefined') {
+            let currentYear = currentDate.getFullYear();
+        }
+        
+        function generateCalendar(element) {
+            // Update month/year display
+            document.getElementById('current-month-year').textContent = 
+                new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
+                    new Date(currentYear, currentMonth, 1)
+                );
+            
+            // Clear existing content
+            element.innerHTML = '';
+            
+            // Add day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                element.appendChild(dayHeader);
+            });
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day other-month';
+                element.appendChild(emptyDay);
+            }
+            
+            // Add cells for each day of the month
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                
+                // Add day number
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                dayCell.appendChild(dayNumber);
+                
+                // Check if this is today
+                if (day === today.getDate() && 
+                    currentMonth === today.getMonth() && 
+                    currentYear === today.getFullYear()) {
+                    dayCell.classList.add('today');
+                }
+                
+                // Check for exam plans on this day
+                const dateEvents = [];
+                if (window.examPlans && window.examPlans.length > 0) {
+                    window.examPlans.forEach(plan => {
+                        // Format could be 'YYYY-MM-DD' or a full date string
+                        const planDate = new Date(plan.exam_date);
+                        
+                        if (planDate.getDate() === day && 
+                            planDate.getMonth() === currentMonth && 
+                            planDate.getFullYear() === currentYear) {
+                        
+                            dateEvents.push(plan);
+                            dayCell.classList.add('has-event');
+                            
+                            // Add event indicator dot
+                            const eventDot = document.createElement('span');
+                            eventDot.className = 'event-dot';
+                            dayCell.appendChild(eventDot);
+                            
+                            // Add truncated event title
+                            const eventTitle = document.createElement('div');
+                            eventTitle.className = 'event-list';
+                            eventTitle.textContent = plan.title.length > 10 ? 
+                                plan.title.substring(0, 8) + '...' : plan.title;
+                            dayCell.appendChild(eventTitle);
+                        }
+                    });
+                }
+                
+                // Make clickable if it has events
+                if (dateEvents.length > 0) {
+                    dayCell.style.cursor = 'pointer';
+                    dayCell.addEventListener('click', () => {
+                        showExamDetails(dateEvents, day, currentMonth, currentYear);
+                    });
+                }
+                
+                element.appendChild(dayCell);
+            }
+            
+            // Add empty cells to fill the last week
+            const totalCells = firstDay + daysInMonth;
+            const remainingCells = 7 - (totalCells % 7 === 0 ? 0 : totalCells % 7);
+            if (remainingCells < 7) {
+                for (let i = 0; i < remainingCells; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'calendar-day other-month';
+                    element.appendChild(emptyDay);
+                }
+            }
+        }
+        
+        function changeMonth(delta) {
+            // Update current month and year
+            currentMonth += delta;
+            
+            // Handle year change
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            
+            // Regenerate calendar
+            generateCalendar(document.getElementById('calendar-grid'));
+        }
+        
+        // Update the generateCalendar function to use the new showExamDetails
+        function generateCalendar(element) {
+            // Update month/year display
+            document.getElementById('current-month-year').textContent = 
+                new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
+                    new Date(currentYear, currentMonth, 1)
+                );
+            
+            // Clear existing content
+            element.innerHTML = '';
+            
+            // Add day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                element.appendChild(dayHeader);
+            });
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day other-month';
+                element.appendChild(emptyDay);
+            }
+            
+            // Add cells for each day of the month
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                
+                // Add day number
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                dayCell.appendChild(dayNumber);
+                
+                // Check if this is today
+                if (day === today.getDate() && 
+                    currentMonth === today.getMonth() && 
+                    currentYear === today.getFullYear()) {
+                    dayCell.classList.add('today');
+                }
+                
+                // Check for exam plans on this day
+                const dateEvents = [];
+                if (window.examPlans && window.examPlans.length > 0) {
+                    window.examPlans.forEach(plan => {
+                        // Format could be 'YYYY-MM-DD' or a full date string
+                        const planDate = new Date(plan.exam_date);
+                        
+                        if (planDate.getDate() === day && 
+                            planDate.getMonth() === currentMonth && 
+                            planDate.getFullYear() === currentYear) {
+                        
+                            dateEvents.push(plan);
+                            dayCell.classList.add('has-event');
+                            
+                            // Add event indicator dot
+                            const eventDot = document.createElement('span');
+                            eventDot.className = 'event-dot';
+                            dayCell.appendChild(eventDot);
+                            
+                            // Add truncated event title
+                            const eventTitle = document.createElement('div');
+                            eventTitle.className = 'event-list';
+                            eventTitle.textContent = plan.title.length > 10 ? 
+                                plan.title.substring(0, 8) + '...' : plan.title;
+                            dayCell.appendChild(eventTitle);
+                        }
+                    });
+                }
+                
+                // Make clickable if it has events
+                if (dateEvents.length > 0) {
+                    dayCell.style.cursor = 'pointer';
+                    dayCell.addEventListener('click', () => {
+                        showExamDetails(dateEvents, day, currentMonth, currentYear);
+                    });
+                }
+                
+                element.appendChild(dayCell);
+            }
+            
+            // Add empty cells to fill the last week
+            const totalCells = firstDay + daysInMonth;
+            const remainingCells = 7 - (totalCells % 7 === 0 ? 0 : totalCells % 7);
+            if (remainingCells < 7) {
+                for (let i = 0; i < remainingCells; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'calendar-day other-month';
+                    element.appendChild(emptyDay);
+                }
+            }
+        }
+        
+        // Replace the existing createStudyPlanBtn event listener with this corrected version
+        // Add event listener for create study plan button
+        createStudyPlanBtn.addEventListener('click', () => {
+            const examId = createStudyPlanBtn.getAttribute('data-exam-id');
+            const examTitle = createStudyPlanBtn.getAttribute('data-exam-title');
+            
+            // Fix: Update the URL to match the correct endpoint in your application
+            window.location.href = `/planning?exam_id=${examId}&exam_title=${encodeURIComponent(examTitle)}`;
+            
+            // Alternative URLs if the above doesn't work:
+            // window.location.href = `/study_plan?exam_id=${examId}&exam_title=${encodeURIComponent(examTitle)}`;
+            // or
+            // window.location.href = `/exam-plan-creator?exam_id=${examId}&exam_title=${encodeURIComponent(examTitle)}`;
+        });
+
+        // Replace the existing showExamDetails function with this enhanced version
+        function showExamDetails(events, day, month, year) {
+            const modal = document.getElementById('examPlanModal');
+            const closeBtn = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const examInfo = document.getElementById('examInfo');
+            const createStudyPlanBtn = document.getElementById('createStudyPlan');
+            const createStudyRoomBtn = document.getElementById('createStudyRoom');
+            const deleteExamPlanBtn = document.getElementById('deleteExamPlan');
+            
+            // Multiple events handling
+            if (events.length > 1) {
+                modalTitle.textContent = `Exams on ${day}/${month+1}/${year}`;
+            } else {
+                modalTitle.textContent = events[0].title;
+            }
+            
+            // Clear previous content
+            examInfo.innerHTML = '';
+            
+            // We'll use the first event for single events, or create a list for multiple events
+            if (events.length === 1) {
+                const exam = events[0];
+                
+                // Format the date
+                const examDate = new Date(exam.exam_date);
+                const formattedDate = new Intl.DateTimeFormat('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }).format(examDate);
+                
+                // Create priority badge class
+                const priorityClass = `priority-${exam.priority ? exam.priority.toLowerCase() : 'medium'}`;
+                
+                // Populate exam details
+                examInfo.innerHTML = `
+                    <div class="exam-detail">
+                        <div class="detail-label">Exam Type:</div>
+                        <div class="detail-value">${exam.exam_type || 'Not specified'}</div>
+                    </div>
+                    <div class="exam-detail">
+                        <div class="detail-label">Priority:</div>
+                        <div class="detail-value">
+                            <span class="priority-badge ${priorityClass}">${exam.priority || 'Medium'}</span>
+                        </div>
+                    </div>
+                    <div class="exam-detail">
+                        <div class="detail-label">Exam Date:</div>
+                        <div class="detail-value">${formattedDate}</div>
+                    </div>
+                    ${exam.prep_start_date ? `
+                    <div class="exam-detail">
+                        <div class="detail-label">Prep Start:</div>
+                        <div class="detail-value">${new Date(exam.prep_start_date).toLocaleDateString()}</div>
+                    </div>` : ''}
+                    ${exam.study_goals ? `
+                    <div class="study-goals">
+                        <h4>Study Goals & Notes</h4>
+                        <p>${exam.study_goals}</p>
+                    </div>` : ''}
+                `;
+                
+                // Set up delete button with the exam ID
+                deleteExamPlanBtn.setAttribute('data-exam-id', exam.id);
+                
+                // Set up create buttons with the exam info
+                createStudyPlanBtn.setAttribute('data-exam-id', exam.id);
+                createStudyPlanBtn.setAttribute('data-exam-title', exam.title);
+                
+                createStudyRoomBtn.setAttribute('data-exam-title', exam.title);
+            } else {
+                // Multiple exams - create a list
+                let examsList = '<div style="max-height: 300px; overflow-y: auto; padding-right: 5px;">';
+                
+                events.forEach((exam, index) => {
+                    const priorityClass = `priority-${exam.priority ? exam.priority.toLowerCase() : 'medium'}`;
+                    
+                    examsList += `
+                        <div style="padding: 12px; margin-bottom: 10px; background-color: var(--pink-light); border-radius: 10px;">
+                            <h4 style="margin-bottom: 8px; color: var(--accent);">${exam.title}</h4>
+                            <div style="display: flex; font-size: 13px; margin-bottom: 5px;">
+                                <div style="width: 80px; color: #777;">Type:</div>
+                                <div>${exam.exam_type || 'Not specified'}</div>
+                            </div>
+                            <div style="display: flex; font-size: 13px; margin-bottom: 5px;">
+                                <div style="width: 80px; color: #777;">Priority:</div>
+                                <div><span class="priority-badge ${priorityClass}">${exam.priority || 'Medium'}</span></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                                <button class="modal-btn btn-secondary view-exam-btn" 
+                                        style="font-size: 12px; padding: 5px 10px;"
+                                        data-index="${index}">View Details</button>
+                                <button class="modal-btn btn-danger delete-exam-btn" 
+                                        style="font-size: 12px; padding: 5px 10px;"
+                                        data-exam-id="${exam.id}">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                examsList += '</div>';
+                examInfo.innerHTML = examsList;
+                
+                // Hide the main action buttons for multi-exam view
+                document.querySelector('.modal-actions').style.display = 'none';
+                
+                // Add event listeners to the view and delete buttons in each exam item
+                document.querySelectorAll('.view-exam-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        showExamDetails([events[index]], day, month, year);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-exam-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const examId = this.getAttribute('data-exam-id');
+                        if (confirm('Are you sure you want to delete this exam plan?')) {
+                            deleteExamPlan(examId);
+                        }
+                    });
+                });
+            }
+            
+            // Show the modal
+            modal.classList.add('active');
+            
+            // Close modal when clicking the close button
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                // Show action buttons again (might be hidden in multi-exam view)
+                document.querySelector('.modal-actions').style.display = 'flex';
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    // Show action buttons again (might be hidden in multi-exam view)
+                    document.querySelector('.modal-actions').style.display = 'flex';
+                }
+            });
+            
+            // Add event listener for delete button
+            deleteExamPlanBtn.addEventListener('click', () => {
+                const examId = deleteExamPlanBtn.getAttribute('data-exam-id');
+                if (confirm('Are you sure you want to delete this exam plan?')) {
+                    deleteExamPlan(examId);
+                }
+            });
+            
+            // Add event listener for create study plan button
+            createStudyPlanBtn.addEventListener('click', () => {
+                const examId = createStudyPlanBtn.getAttribute('data-exam-id');
+                const examTitle = createStudyPlanBtn.getAttribute('data-exam-title');
+                
+                // Fix: Update the URL to match the correct endpoint in your application
+                window.location.href = `/planning?exam_id=${examId}&exam_title=${encodeURIComponent(examTitle)}`;
+                
+                // Alternative URLs if the above doesn't work:
+                // window.location.href = `/study_plan?exam_id=${examId}&exam_title=${encodeURIComponent(examTitle)}`;
+                // or
+                // window.location.href = `/exam-plan-creator?exam_id=${examId}&exam_title=${encodeURIComponent(examTitle)}`;
+            });
+            
+            // Add event listener for create study room button
+            createStudyRoomBtn.addEventListener('click', () => {
+                const examTitle = createStudyRoomBtn.getAttribute('data-exam-title');
+                window.location.href = `/create-room?room_name=${encodeURIComponent(`Study for ${examTitle}`)}`;
+            });
+        }
+        
+        // Function to delete an exam plan
+        function deleteExamPlan(examId) {
+            // Send DELETE request to the server
+            fetch(`/delete-exam-plan/${examId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCsrfToken() // You'll need to implement this function to get the CSRF token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Close the modal
+                    document.getElementById('examPlanModal').classList.remove('active');
+                    
+                    // Refresh the page to show updated calendar
+                    window.location.reload();
+                } else {
+                    alert('Failed to delete exam plan. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting exam plan:', error);
+                alert('An error occurred while deleting the exam plan.');
+            });
+        }
+        
+        // Helper function to get CSRF token from meta tag
+        function getCsrfToken() {
+            // Flask-WTF puts the CSRF token in a meta tag
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            if (meta) {
+                return meta.getAttribute('content');
+            }
+            // Fallback to session cookie (Flask-WTF uses 'csrf_token' not 'csrftoken')
+            const name = 'csrf_token';
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // ...existing code...
+    </script>
+
+    <!-- Add this modal HTML right before the closing </body> tag -->
+    <div class="modal-overlay" id="examPlanModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">×</button>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Exam Plan Details</h3>
+            </div>
+            <div class="exam-info" id="examInfo">
+                <!-- Exam details will be populated dynamically -->
+            </div>
+            <div class="modal-actions">
+                <div class="action-group">
+                    <a href="{{ url_for('study_plan.forms') }}" class="modal-btn btn-secondary" id="createStudyPlan" style="text-decoration: none;">Create Study Plan</a>
+                    <button class="modal-btn btn-secondary" id="createStudyRoom">Create Study Room</button>
+                </div>
+                <button class="modal-btn btn-danger" id="deleteExamPlan">Delete</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

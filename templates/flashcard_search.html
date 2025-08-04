@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% block title %}Search Flashcards - Purrfect{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4">Search Your Flashcard Library</h1>
+    
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="searchQuery" class="form-label">Search Query</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchQuery" placeholder="Enter your search question...">
+                    <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="topicFilter" class="form-label">Topic</label>
+                    <select class="form-select" id="topicFilter">
+                        <option value="" selected>All Topics</option>
+                        {% for topic in topics %}
+                        <option value="{{ topic }}">{{ topic }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label for="cardTypeFilter" class="form-label">Card Type</label>
+                    <select class="form-select" id="cardTypeFilter">
+                        <option value="" selected>All Types</option>
+                        {% for card_type in card_types %}
+                        <option value="{{ card_type }}">
+                            {% if card_type == 'qna' %}Question & Answer
+                            {% elif card_type == 'definition' %}Term & Definition
+                            {% elif card_type == 'bullet' %}Concept & Bullets
+                            {% else %}{{ card_type }}
+                            {% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label for="searchType" class="form-label">Search Method</label>
+                    <select class="form-select" id="searchType">
+                        <option value="semantic" selected>Semantic</option>
+                        <option value="hybrid">Hybrid (Semantic + Keyword)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Area -->
+    <div id="resultsArea" class="d-none">
+        <h2>Search Results <span id="resultCount" class="badge bg-primary">0</span></h2>
+        
+        <div id="noResults" class="alert alert-info d-none">
+            No flashcards found matching your search criteria.
+        </div>
+        
+        <div id="searchResults" class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+            <!-- Results will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<!-- Flashcard Template -->
+<template id="flashcard-template">
+    <div class="col">
+        <div class="card h-100 flashcard" data-score="">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="badge bg-primary card-type"></span>
+                <span class="badge bg-secondary topic"></span>
+            </div>
+            <div class="card-body">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h5 class="card-title front-content"></h5>
+                    </div>
+                    <div class="flashcard-back d-none">
+                        <div class="card-text back-content"></div>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary mt-3 flip-btn">Flip Card</button>
+            </div>
+            <div class="card-footer text-muted">
+                <small>Relevance: <span class="score"></span></small>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- Styles for flashcards -->
+<style>
+    .flashcard {
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .flashcard:hover {
+        transform: translateY(-5px);
+    }
+    
+    .flashcard-inner {
+        min-height: 180px;
+    }
+</style>
+
+<!-- JavaScript for search functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchButton = document.getElementById('searchButton');
+        const resultsArea = document.getElementById('resultsArea');
+        const searchResults = document.getElementById('searchResults');
+        const noResults = document.getElementById('noResults');
+        const resultCount = document.getElementById('resultCount');
+        const flashcardTemplate = document.getElementById('flashcard-template');
+        
+        searchButton.addEventListener('click', performSearch);
+        
+        // Also search when Enter is pressed in the search box
+        document.getElementById('searchQuery').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        function performSearch() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (!query) {
+                alert('Please enter a search query');
+                return;
+            }
+            
+            // Get filter values
+            const topic = document.getElementById('topicFilter').value;
+            const cardType = document.getElementById('cardTypeFilter').value;
+            const searchType = document.getElementById('searchType').value;
+            
+            // Prepare request data
+            const requestData = {
+                query: query,
+                search_type: searchType,
+                top_k: 10
+            };
+            
+            // Add filters if selected
+            if (topic) requestData.topic = topic;
+            if (cardType) requestData.card_type = cardType;
+            
+            // Show loading state
+            searchButton.disabled = true;
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Searching...';
+            
+            // Perform API call
+            fetch('/api/search-flashcards', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Clear previous results
+                searchResults.innerHTML = '';
+                
+                if (data.success && data.results && data.results.length > 0) {
+                    // Show results area
+                    resultsArea.classList.remove('d-none');
+                    noResults.classList.add('d-none');
+                    
+                    // Update count
+                    resultCount.textContent = data.count;
+                    
+                    // Render each flashcard
+                    data.results.forEach(renderFlashcard);
+                } else {
+                    // Show no results message
+                    resultsArea.classList.remove('d-none');
+                    noResults.classList.remove('d-none');
+                    resultCount.textContent = '0';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while searching. Please try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                searchButton.disabled = false;
+                searchButton.innerHTML = 'Search';
+            });
+        }
+        
+        function renderFlashcard(result) {
+            // Clone template
+            const flashcardNode = flashcardTemplate.content.cloneNode(true);
+            const flashcard = flashcardNode.querySelector('.flashcard');
+            
+            // Set data attributes
+            flashcard.setAttribute('data-score', result.score.toFixed(2));
+            
+            // Set content based on card type
+            const cardType = flashcard.querySelector('.card-type');
+            const topic = flashcard.querySelector('.topic');
+            const frontContent = flashcard.querySelector('.front-content');
+            const backContent = flashcard.querySelector('.back-content');
+            const score = flashcard.querySelector('.score');
+            
+            // Set metadata
+            cardType.textContent = getReadableCardType(result.card_type);
+            topic.textContent = result.topic;
+            score.textContent = result.score.toFixed(2);
+            
+            // Set card content
+            frontContent.textContent = result.card_front;
+            
+            // Handle different card types for the back content
+            if (result.card_type === 'bullet' && Array.isArray(result.raw_data?.bullets)) {
+                const bulletList = document.createElement('ul');
+                result.raw_data.bullets.forEach(bullet => {
+                    const li = document.createElement('li');
+                    li.textContent = bullet;
+                    bulletList.appendChild(li);
+                });
+                backContent.innerHTML = '';
+                backContent.appendChild(bulletList);
+            } else {
+                backContent.textContent = result.card_back;
+            }
+            
+            // Add flip functionality
+            const flipBtn = flashcard.querySelector('.flip-btn');
+            const flashcardFront = flashcard.querySelector('.flashcard-front');
+            const flashcardBack = flashcard.querySelector('.flashcard-back');
+            
+            flipBtn.addEventListener('click', function() {
+                flashcardFront.classList.toggle('d-none');
+                flashcardBack.classList.toggle('d-none');
+                
+                if (flashcardFront.classList.contains('d-none')) {
+                    flipBtn.textContent = 'Show Question';
+                } else {
+                    flipBtn.textContent = 'Flip Card';
+                }
+            });
+            
+            // Append to results
+            searchResults.appendChild(flashcardNode);
+        }
+        
+        function getReadableCardType(type) {
+            switch (type) {
+                case 'qna': return 'Q&A';
+                case 'definition': return 'Definition';
+                case 'bullet': return 'Concept';
+                default: return type;
+            }
+        }
+    });
+</script>
+{% endblock %}
