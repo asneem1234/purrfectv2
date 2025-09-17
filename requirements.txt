@@ -58,11 +58,8 @@ bcrypt==4.0.1
 tqdm==4.65.0  # Progress bars
 youtube-transcript-api==0.6.1
 
-# Removed the following heavy ML dependencies:
-# - torch and related CUDA packages
-# - transformers
-# - huggingface-hub
-# - sentence-transformers
-# - onnxruntime
-# - chromadb and chroma-hnswlib
-# - other heavy ML libraries
+# ML Mocks
+# We'll create mock versions of these modules locally
+# sentence-transformers
+# transformers
+# torch
