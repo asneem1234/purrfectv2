@@ -20,7 +20,7 @@ import google.generativeai as genai
 import numpy as np
 
 # RAG dependencies
-from sentence_transformers import SentenceTransformer
+from utils.model_loader import get_embedding_model
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as qdrant_models
 from qdrant_client.http.models import PointStruct
@@ -34,13 +34,9 @@ study_plan = Blueprint('study_plan', __name__)
 # Initialize logging
 logger = logging.getLogger(__name__)
 
-# Initialize sentence transformer model for embeddings
-try:
-    embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-    logger.info("Sentence transformer model loaded successfully")
-except Exception as e:
-    logger.error(f"Error loading sentence transformer model: {e}")
-    embedding_model = None
+# We'll use lazy loading for the embedding model
+logger.info("Using lazy-loading for sentence transformer model")
+embedding_model = None  # Will be loaded on first use
 
 # Initialize Qdrant client (will be None if env vars not available)
 try:
@@ -66,11 +62,9 @@ def get_collection_name(user_id):
 
 def create_embedding(text):
     """Create embedding for text using sentence-transformers"""
-    if embedding_model is None:
-        logger.warning("Embedding model not available. Cannot create embeddings.")
-        return None
-    
     try:
+        # Get the embedding model with lazy loading
+        embedding_model = get_embedding_model()
         embedding = embedding_model.encode(text)
         return embedding.tolist()
     except Exception as e:

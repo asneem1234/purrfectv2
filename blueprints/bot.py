@@ -10,7 +10,8 @@ import json
 import traceback
 import google.generativeai as genai
 import requests
-from sentence_transformers import SentenceTransformer, CrossEncoder
+# Import the model loader utility instead of loading directly
+from utils.model_loader import get_embedding_model, get_cross_encoder
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from qdrant_client.http.models import PointStruct, Filter, FieldCondition, MatchValue
@@ -79,17 +80,11 @@ except Exception as e:
 
 # Initialize embedding models
 try:
-    # Main embedding model for semantic search
-    embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-    
-    # Cross-encoder for re-ranking
-    cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
-    
-    logger.info("Embedding models loaded successfully")
+    # We don't load models here anymore - they will be loaded on first use
+    # This helps reduce memory usage during startup
+    logger.info("Using lazy-loading for embedding models")
 except Exception as e:
-    embedding_model = None
-    cross_encoder = None
-    logger.error(f"Failed to load embedding models: {str(e)}")
+    logger.error(f"Failed to setup model loader: {str(e)}")
 
 # Helper functions for bot functionality
 
@@ -1252,7 +1247,7 @@ def insert_chat_entry(
     Returns:
         bool: True if successful, False otherwise
     """
-    if not qdrant_client or not embedding_model:
+    if not qdrant_client:
         # Fallback to in-memory storage if Qdrant not available
         if user_id not in conversation_contexts:
             conversation_contexts[user_id] = {"messages": []}
@@ -1263,7 +1258,25 @@ def insert_chat_entry(
             "timestamp": datetime.datetime.now().isoformat()
         })
         
-        logger.warning("Using in-memory storage due to missing Qdrant or embedding model")
+        logger.warning("Using in-memory storage due to missing Qdrant")
+        return False
+    
+    try:
+        # Try to get the embedding model
+        embedding_model = get_embedding_model()
+    except Exception as e:
+        logger.error(f"Failed to load embedding model: {str(e)}")
+        # Fallback to in-memory storage
+        if user_id not in conversation_contexts:
+            conversation_contexts[user_id] = {"messages": []}
+        
+        conversation_contexts[user_id]["messages"].append({
+            "role": role,
+            "message": message,
+            "timestamp": datetime.datetime.now().isoformat()
+        })
+        
+        logger.warning("Using in-memory storage due to embedding model error")
         return False
     
     collection_name = f"chat_{user_id}"
@@ -1350,8 +1363,15 @@ def semantic_search_chat(
     Returns:
         List of relevant chat messages
     """
-    if not qdrant_client or not embedding_model:
-        logger.warning("Cannot perform semantic search - missing Qdrant or embedding model")
+    if not qdrant_client:
+        logger.warning("Cannot perform semantic search - missing Qdrant")
+        return []
+    
+    try:
+        # Try to get the embedding model
+        embedding_model = get_embedding_model()
+    except Exception as e:
+        logger.error(f"Failed to load embedding model for search: {str(e)}")
         return []
     
     collection_name = f"chat_{user_id}"
@@ -1562,22 +1582,29 @@ def ultra_rag_retrieve(
             return []
             
         # Step 2: Apply cross-encoder reranking for better precision
-        if cross_encoder and len(hybrid_results) > 1:
-            # Prepare passages and query
-            passages = [result["message"] for result in hybrid_results]
+        try:
+            # Try to get the cross-encoder model
+            cross_encoder = get_cross_encoder()
             
-            # Create query-passage pairs for the cross-encoder
-            query_passage_pairs = [[query, passage] for passage in passages]
-            
-            # Get cross-encoder scores
-            cross_scores = cross_encoder.predict(query_passage_pairs)
-            
-            # Assign cross-encoder scores to results
-            for i, score in enumerate(cross_scores):
-                hybrid_results[i]["cross_score"] = float(score)
-            
-            # Re-rank results based on cross-encoder scores
-            hybrid_results.sort(key=lambda x: x["cross_score"], reverse=True)
+            if len(hybrid_results) > 1:
+                # Prepare passages and query
+                passages = [result["message"] for result in hybrid_results]
+                
+                # Create query-passage pairs for the cross-encoder
+                query_passage_pairs = [[query, passage] for passage in passages]
+                
+                # Get cross-encoder scores
+                cross_scores = cross_encoder.predict(query_passage_pairs)
+                
+                # Assign cross-encoder scores to results
+                for i, score in enumerate(cross_scores):
+                    hybrid_results[i]["cross_score"] = float(score)
+                
+                # Re-rank results based on cross-encoder scores
+                hybrid_results.sort(key=lambda x: x["cross_score"], reverse=True)
+        except Exception as e:
+            logger.warning(f"Cross-encoder reranking failed: {str(e)}")
+            # Continue without reranking
         
         # Step 3: Select top context chunks
         final_results = hybrid_results[:top_k]
@@ -1849,22 +1876,17 @@ def save_chat_history(user_id: Union[str, int]) -> Dict:
                     )
                 
                 # Generate embedding for the summary
-                if not embedding_model:
-                    logger.error("Embedding model not initialized, cannot create vector for summary")
+                try:
+                    # Try to get the embedding model
+                    embedding_model = get_embedding_model()
+                    summary_embedding = embedding_model.encode(chat_summary).tolist()
+                except Exception as embed_err:
+                    logger.error(f"Error generating embedding: {str(embed_err)}")
                     # Use a random vector as a placeholder if no embedding model
                     # This is a fallback to at least store the summary text
                     import random
                     summary_embedding = [random.uniform(-1, 1) for _ in range(384)]
                     logger.warning("Using random vector as placeholder for embedding")
-                else:
-                    try:
-                        summary_embedding = embedding_model.encode(chat_summary).tolist()
-                    except Exception as embed_err:
-                        logger.error(f"Error generating embedding: {str(embed_err)}")
-                        # Use a random vector as a placeholder
-                        import random
-                        summary_embedding = [random.uniform(-1, 1) for _ in range(384)]
-                        logger.warning("Using random vector as placeholder due to embedding error")
                 
                 # Extract potential topics from the summary
                 topic_prompt = f"""
@@ -2003,7 +2025,12 @@ def save_chat():
                 qdrant_status = "not_initialized"
             
             # Check if embedding model is available
-            embedding_status = "available" if embedding_model else "unavailable"
+            try:
+                # Try to load the model but don't actually use it
+                get_embedding_model()
+                embedding_status = "available"
+            except Exception:
+                embedding_status = "unavailable"
             
             # Log diagnostic info
             logger.info(f"Save chat attempt - Qdrant: {qdrant_status}, Embedding: {embedding_status}, User: {current_user.id}")
