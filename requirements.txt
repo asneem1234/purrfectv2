@@ -35,8 +35,17 @@ numpy==1.24.3
 pandas==2.0.3
 pydantic==1.10.8
 
+# ML/AI dependencies (lightweight versions)
+# Using CPU-only versions to avoid CUDA dependencies
+transformers>=4.35.0,<4.36.0
+sentence-transformers>=2.2.2,<2.3.0
+torch==2.0.1+cpu
+torchvision==0.15.2+cpu
+torchaudio==2.0.2+cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 # API & Services
-google-generativeai==0.3.1  # Lightweight Google Gemini API
+google-generativeai==0.3.1
 
 # Vector Storage (Qdrant client only, not the full server)
 qdrant-client==1.6.1
@@ -55,11 +64,5 @@ certifi==2025.8.3
 charset-normalizer==3.3.2
 typing-extensions==4.7.1
 bcrypt==4.0.1
-tqdm==4.65.0  # Progress bars
+tqdm==4.65.0
 youtube-transcript-api==0.6.1
-
-# ML Mocks
-# We'll create mock versions of these modules locally
-# sentence-transformers
-# transformers
-# torch
