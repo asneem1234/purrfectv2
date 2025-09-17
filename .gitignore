@@ -34,7 +34,7 @@ flask_session/
 uploads/
 
 # Render/Deployment
-runtime.txt
+# Removed runtime.txt from ignore list
 
 # Misc
 *.bak

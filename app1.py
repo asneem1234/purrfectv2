@@ -1,5 +1,6 @@
-from gevent import monkey
-monkey.patch_all()
+# Use eventlet for async handling
+import eventlet
+eventlet.monkey_patch()
 from flask import Flask, session, redirect, url_for, render_template, request, flash, jsonify, g
 import os
 import tempfile
