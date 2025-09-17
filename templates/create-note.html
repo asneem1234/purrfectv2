@@ -651,6 +651,7 @@
                 <button id="ai-select-btn" style="background:#f472b6;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-family:'Patrick Hand',cursive;cursor:pointer;margin-bottom:10px;">Select Content</button>
                 <div id="ai-selected-preview" style="min-height:32px;color:#a555b6;font-size:1em;margin-bottom:8px;"></div>
                 <form id="ai-form-select" style="display:flex;gap:8px;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input id="ai-input-select" type="text" placeholder="Ask about the selected content..." style="flex:1;border-radius:8px;border:1.5px solid #f472b6;padding:8px 12px;font-size:1em;font-family:'Patrick Hand',cursive;outline:none;" autocomplete="off" />
                     <button type="submit" style="background:#f472b6;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:1em;cursor:pointer;font-family:'Patrick Hand',cursive;">Send</button>
                 </form>
@@ -659,6 +660,7 @@
             <div id="ai-generate-content" class="ai-mode-panel" style="display:none;">
                 <div style="margin-bottom:10px;color:#b983ff;font-family:'Patrick Hand',cursive;font-size:1.05em;">Type a topic or select a PDF to generate notes or summaries.</div>
                 <form id="ai-form-generate" style="display:flex;gap:8px;margin-bottom:8px;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input id="ai-input-generate" type="text" placeholder="Enter topic (e.g. Quantum Physics)" style="flex:2;border-radius:8px;border:1.5px solid #b983ff;padding:8px 12px;font-size:1em;font-family:'Patrick Hand',cursive;outline:none;" autocomplete="off" />
                     <label style="background:#f3e6ef;color:#b983ff;border-radius:8px;padding:8px 12px;font-family:'Patrick Hand',cursive;cursor:pointer;flex:1;text-align:center;">
                         <input id="ai-pdf-input" type="file" accept="application/pdf" style="display:none;" />

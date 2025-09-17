@@ -1107,6 +1107,8 @@
             white-space: pre-wrap;
         }
     </style>
+    <!-- Include security utilities script -->
+    <script src="{{ url_for('static', filename='js/security-utils.js') }}"></script>
 </head>
 <body>
     <!-- Sidebar -->
@@ -1378,25 +1380,39 @@
             // Here you would fetch the user's saved sessions
             // For now we'll just leave it empty
             
-            // Example of how to fetch:
+            // Example of how to fetch using secure AJAX:
             /*
-            fetch('/api/user-sessions')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ongoing_sessions && data.ongoing_sessions.length > 0) {
-                        showOngoingSessions(data.ongoing_sessions);
-                    }
-                    
-                    if (data.upcoming_sessions && data.upcoming_sessions.length > 0 ) {
-                        showUpcomingSessions(data.upcoming_sessions);
-                    }
-                    
-                    if (data.events && data.events.length > 0) {
-                        events.push(...data.events);
-                        renderCalendar(currentMonth, currentYear);
+            if (window.securityUtils && window.securityUtils.secureAjax) {
+                window.securityUtils.secureAjax('/api/user-sessions')
+                    .then(data => {
+                        if (data.ongoing_sessions && data.ongoing_sessions.length > 0) {
+                            showOngoingSessions(data.ongoing_sessions);
+                        }
+                        
+                        if (data.upcoming_sessions && data.upcoming_sessions.length > 0 ) {
+                            showUpcomingSessions(data.upcoming_sessions);
+                        }
+                        
+                        if (data.events && data.events.length > 0) {
+                            events.push(...data.events);
+                            renderCalendar(currentMonth, currentYear);
+                        }
+                    })
+                    .catch(error => console.error('Error loading sessions:', error));
+            } else {
+                // Fallback to standard fetch with CSRF token
+                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                fetch('/api/user-sessions', {
+                    headers: {
+                        'X-CSRFToken': token || ''
                     }
                 })
+                .then(response => response.json())
+                .then(data => {
+                    // Process data...
+                })
                 .catch(error => console.error('Error loading sessions:', error));
+            }
             */
         }
         

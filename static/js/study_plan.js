@@ -14,23 +14,45 @@ function saveStudyPlan(studyPlanData) {
             return;
         }
         
-        // Send to the server
-        fetch('/api/save_study_plan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(studyPlanData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Save response:', data);
-            resolve(data);
-        })
-        .catch(error => {
-            console.error('Error saving study plan:', error);
-            reject(error);
-        });
+        // Use our secure AJAX utility to include CSRF token
+        if (window.securityUtils && window.securityUtils.secureAjax) {
+            // Use the secure AJAX utility
+            window.securityUtils.secureAjax('/api/save_study_plan', {
+                method: 'POST',
+                body: JSON.stringify(studyPlanData)
+            })
+            .then(data => {
+                console.log('Save response:', data);
+                resolve(data);
+            })
+            .catch(error => {
+                console.error('Error saving study plan:', error);
+                reject(error);
+            });
+        } else {
+            // Fallback to standard fetch with manual CSRF token
+            // Get CSRF token from meta tag
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            
+            // Send to the server
+            fetch('/api/save_study_plan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': token || '' // Include CSRF token if available
+                },
+                body: JSON.stringify(studyPlanData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Save response:', data);
+                resolve(data);
+            })
+            .catch(error => {
+                console.error('Error saving study plan:', error);
+                reject(error);
+            });
+        }
     });
 }
 

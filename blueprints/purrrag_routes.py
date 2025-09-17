@@ -3,6 +3,7 @@ Routes for RAG functionality in the Purrfect application.
 """
 import json
 import datetime
+import os
 from flask import Blueprint, request, jsonify, current_app, g
 from flask_login import login_required, current_user
 from models import RAGIngestEvent, RAGUsageLog, User, db
@@ -17,27 +18,25 @@ from utils.gemini_utils import get_gemini_model
 # Create blueprint
 purrrag_bp = Blueprint('purrrag', __name__)
 
-# Create a decorator to disable CSRF for specific routes
-def csrf_exempt(view_function):
-    """Decorator to exempt a route from CSRF protection"""
-    def decorated_function(*args, **kwargs):
-        # Set a flag in g to indicate this request should skip CSRF
-        g._csrf_exempt = True
-        return view_function(*args, **kwargs)
+# Helper function to verify API key for server-to-server communication
+def verify_api_key():
+    """Verify API key for server-to-server communication"""
+    api_key = request.headers.get('X-API-Key')
+    expected_key = os.environ.get('SERVER_API_KEY')
     
-    # Preserve the endpoint name to avoid conflicts
-    decorated_function.__name__ = view_function.__name__
-    # Copy other attributes to preserve Flask's introspection
-    decorated_function.__module__ = view_function.__module__
-    decorated_function.__doc__ = view_function.__doc__
-    if hasattr(view_function, '__annotations__'):
-        decorated_function.__annotations__ = view_function.__annotations__
-    
-    return decorated_function
+    # If running in development environment without a key set, allow localhost
+    if not expected_key and request.remote_addr in ['127.0.0.1', 'localhost']:
+        current_app.logger.warning("WARNING: Allowing server-to-server RAG API call without API key in development")
+        return True
+        
+    # For production or if key is set, require valid API key
+    if not api_key or api_key != expected_key:
+        current_app.logger.error(f"Unauthorized RAG API access attempt from {request.remote_addr}")
+        return False
+        
+    return True
 
 @purrrag_bp.route('/ingest', methods=['POST'])
-@csrf_exempt
-@login_required
 def ingest_text():
     """
     Ingest text into the RAG system.
@@ -46,6 +45,16 @@ def ingest_text():
     - source: where the text came from (chat, notes, study_plan)
     - content_id: optional ID of the source content
     """
+    # Check for API key for server-to-server communication
+    if request.headers.get('X-API-Key'):
+        # If this is a server-to-server call, verify the API key
+        if not verify_api_key():
+            return jsonify({'error': 'Unauthorized'}), 401
+    else:
+        # For normal user requests, require login
+        if not current_user.is_authenticated:
+            return jsonify({'error': 'Authentication required'}), 401
+    
     try:
         data = request.get_json()
         
@@ -56,9 +65,23 @@ def ingest_text():
         source = data['source']
         content_id = data.get('content_id', '')
         
-        # Check if RAG is enabled for user
-        if not current_user.rag_enabled:
-            return jsonify({'error': 'RAG is not enabled for this user'}), 403
+        # Get user_id from current_user or from request data
+        if current_user.is_authenticated:
+            user_id = current_user.id
+        else:
+            # For server-to-server calls, allow specifying user_id
+            user_id = data.get('user_id')
+            if not user_id:
+                return jsonify({'error': 'Missing user_id for API call'}), 400
+            
+            # Verify user exists
+            user = User.query.get(user_id)
+            if not user:
+                return jsonify({'error': 'Invalid user_id'}), 400
+                
+            # Check if RAG is enabled for user
+            if not user.rag_enabled:
+                return jsonify({'error': 'RAG is not enabled for this user'}), 403
         
         # Split text into chunks
         chunks = split_text(text)
@@ -124,8 +147,6 @@ def ingest_text():
         return jsonify({'error': str(e)}), 500
 
 @purrrag_bp.route('/query', methods=['POST'])
-@csrf_exempt
-@login_required
 def query_rag():
     """
     Query the RAG system.
@@ -133,6 +154,16 @@ def query_rag():
     - query: the question or query
     - context: optional additional context
     """
+    # Check for API key for server-to-server communication
+    if request.headers.get('X-API-Key'):
+        # If this is a server-to-server call, verify the API key
+        if not verify_api_key():
+            return jsonify({'error': 'Unauthorized'}), 401
+    else:
+        # For normal user requests, require login
+        if not current_user.is_authenticated:
+            return jsonify({'error': 'Authentication required'}), 401
+    
     try:
         data = request.get_json()
         
@@ -142,8 +173,23 @@ def query_rag():
         query = data['query']
         context = data.get('context', '')
         
+        # Get user_id from current_user or from request data
+        if current_user.is_authenticated:
+            user_id = current_user.id
+            user = current_user
+        else:
+            # For server-to-server calls, allow specifying user_id
+            user_id = data.get('user_id')
+            if not user_id:
+                return jsonify({'error': 'Missing user_id for API call'}), 400
+            
+            # Verify user exists
+            user = User.query.get(user_id)
+            if not user:
+                return jsonify({'error': 'Invalid user_id'}), 400
+        
         # Check if RAG is enabled for user
-        if not current_user.rag_enabled:
+        if not user.rag_enabled:
             return jsonify({'error': 'RAG is not enabled for this user'}), 403
         
         # Create embedding for query
@@ -245,21 +291,44 @@ def query_rag():
         return jsonify({'error': str(e)}), 500
 
 @purrrag_bp.route('/progress', methods=['GET'])
-@csrf_exempt
-@login_required
 def get_rag_progress():
     """
     Get RAG usage statistics and progress for a user.
     """
+    # Check for API key for server-to-server communication
+    if request.headers.get('X-API-Key'):
+        # If this is a server-to-server call, verify the API key
+        if not verify_api_key():
+            return jsonify({'error': 'Unauthorized'}), 401
+    else:
+        # For normal user requests, require login
+        if not current_user.is_authenticated:
+            return jsonify({'error': 'Authentication required'}), 401
+    
     try:
+        # Get user_id from current_user or from request data
+        if current_user.is_authenticated:
+            user_id = current_user.id
+            user = current_user
+        else:
+            # For server-to-server calls, allow specifying user_id
+            user_id = request.args.get('user_id')
+            if not user_id:
+                return jsonify({'error': 'Missing user_id for API call'}), 400
+            
+            # Verify user exists
+            user = User.query.get(user_id)
+            if not user:
+                return jsonify({'error': 'Invalid user_id'}), 400
+        
         # Get ingest events
         ingest_events = RAGIngestEvent.query.filter_by(
-            user_id=current_user.id
+            user_id=user_id
         ).order_by(RAGIngestEvent.created_at.desc()).limit(50).all()
         
         # Get usage logs
         usage_logs = RAGUsageLog.query.filter_by(
-            user_id=current_user.id
+            user_id=user_id
         ).order_by(RAGUsageLog.created_at.desc()).limit(50).all()
         
         # Calculate statistics
@@ -295,14 +364,14 @@ def get_rag_progress():
             current_app.logger.error(f"Error getting collection stats: {str(e)}")
         
         return jsonify({
-            'rag_enabled': current_user.rag_enabled,
+            'rag_enabled': user.rag_enabled,
             'short_term': {
                 'count': short_term_count,
-                'quota': current_user.rag_short_term_quota
+                'quota': user.rag_short_term_quota
             },
             'long_term': {
                 'count': long_term_count,
-                'quota': current_user.rag_long_term_quota
+                'quota': user.rag_long_term_quota
             },
             'ingest_by_source': ingest_by_source,
             'usage_by_type': usage_by_type,

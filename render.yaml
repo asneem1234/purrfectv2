@@ -3,12 +3,28 @@ services:
     name: purrfect-study-buddy
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    startCommand: "gunicorn app1:socketio.run --worker-class eventlet --bind=0.0.0.0:$PORT"
     autoDeploy: true
     envVars:
       - key: FLASK_APP
-        value: app.py
+        value: app1.py
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
         generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: purrfect-db
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: SERVER_API_KEY
+        generateValue: true
+
+databases:
+  - name: purrfect-db
+    databaseName: purrfect
+    user: purrfect_user
+    plan: free

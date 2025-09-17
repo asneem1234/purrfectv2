@@ -1,6 +1,0 @@
--- database: ./app.db
-
--- Use the ▷ button in the top right corner to run the entire file.
-
-DELETE FROM study_plan
-WHERE rowid NOT IN (1,2);

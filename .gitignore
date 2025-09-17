@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env*
+
+# Jupyter Notebooks
+*.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Flask/Session
+instance/
+flask_session/
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# Uploads
+uploads/
+
+# Render/Deployment
+runtime.txt
+
+# Misc
+*.bak
+*.swp
+*.swo
+
+# Ignore secrets
+secrets.json
+
+# Ignore test output
+htmlcov/
+coverage.xml
+*.cover
+
+# Ignore build
+build/
+dist/
+*.egg-info/
+
+# Ignore requirements lock
+requirements.lock

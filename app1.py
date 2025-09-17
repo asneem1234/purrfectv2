@@ -28,99 +28,96 @@ load_dotenv()  # This loads the variables from .env into os.environ
 # Create Flask app first
 app = Flask(__name__)
 
-# Custom CSRF check function to exempt certain paths
+# Improved CSRF checking function with better security practices
 def csrf_check_function():
+    """
+    Focused CSRF check function that only exempts specific server-to-server API endpoints
+    while enforcing CSRF protection for all user-facing routes
+    """
     # Get current request path
     request_path = request.path
     
-    # Print full debug info for CSRF checks
-    print(f"CSRF check request: Method={request.method}, Path={request_path}")
-    
-    # Check for CSRF exemption flag in g object
-    if hasattr(g, '_csrf_exempt') and g._csrf_exempt:
-        print(f"CSRF check bypassed for exempt view function: {request_path}")
-        return False  # Skip CSRF validation
+    # Only exempt specific, documented server-to-server API calls
+    if request_path in ['/rag/ingest', '/rag/query', '/direct-rag-ingest']:
+        # For server-to-server API calls, require API key authentication instead of CSRF
+        api_key = request.headers.get('X-API-Key')
+        server_api_key = os.environ.get('SERVER_API_KEY')
         
-    # Check for internal request header
-    if request.headers.get('X-Internal-Request') == 'true':
-        print(f"CSRF check bypassed for internal request to: {request_path}")
-        return False  # Skip CSRF validation for internal requests
-        
-    # Check if this is a server-to-server request from localhost
-    if request.remote_addr in ['127.0.0.1', 'localhost'] and '/rag/' in request_path:
-        print(f"CSRF check bypassed for localhost server-to-server request to: {request_path}")
-        return False  # Skip CSRF validation for server-to-server requests
-    
-    # Log all CSRF checks for debugging
-    print(f"CSRF check for path: {request_path}")
-    
-    # For RAG-related endpoints, always bypass CSRF
-    if '/rag/' in request_path or 'direct-rag-ingest' in request_path:
-        print(f"CSRF check bypassed for RAG path: {request_path}")
-        return False  # Skip CSRF validation
-    
-    # Check if the request path contains any of our exempt paths
-    exempt_list = app.config.get('WTF_CSRF_EXEMPT_LIST', [])
-    for exempt_path in exempt_list:
-        if exempt_path in request_path:
-            print(f"CSRF check bypassed for exempt path: {request_path}")
+        if api_key and server_api_key and api_key == server_api_key:
+            # Only exempt if proper API key authentication is provided
             return False  # Skip CSRF validation
     
+    # For all other routes, enforce CSRF protection
     return True  # Perform CSRF validation
 
-# Initialize CSRF protection with our custom check function
+# Apply the improved CSRF check function
 csrf = CSRFProtect(app)
 csrf.check_csrf = csrf_check_function
 
-# Exempt the notes save endpoint from CSRF protection
-csrf.exempt('notes.save_note')
-# Exempt progress routes from CSRF protection
-csrf.exempt('progress.add_exam')
-csrf.exempt('progress.update_exam')
-csrf.exempt('progress.delete_exam')
-# Exempt additional routes if needed - but it's better to add CSRF tokens to forms instead
-# We've added tokens to all forms, so these exemptions are just a fallback
-csrf.exempt('flashcard_bp.generate_flashcards')
-csrf.exempt('planning.add_calendar')
-csrf.exempt('planning.delete_exam_plan')
-# Exempt the chat endpoint
-csrf.exempt('bot_bp.chat')
-# Exempt RAG routes from CSRF protection - multiple ways to ensure it works
-csrf.exempt('purrrag.ingest_text')
-csrf.exempt('purrrag.query_rag')
-csrf.exempt('purrrag.get_rag_progress')
-# Exempt direct RAG ingest route
-csrf.exempt('direct_rag_ingest')
+# Initialize CSRF protection with consistent application
+csrf = CSRFProtect(app)
 
-# Try a different approach to disable CSRF for specific routes
-# Define CSRF exempt URLs
+# Define a better approach to CSRF protection
+# 1. Use CSRF tokens in all forms (already implemented)
+# 2. Use proper API authentication for programmatic access
+# 3. Only exempt specific endpoints with clear documentation and justification
+
+# API endpoints that require exemption should use API keys or tokens instead
+# Only exempt routes that:
+# a) Are accessed via AJAX and need to bypass CSRF due to specific framework constraints
+# b) Are internal API endpoints accessed by server-to-server communication
+# c) Are webhook endpoints that can't support CSRF tokens
+
+# API-specific CSRF exemptions for server-to-server communication only
+csrf.exempt('purrrag.ingest_text')  # Server-to-server API
+csrf.exempt('purrrag.query_rag')    # Server-to-server API
+csrf.exempt('direct_rag_ingest')    # Server-to-server API
+
+# For all other routes, including AJAX routes:
+# - Use CSRF tokens in forms
+# - Use the X-CSRFToken header for AJAX requests
+# - Implement proper authentication
+
+# Configure CSRF for better security
 app.config['WTF_CSRF_ENABLED'] = True
-app.config['WTF_CSRF_CHECK_DEFAULT'] = False  # Default to no CSRF checking
+app.config['WTF_CSRF_CHECK_DEFAULT'] = True  # Enable CSRF checking by default
 app.config['WTF_CSRF_METHODS'] = ['POST', 'PUT', 'PATCH', 'DELETE']
-# No time limit on tokens to prevent expiration issues
-app.config['WTF_CSRF_TIME_LIMIT'] = None
-# Define CSRF exempt paths (will match any URL that contains these paths)
+app.config['WTF_CSRF_TIME_LIMIT'] = 3600  # 1 hour token lifetime
+
+# Define a more restrictive set of exempt paths
+# ONLY exempt paths that absolutely require it with clear justification
 app.config['WTF_CSRF_EXEMPT_LIST'] = [
-    '/rag/', 
-    '/direct-rag-ingest', 
-    '/bot',
-    '/chat'
+    '/rag/ingest',    # Server-to-server API endpoint
+    '/rag/query',     # Server-to-server API endpoint
+    '/direct-rag-ingest'  # Server-to-server API endpoint
 ]
 
-# Create a more explicit exemption for server-to-server API calls
+# Replace overly permissive route exemption with focused API authentication
 @app.before_request
-def disable_csrf_for_rag():
-    """Disable CSRF for RAG routes before any processing happens"""
-    if request.path.startswith('/rag/') or request.path == '/direct-rag-ingest':
-        # Set flags to disable CSRF for this request
-        g._csrf_exempt = True
-        request._csrf_exempt = True
-        print(f"CSRF protection disabled for RAG path: {request.path}")
-    elif '/rag/' in request.path or 'direct-rag-ingest' in request.path:
-        # Alternative check for paths that might be processed differently
-        g._csrf_exempt = True
-        request._csrf_exempt = True
-        print(f"CSRF protection disabled for RAG-related path: {request.path}")
+def api_authentication_for_exempt_routes():
+    """
+    Instead of broadly disabling CSRF, implement proper API authentication
+    for server-to-server communication routes
+    """
+    # Only apply special handling to specific API endpoints
+    if request.path in ['/rag/ingest', '/rag/query', '/direct-rag-ingest']:
+        # Require API key for these endpoints
+        api_key = request.headers.get('X-API-Key')
+        expected_key = os.environ.get('SERVER_API_KEY')
+        
+        # If no API key configuration exists yet, allow local development
+        if not expected_key and request.remote_addr in ['127.0.0.1', 'localhost']:
+            # Only for development - log a warning
+            print("WARNING: Allowing server-to-server API call without API key in development")
+            return None
+            
+        # For production, validate API key
+        if not api_key or api_key != expected_key:
+            # Don't provide specific error details to avoid information leakage
+            return jsonify({"error": "Unauthorized"}), 401
+    
+    # Continue normal request processing for all other routes
+    return None
 
 # Configure app
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-for-testing')
@@ -202,16 +199,37 @@ if app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgres://'):
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Improve session configuration to prevent sessions from being lost
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_FILE_DIR'] = os.path.join(tempfile.gettempdir(), 'flask_session')
+# Improved secure session configuration based on security audit
+# Use environment variable to determine if in production
+is_production = os.environ.get('FLASK_ENV') == 'production'
+
+# Configure secure sessions
 app.config['SESSION_PERMANENT'] = True  # Make sessions persistent
 app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=1)  # Keep sessions for 1 day
 app.config['SESSION_USE_SIGNER'] = True
-app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production with HTTPS
+app.config['SESSION_COOKIE_SECURE'] = is_production  # Only allow HTTPS in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
+# Use Redis for session storage in production if available
+if is_production and os.environ.get('REDIS_URL'):
+    import redis
+    app.config['SESSION_TYPE'] = 'redis'
+    app.config['SESSION_REDIS'] = redis.from_url(os.environ.get('REDIS_URL'))
+else:
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['SESSION_FILE_DIR'] = os.path.join(tempfile.gettempdir(), 'flask_session')
+
 Session(app)
+
+# Implement HTTP Strict Transport Security (HSTS) in production
+@app.after_request
+def add_security_headers(response):
+    """Add security headers to all responses"""
+    if os.environ.get('FLASK_ENV') == 'production':
+        # HSTS header for enhanced security
+        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    return response
 
 # Configure upload folder
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
@@ -223,8 +241,18 @@ app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 # Qdrant is used instead of ChromaDB for vector storage
 # Note: Qdrant is configured and initialized in utils/embedding_utils.py
 
-# Set up Gemini API
-GEMINI_API_KEY = "AIzaSyCS1Jmabh4heMRYZpKxpi3IEBnaNCorgy4"
+# Set up Gemini API using environment variables
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+if not GEMINI_API_KEY:
+    print("WARNING: GEMINI_API_KEY environment variable is not set. Using fallback method.")
+    # Fallback for development only - remove in production
+    GEMINI_API_KEY = os.environ.get('GOOGLE_API_KEY')  # Try alternate env var
+    
+    if not GEMINI_API_KEY:
+        print("ERROR: No API key found for Gemini. AI features will not work properly.")
+        # Set a placeholder that will cause authentication errors rather than silent failure
+        GEMINI_API_KEY = "missing-key-please-set-GEMINI_API_KEY-environment-variable"
+
 genai.configure(api_key=GEMINI_API_KEY)
 
 # CRITICAL: Import db and initialize it with app before importing any models
@@ -341,8 +369,8 @@ app.register_blueprint(purrrag_bp, url_prefix='/rag')  # Register the RAG bluepr
 # Import the function after registering the blueprint
 from blueprints.study_plan import get_study_plan_data_for_dashboard
 
-# Setup SocketIO with threading mode instead of eventlet
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
+# Setup SocketIO with eventlet mode for production compatibility
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 # Register studyroom Socket.IO handlers
 register_studyroom_socket_events(socketio)
@@ -681,12 +709,21 @@ def create_note_redirect():
 @app.route('/direct-rag-ingest', methods=['POST'])
 @csrf.exempt  # Explicitly exempt this route
 def direct_rag_ingest():
-    """Direct route for RAG ingestion, bypassing blueprint routing and authentication"""
+    """Direct route for RAG ingestion, bypassing blueprint routing but requiring API key authentication"""
     try:
-        # Manually disable CSRF for this specific route
-        request._csrf_exempt = True  # Set attribute on request object
-        g._csrf_exempt = True  # Set attribute on g object
+        # First verify API key for server-to-server communication
+        api_key = request.headers.get('X-API-Key')
+        expected_key = os.environ.get('SERVER_API_KEY')
         
+        # Only allow API requests with valid key (except in local development)
+        if not expected_key and request.remote_addr in ['127.0.0.1', 'localhost']:
+            # Development environment exception with warning
+            print("WARNING: Allowing RAG API call without API key in development environment")
+        elif not api_key or api_key != expected_key:
+            # In production, strictly require valid API key
+            print("ERROR: Unauthorized API access attempt to direct-rag-ingest")
+            return jsonify({"error": "Unauthorized"}), 401
+            
         # Get request data with detailed error handling
         try:
             data = request.get_json()
@@ -763,7 +800,7 @@ def direct_rag_ingest():
         })
 
 # Enhanced error handler for BuildError to include dashboard fallback
-@app.errorhandler(werkzeug.routing.exceptions.BuildError)
+@app.errorhandler(werkzeug.routing.BuildError)
 def handle_build_error(error):
     """Handle URL building errors gracefully"""
     print(f"BuildError: {str(error)}")
@@ -865,7 +902,7 @@ if __name__ == "__main__":
         
     # Get the host and port from environment or use defaults
     host = '0.0.0.0'  # Bind to all interfaces
-    port = 5000
+    port = int(os.environ.get('PORT', 5000))
     
     # Print clear instructions for accessing the server
     print("\n" + "="*70)

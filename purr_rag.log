@@ -1,828 +1,141 @@
-2025-07-28 00:03:53,008 - PurrRAG - INFO - Testing PurrRAG integration...
-2025-07-28 00:03:53,960 - PurrRAG - INFO - Connected to Qdrant. Available collections: ['short_term_memories', 'long_term_memories', 'global_materials']
-2025-07-28 00:03:54,995 - PurrRAG - INFO - Added content to short-term memory: chat for user 1
-2025-07-28 00:03:55,759 - PurrRAG - INFO - Added material to global materials: Understanding Calculus Derivatives
-2025-07-28 00:03:57,402 - PurrRAG - ERROR - Error querying RAG: 400 Client Error: Bad Request for url: https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/short_term_memories/points/search
-2025-07-28 00:03:57,402 - PurrRAG - INFO - RAG Usage - User: 1, Query: 'How do I understand calculus derivatives?', Results: 0
-2025-07-28 00:03:57,417 - PurrRAG - INFO - Query: How do I understand calculus derivatives?
-2025-07-28 00:03:57,427 - PurrRAG - INFO - Found 0 results
-2025-07-28 00:03:57,428 - PurrRAG - INFO - PurrRAG integration test completed successfully!
-2025-07-28 00:04:42,254 - PurrRAG - INFO - Testing PurrRAG integration...
-2025-07-28 00:04:43,054 - PurrRAG - INFO - Connected to Qdrant. Available collections: ['short_term_memories', 'long_term_memories', 'global_materials']
-2025-07-28 00:04:44,035 - PurrRAG - INFO - Added content to short-term memory: chat for user 1
-2025-07-28 00:04:44,845 - PurrRAG - INFO - Added material to global materials: Understanding Calculus Derivatives
-2025-07-28 00:04:46,368 - PurrRAG - ERROR - Error querying RAG: 400 Client Error: Bad Request for url: https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/short_term_memories/points/search
-2025-07-28 00:04:46,368 - PurrRAG - INFO - RAG Usage - User: 1, Query: 'How do I understand calculus derivatives?', Results: 0
-2025-07-28 00:04:46,368 - PurrRAG - INFO - Query: How do I understand calculus derivatives?
-2025-07-28 00:04:46,383 - PurrRAG - INFO - Found 0 results
-2025-07-28 00:04:46,383 - PurrRAG - INFO - PurrRAG integration test completed successfully!
-2025-07-28 00:05:42,191 - PurrRAG - INFO - Testing PurrRAG integration...
-2025-07-28 00:05:43,243 - PurrRAG - INFO - Connected to Qdrant. Available collections: ['short_term_memories', 'long_term_memories', 'global_materials']
-2025-07-28 00:05:44,366 - PurrRAG - INFO - Added content to short-term memory: chat for user 1
-2025-07-28 00:05:45,166 - PurrRAG - INFO - Added material to global materials: Understanding Calculus Derivatives
-2025-07-28 00:05:45,921 - PurrRAG - INFO - Found 3 results from global_materials
-2025-07-28 00:05:46,669 - PurrRAG - INFO - Found 3 results from short_term_memories
-2025-07-28 00:05:47,498 - PurrRAG - INFO - Found 0 results from long_term_memories
-2025-07-28 00:05:47,515 - PurrRAG - INFO - Query 'How do I understand calculus derivatives?' returned 3 results
-2025-07-28 00:05:47,515 - PurrRAG - INFO - RAG Usage - User: 1, Query: 'How do I understand calculus derivatives?', Results: 3
-2025-07-28 00:05:47,515 - PurrRAG - INFO - Query: How do I understand calculus derivatives?
-2025-07-28 00:05:47,515 - PurrRAG - INFO - Found 3 results
-2025-07-28 00:05:47,525 - PurrRAG - INFO - Result 1 from global_materials (Score: 0.0809): Active Recall Study Technique
-2025-07-28 00:05:47,526 - PurrRAG - INFO -   
-        Active recall is one of the most effective study techniques. It involves 
-        actively ...
-2025-07-28 00:05:47,535 - PurrRAG - INFO - Result 2 from global_materials (Score: 0.0570): Understanding Calculus Derivatives
-2025-07-28 00:05:47,536 - PurrRAG - INFO -   Derivatives are a fundamental concept in calculus that represent the rate of change of a function. T...
-2025-07-28 00:05:47,536 - PurrRAG - INFO - Result 3 from short_term_memories (Score: 0.0485): No title
-2025-07-28 00:05:47,537 - PurrRAG - INFO -   I'm struggling with understanding calculus concepts, especially derivatives.
-2025-07-28 00:05:47,538 - PurrRAG - INFO - PurrRAG integration test completed successfully!
-2025-07-28 03:54:50,204 - PurrRAG - INFO - Processing RAG ingest: 14 chars from user_message to short_term_memories
-2025-07-28 03:54:50,205 - PurrRAG - INFO - Split text into 1 chunks
-2025-07-28 03:55:00,573 - PurrRAG - INFO - Processing RAG ingest: 875 chars from ai_response to long_term_memories
-2025-07-28 03:55:00,574 - PurrRAG - INFO - Split text into 4 chunks
-2025-07-28 04:07:01,944 - PurrRAG - ERROR - Error processing RAG content: 3 validation errors for ParsingModel[InlineResponse2005] (for parse_as_type)
-obj -> result -> vectors_count
-  field required (type=value_error.missing)
-obj -> result -> config -> optimizer_config -> max_optimization_threads
-  none is not an allowed value (type=type_error.none.not_allowed)
-obj -> result -> config -> strict_mode_config
-  extra fields not permitted (type=value_error.extra)
-2025-07-28 04:07:02,011 - PurrRAG - ERROR - Error processing RAG content: 3 validation errors for ParsingModel[InlineResponse2005] (for parse_as_type)
-obj -> result -> vectors_count
-  field required (type=value_error.missing)
-obj -> result -> config -> optimizer_config -> max_optimization_threads
-  none is not an allowed value (type=type_error.none.not_allowed)
-obj -> result -> config -> strict_mode_config
-  extra fields not permitted (type=value_error.extra)
-2025-07-28 04:58:09,562 - PurrRAG - INFO - Processing RAG ingest: 14 chars from user_message to short_term_memories
-2025-07-28 04:58:09,562 - PurrRAG - INFO - Split text into 1 chunks
-2025-07-28 04:58:17,288 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-07-28 04:58:17,288 - PurrRAG - ERROR - Failed to record RAG database entries: name 'RAGIngestEvent' is not defined
-2025-07-28 04:58:17,340 - PurrRAG - INFO - Processing RAG ingest: 994 chars from ai_response to long_term_memories
-2025-07-28 04:58:17,340 - PurrRAG - INFO - Split text into 5 chunks
-2025-07-28 04:58:19,639 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-07-28 04:58:19,640 - PurrRAG - ERROR - Failed to record RAG database entries: name 'RAGIngestEvent' is not defined
-2025-07-28 06:17:47,778 - PurrRAG - INFO - Processing RAG ingest: 17 chars from user_message to short_term_memories
-2025-07-28 06:17:47,794 - PurrRAG - INFO - Split text into 1 chunks
-2025-07-28 06:17:57,235 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-07-28 06:17:57,237 - PurrRAG - ERROR - Failed to record RAG database entries: name 'RAGIngestEvent' is not defined
-2025-07-28 06:17:57,318 - PurrRAG - INFO - Processing RAG ingest: 1091 chars from ai_response to long_term_memories
-2025-07-28 06:17:57,320 - PurrRAG - INFO - Split text into 5 chunks
-2025-07-28 06:17:59,766 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-07-28 06:17:59,770 - PurrRAG - ERROR - Failed to record RAG database entries: name 'RAGIngestEvent' is not defined
-2025-07-28 06:21:06,650 - PurrRAG - INFO - Processing RAG ingest: 11 chars from user_message to short_term_memories
-2025-07-28 06:21:06,652 - PurrRAG - INFO - Split text into 1 chunks
-2025-07-28 06:21:09,422 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-07-28 06:21:09,427 - PurrRAG - ERROR - Failed to record RAG database entries: name 'RAGIngestEvent' is not defined
-2025-07-28 06:21:09,484 - PurrRAG - INFO - Processing RAG ingest: 1175 chars from ai_response to long_term_memories
-2025-07-28 06:21:09,485 - PurrRAG - INFO - Split text into 5 chunks
-2025-07-28 06:21:11,884 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-07-28 06:21:11,889 - PurrRAG - ERROR - Failed to record RAG database entries: name 'RAGIngestEvent' is not defined
-2025-07-28 06:27:12,305 - PurrRAG - INFO - Processing RAG ingest: 14 chars from user_message to short_term_memories
-2025-07-28 06:27:12,349 - PurrRAG - INFO - Split text into 1 chunks
-2025-07-28 06:27:22,054 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-07-28 06:27:22,336 - PurrRAG - INFO - RAG database records created: ingest_event_id=1, usage_log_id=1
-2025-07-28 06:27:22,537 - PurrRAG - INFO - Processing RAG ingest: 1025 chars from ai_response to long_term_memories
-2025-07-28 06:27:22,538 - PurrRAG - INFO - Split text into 5 chunks
-2025-07-28 06:27:26,533 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-07-28 06:27:26,664 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 7, 28, 0, 57, 26, 547989)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-07-28 06:30:55,654 - PurrRAG - INFO - Processing RAG ingest: 15 chars from user_message to short_term_memories
-2025-07-28 06:30:55,654 - PurrRAG - INFO - Split text into 1 chunks
-2025-07-28 06:31:04,849 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-07-28 06:31:05,188 - PurrRAG - INFO - RAG database records created: ingest_event_id=3, usage_log_id=2
-2025-07-28 06:31:05,361 - PurrRAG - INFO - Processing RAG ingest: 932 chars from ai_response to long_term_memories
-2025-07-28 06:31:05,362 - PurrRAG - INFO - Split text into 5 chunks
-2025-07-28 06:31:09,542 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-07-28 06:31:09,657 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 7, 28, 1, 1, 9, 563894)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-01 01:18:00,108 - PurrRAG - INFO - Processing RAG ingest: 2 chars from user_message to short_term_memories
-2025-08-01 01:18:00,110 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-01 01:18:08,535 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-01 01:18:08,754 - PurrRAG - INFO - RAG database records created: ingest_event_id=5, usage_log_id=3
-2025-08-01 01:18:08,824 - PurrRAG - INFO - Processing RAG ingest: 926 chars from ai_response to long_term_memories
-2025-08-01 01:18:08,825 - PurrRAG - INFO - Split text into 5 chunks
-2025-08-01 01:18:12,260 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-01 01:18:12,360 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 7, 31, 19, 48, 12, 272902)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 03:08:14,581 - PurrRAG - INFO - Processing RAG ingest: 10 chars from user_message to short_term_memories
-2025-08-03 03:08:14,581 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 03:08:21,069 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 03:08:21,372 - PurrRAG - INFO - RAG database records created: ingest_event_id=7, usage_log_id=4
-2025-08-03 03:08:21,450 - PurrRAG - INFO - Processing RAG ingest: 1021 chars from ai_response to long_term_memories
-2025-08-03 03:08:21,452 - PurrRAG - INFO - Split text into 5 chunks
-2025-08-03 03:08:25,049 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 03:08:25,157 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 8, 2, 21, 38, 25, 64847)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 03:09:10,726 - PurrRAG - INFO - Processing RAG ingest: 25 chars from user_message to short_term_memories
-2025-08-03 03:09:10,727 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 03:09:14,025 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 03:09:14,225 - PurrRAG - INFO - RAG database records created: ingest_event_id=9, usage_log_id=5
-2025-08-03 03:09:14,311 - PurrRAG - INFO - Processing RAG ingest: 1218 chars from ai_response to long_term_memories
-2025-08-03 03:09:14,311 - PurrRAG - INFO - Split text into 5 chunks
-2025-08-03 03:09:17,409 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 03:09:17,505 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 8, 2, 21, 39, 17, 418863)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 05:06:47,486 - PurrRAG - INFO - Processing RAG ingest: 2 chars from user_message to short_term_memories
-2025-08-03 05:06:47,505 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 05:06:58,146 - PurrRAG - INFO - Processing RAG ingest: 333 chars from ai_response to long_term_memories
-2025-08-03 05:06:58,152 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 05:06:58,892 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 05:06:59,105 - PurrRAG - INFO - RAG database records created: ingest_event_id=11, usage_log_id=6
-2025-08-03 05:07:02,806 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 05:07:02,888 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 2, 23, 37, 2, 808830)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 05:13:23,311 - PurrRAG - INFO - Processing RAG ingest: 10 chars from user_message to short_term_memories
-2025-08-03 05:13:23,325 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 05:13:27,666 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 05:13:27,892 - PurrRAG - INFO - RAG database records created: ingest_event_id=13, usage_log_id=7
-2025-08-03 05:13:28,071 - PurrRAG - INFO - Processing RAG ingest: 908 chars from ai_response to long_term_memories
-2025-08-03 05:13:28,076 - PurrRAG - INFO - Split text into 5 chunks
-2025-08-03 05:13:32,670 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 05:13:32,764 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 8, 2, 23, 43, 32, 678067)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 19:12:08,446 - PurrRAG - INFO - Processing RAG ingest: 2 chars from user_message to short_term_memories
-2025-08-03 19:12:08,449 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:12:18,694 - PurrRAG - INFO - Processing RAG ingest: 445 chars from ai_response to long_term_memories
-2025-08-03 19:12:18,697 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:12:20,743 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 19:12:21,196 - PurrRAG - INFO - RAG database records created: ingest_event_id=15, usage_log_id=8
-2025-08-03 19:12:22,847 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 19:12:22,957 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 13, 42, 22, 847038)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 19:22:23,277 - PurrRAG - INFO - Processing RAG ingest: 14 chars from user_message to short_term_memories
-2025-08-03 19:22:23,277 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:22:26,729 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 19:22:26,946 - PurrRAG - INFO - RAG database records created: ingest_event_id=17, usage_log_id=9
-2025-08-03 19:22:27,042 - PurrRAG - INFO - Processing RAG ingest: 343 chars from ai_response to long_term_memories
-2025-08-03 19:22:27,043 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:22:29,887 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 19:22:29,987 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 13, 52, 29, 890615)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 19:29:45,302 - PurrRAG - INFO - Processing RAG ingest: 10 chars from user_message to short_term_memories
-2025-08-03 19:29:45,320 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:29:48,570 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 19:29:48,781 - PurrRAG - INFO - RAG database records created: ingest_event_id=19, usage_log_id=10
-2025-08-03 19:29:48,859 - PurrRAG - INFO - Processing RAG ingest: 852 chars from ai_response to long_term_memories
-2025-08-03 19:29:48,860 - PurrRAG - INFO - Split text into 4 chunks
-2025-08-03 19:29:52,117 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 19:29:52,219 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 4, 'created_at': datetime.datetime(2025, 8, 3, 13, 59, 52, 132320)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 19:49:26,644 - PurrRAG - INFO - Processing RAG ingest: 14 chars from user_message to short_term_memories
-2025-08-03 19:49:26,671 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:49:30,468 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 19:49:30,693 - PurrRAG - INFO - RAG database records created: ingest_event_id=21, usage_log_id=11
-2025-08-03 19:49:30,784 - PurrRAG - INFO - Processing RAG ingest: 376 chars from ai_response to long_term_memories
-2025-08-03 19:49:30,784 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:49:33,615 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 19:49:33,698 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 14, 19, 33, 617053)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 19:52:10,721 - PurrRAG - INFO - Processing RAG ingest: 20 chars from user_message to short_term_memories
-2025-08-03 19:52:10,721 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:52:17,799 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 19:52:18,032 - PurrRAG - INFO - RAG database records created: ingest_event_id=23, usage_log_id=12
-2025-08-03 19:52:18,114 - PurrRAG - INFO - Processing RAG ingest: 394 chars from ai_response to long_term_memories
-2025-08-03 19:52:18,114 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 19:52:20,936 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 19:52:21,038 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 14, 22, 20, 950810)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 20:04:59,947 - PurrRAG - INFO - Processing RAG ingest: 2 chars from user_message to short_term_memories
-2025-08-03 20:04:59,947 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 20:05:05,863 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 20:05:06,110 - PurrRAG - INFO - RAG database records created: ingest_event_id=25, usage_log_id=13
-2025-08-03 20:05:06,164 - PurrRAG - INFO - Processing RAG ingest: 360 chars from ai_response to long_term_memories
-2025-08-03 20:05:06,165 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 20:05:09,048 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 20:05:09,155 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 14, 35, 9, 58257)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 21:40:46,759 - PurrRAG - INFO - Processing RAG ingest: 10 chars from user_message to short_term_memories
-2025-08-03 21:40:46,773 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 21:40:57,708 - PurrRAG - INFO - Processing RAG ingest: 949 chars from ai_response to long_term_memories
-2025-08-03 21:40:57,709 - PurrRAG - INFO - Split text into 5 chunks
-2025-08-03 21:40:58,799 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 21:41:00,509 - PurrRAG - INFO - RAG database records created: ingest_event_id=27, usage_log_id=14
-2025-08-03 21:41:07,009 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 21:41:07,822 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 5, 'created_at': datetime.datetime(2025, 8, 3, 16, 11, 7, 25023)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 21:42:17,792 - PurrRAG - INFO - Processing RAG ingest: 25 chars from user_message to short_term_memories
-2025-08-03 21:42:17,807 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 21:42:23,187 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 21:42:24,985 - PurrRAG - INFO - RAG database records created: ingest_event_id=29, usage_log_id=15
-2025-08-03 21:42:25,288 - PurrRAG - INFO - Processing RAG ingest: 865 chars from ai_response to long_term_memories
-2025-08-03 21:42:25,288 - PurrRAG - INFO - Split text into 4 chunks
-2025-08-03 21:42:30,220 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 21:42:30,987 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 4, 'created_at': datetime.datetime(2025, 8, 3, 16, 12, 30, 220884)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 21:44:24,912 - PurrRAG - INFO - Processing RAG ingest: 66 chars from user_message to short_term_memories
-2025-08-03 21:44:24,912 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 21:44:30,114 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 21:44:31,763 - PurrRAG - INFO - RAG database records created: ingest_event_id=31, usage_log_id=16
-2025-08-03 21:44:31,995 - PurrRAG - INFO - Processing RAG ingest: 388 chars from ai_response to long_term_memories
-2025-08-03 21:44:31,995 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 21:44:36,152 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 21:44:36,854 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 16, 14, 36, 152527)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-03 21:45:26,298 - PurrRAG - INFO - Processing RAG ingest: 15 chars from user_message to short_term_memories
-2025-08-03 21:45:26,298 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 21:45:31,420 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-03 21:45:33,211 - PurrRAG - INFO - RAG database records created: ingest_event_id=33, usage_log_id=17
-2025-08-03 21:45:33,508 - PurrRAG - INFO - Processing RAG ingest: 222 chars from ai_response to long_term_memories
-2025-08-03 21:45:33,508 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-03 21:45:37,784 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-03 21:45:38,540 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 16, 15, 37, 784039)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-04 04:00:36,234 - PurrRAG - INFO - Processing RAG ingest: 10 chars from user_message to short_term_memories
-2025-08-04 04:00:36,242 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-04 04:00:42,392 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-04 04:00:42,610 - PurrRAG - INFO - RAG database records created: ingest_event_id=35, usage_log_id=18
-2025-08-04 04:00:42,724 - PurrRAG - INFO - Processing RAG ingest: 698 chars from ai_response to long_term_memories
-2025-08-04 04:00:42,724 - PurrRAG - INFO - Split text into 4 chunks
-2025-08-04 04:00:46,114 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-04 04:00:46,214 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 4, 'created_at': datetime.datetime(2025, 8, 3, 22, 30, 46, 114939)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-04 04:35:46,787 - PurrRAG - INFO - Processing RAG ingest: 14 chars from user_message to short_term_memories
-2025-08-04 04:35:46,787 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-04 04:35:51,191 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-04 04:35:51,430 - PurrRAG - INFO - RAG database records created: ingest_event_id=37, usage_log_id=19
-2025-08-04 04:35:51,590 - PurrRAG - INFO - Processing RAG ingest: 267 chars from ai_response to long_term_memories
-2025-08-04 04:35:51,605 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-04 04:35:55,101 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-04 04:35:55,195 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 1, 'created_at': datetime.datetime(2025, 8, 3, 23, 5, 55, 112004)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-04 04:36:21,377 - PurrRAG - INFO - Processing RAG ingest: 10 chars from user_message to short_term_memories
-2025-08-04 04:36:21,387 - PurrRAG - INFO - Split text into 1 chunks
-2025-08-04 04:36:25,337 - PurrRAG - INFO - Added content to short_term_memories: user_message for user 2
-2025-08-04 04:36:25,562 - PurrRAG - INFO - RAG database records created: ingest_event_id=39, usage_log_id=20
-2025-08-04 04:36:25,672 - PurrRAG - INFO - Processing RAG ingest: 648 chars from ai_response to long_term_memories
-2025-08-04 04:36:25,684 - PurrRAG - INFO - Split text into 4 chunks
-2025-08-04 04:36:30,000 - PurrRAG - INFO - Added content to long_term_memories: ai_response for user 0
-2025-08-04 04:36:30,096 - PurrRAG - ERROR - Failed to record RAG database entries: (psycopg2.errors.ForeignKeyViolation) insert or update on table "rag_ingest_event" violates foreign key constraint "rag_ingest_event_user_id_fkey"
-DETAIL:  Key (user_id)=(0) is not present in table "app_user".
-
-[SQL: INSERT INTO rag_ingest_event (user_id, source, content_id, chunk_count, created_at) VALUES (%(user_id)s, %(source)s, %(content_id)s, %(chunk_count)s, %(created_at)s) RETURNING rag_ingest_event.id]
-[parameters: {'user_id': 0, 'source': 'ai_response', 'content_id': 'user_session', 'chunk_count': 4, 'created_at': datetime.datetime(2025, 8, 3, 23, 6, 30, 13696)}]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-2025-08-04 11:09:07,847 - purr_rag - INFO - Qdrant client initialized successfully
-2025-08-04 11:09:07,847 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:09:07,881 - purr_rag - ERROR - Failed to load embedding models: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 11:09:07,881 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:09:07,905 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 11:09:08,692 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 11:09:13,046 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-09-14 22:19:41,392 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-14 22:19:41,423 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-14 22:19:41,423 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-14 22:19:42,598 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-14 22:19:46,300 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
+2025-09-14 22:19:46,300 - purr_rag - INFO - Embedding models loaded successfully
+2025-09-14 22:19:46,306 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-14 22:19:47,278 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-14 22:19:47,278 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-09-14 22:19:47,995 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-14 22:19:53,420 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.18.193.47:5000
-2025-08-04 11:09:13,047 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 11:09:34,850 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:09:34] "GET / HTTP/1.1" 200 -
-2025-08-04 11:09:35,929 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:09:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
-2025-08-04 11:09:38,275 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:09:38] "GET /login HTTP/1.1" 200 -
-2025-08-04 11:09:48,666 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:09:48] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 11:09:50,087 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:09:50] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 11:09:50,568 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:09:50] "GET /static/images/purrfect-logo.svg HTTP/1.1" 200 -
-2025-08-04 11:10:17,894 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:10:17] "GET /features HTTP/1.1" 200 -
-2025-08-04 11:10:17,980 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:10:17] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 11:10:23,952 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 11:10:24,471 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 11:10:24,787 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 11:10:25,104 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 11:10:25,415 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 11:10:25,417 - purr_rag - INFO - Created new collection: chat_2
-2025-08-04 11:10:25,501 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:10:25] "GET /bot HTTP/1.1" 200 -
-2025-08-04 11:10:44,670 - PurrRAG - INFO - Processing RAG ingest (disabled): 45 chars from user_message
-2025-08-04 11:10:44,670 - PurrRAG - INFO - Processing RAG ingest (disabled): 45 chars from user_message
-2025-08-04 11:10:44,697 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:10:44] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:10:44,840 - PurrRAG - INFO - Processing RAG ingest (disabled): 632 chars from ai_response
-2025-08-04 11:10:44,840 - PurrRAG - INFO - Processing RAG ingest (disabled): 632 chars from ai_response
-2025-08-04 11:10:44,875 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:10:44] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:10:44,899 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:10:44] "POST /chat HTTP/1.1" 200 -
-2025-08-04 11:11:44,521 - purr_rag - INFO - Qdrant client initialized successfully
-2025-08-04 11:11:44,521 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:11:44,928 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 11:13:09,186 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
-2025-08-04 11:13:09,187 - purr_rag - INFO - Embedding models loaded successfully
-2025-08-04 11:13:09,190 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:13:09,634 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 11:13:09,634 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
-2025-08-04 11:13:10,597 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 11:13:13,916 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-09-14 22:19:53,421 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-14 22:19:59,285 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:19:59] "GET / HTTP/1.1" 200 -
+2025-09-14 22:19:59,514 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:19:59] "GET /static/images/purrfect-logo.svg HTTP/1.1" 200 -
+2025-09-14 22:19:59,949 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:19:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-14 22:33:00,642 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:00] "GET /login HTTP/1.1" 200 -
+2025-09-14 22:33:03,671 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:03] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-14 22:33:03,706 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:03] "GET /login HTTP/1.1" 200 -
+2025-09-14 22:33:08,078 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:08] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-14 22:33:08,236 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:08] "GET /login HTTP/1.1" 200 -
+2025-09-14 22:33:22,074 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:22] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-14 22:33:24,423 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:24] "GET /dashboard HTTP/1.1" 200 -
+2025-09-14 22:33:24,557 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-14 22:33:46,179 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:46] "GET /features HTTP/1.1" 200 -
+2025-09-14 22:33:46,243 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:46] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-14 22:33:48,337 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:48] "GET /forms HTTP/1.1" 200 -
+2025-09-14 22:33:53,809 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-14 22:33:54,099 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-14 22:33:54,130 - purr_rag - ERROR - Error creating collection chat_3: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
+2025-09-14 22:33:54,233 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:54] "GET /bot HTTP/1.1" 200 -
+2025-09-14 22:33:58,281 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:33:58] "GET /game HTTP/1.1" 200 -
+2025-09-14 22:34:03,217 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:03] "GET /rooms HTTP/1.1" 200 -
+2025-09-14 22:34:11,484 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:11] "GET /flashcardgenerator HTTP/1.1" 200 -
+2025-09-14 22:34:15,981 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:15] "GET /exambot HTTP/1.1" 200 -
+2025-09-14 22:34:33,833 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:33] "GET /progress HTTP/1.1" 200 -
+2025-09-14 22:34:33,868 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:33] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-14 22:34:35,962 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:35] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-09-14 22:34:36,230 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:36] "GET /notes/ HTTP/1.1" 200 -
+2025-09-14 22:34:36,618 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:34:36] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-14 22:43:13,046 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:43:13] "GET /notes/ HTTP/1.1" 200 -
+2025-09-14 22:43:13,137 - werkzeug - INFO - 127.0.0.1 - - [14/Sep/2025 22:43:13] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-15 00:24:48,077 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-15 00:24:48,095 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-15 00:24:48,096 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-15 00:24:49,529 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-15 00:24:53,321 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
+2025-09-15 00:24:53,322 - purr_rag - INFO - Embedding models loaded successfully
+2025-09-15 00:24:53,327 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-15 00:24:55,783 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-15 00:24:55,938 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-09-15 00:24:56,875 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-15 00:25:01,250 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.18.193.47:5000
-2025-08-04 11:13:13,916 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 11:14:01,097 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 11:14:01,374 - httpx - INFO - HTTP Request: DELETE https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 11:14:01,429 - purr_rag - INFO - Deleted existing collection: chat_2
-2025-08-04 11:14:01,429 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
-2025-08-04 11:14:01,493 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:14:01] "GET /bot HTTP/1.1" 200 -
-2025-08-04 11:45:00,417 - purr_rag - INFO - Qdrant client initialized successfully
-2025-08-04 11:45:00,417 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:45:00,746 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 11:45:03,566 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
-2025-08-04 11:45:03,566 - purr_rag - INFO - Embedding models loaded successfully
-2025-08-04 11:45:03,566 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:45:03,916 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 11:45:03,916 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
-2025-08-04 11:45:04,537 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 11:45:07,461 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 11:45:07,461 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 11:45:15,635 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:15] "GET / HTTP/1.1" 200 -
-2025-08-04 11:45:18,674 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:18] "GET /login HTTP/1.1" 200 -
-2025-08-04 11:45:26,974 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:26] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 11:45:28,323 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:28] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 11:45:28,681 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 11:45:40,897 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:40] "GET /features HTTP/1.1" 200 -
-2025-08-04 11:45:41,042 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:41] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 11:45:51,289 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 11:45:51,301 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
-2025-08-04 11:45:51,363 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:45:51] "GET /bot HTTP/1.1" 200 -
-2025-08-04 11:46:05,309 - PurrRAG - INFO - Processing RAG ingest (disabled): 13 chars from user_message
-2025-08-04 11:46:05,309 - PurrRAG - INFO - Processing RAG ingest (disabled): 13 chars from user_message
-2025-08-04 11:46:05,325 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:46:05] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:46:05,365 - PurrRAG - INFO - Processing RAG ingest (disabled): 625 chars from ai_response
-2025-08-04 11:46:05,365 - PurrRAG - INFO - Processing RAG ingest (disabled): 625 chars from ai_response
-2025-08-04 11:46:05,427 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:46:05] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:46:05,481 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:46:05] "POST /chat HTTP/1.1" 200 -
-2025-08-04 11:46:53,393 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:46:53] "POST /chat HTTP/1.1" 200 -
-2025-08-04 11:47:33,172 - purr_rag - ERROR - Error retrieving chat history: Unknown arguments: ['filter']
-2025-08-04 11:47:33,190 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:47:33] "GET /save-chat HTTP/1.1" 200 -
-2025-08-04 11:54:42,161 - purr_rag - INFO - Qdrant client initialized successfully
-2025-08-04 11:54:42,161 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:54:42,599 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 11:54:46,084 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
-2025-08-04 11:54:46,084 - purr_rag - INFO - Embedding models loaded successfully
-2025-08-04 11:54:46,084 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 11:54:47,120 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 11:54:47,120 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
-2025-08-04 11:54:47,872 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 11:54:51,828 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 11:54:51,828 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 11:55:30,347 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:30] "GET / HTTP/1.1" 200 -
-2025-08-04 11:55:32,103 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:32] "GET /login HTTP/1.1" 200 -
-2025-08-04 11:55:37,371 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:37] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 11:55:38,803 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:38] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 11:55:39,274 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:39] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 11:55:41,248 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:41] "GET /features HTTP/1.1" 200 -
-2025-08-04 11:55:41,384 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:55:41] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 11:57:38,581 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 11:57:38,594 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
-2025-08-04 11:57:39,097 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:57:39] "GET /bot HTTP/1.1" 200 -
-2025-08-04 11:57:52,196 - PurrRAG - INFO - Processing RAG ingest (disabled): 14 chars from user_message
-2025-08-04 11:57:52,196 - PurrRAG - INFO - Processing RAG ingest (disabled): 14 chars from user_message
-2025-08-04 11:57:52,212 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:57:52] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:57:52,916 - PurrRAG - INFO - Processing RAG ingest (disabled): 345 chars from ai_response
-2025-08-04 11:57:52,916 - PurrRAG - INFO - Processing RAG ingest (disabled): 345 chars from ai_response
-2025-08-04 11:57:53,065 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:57:53] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:57:53,116 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:57:53] "POST /chat HTTP/1.1" 200 -
-2025-08-04 11:58:17,194 - PurrRAG - INFO - Processing RAG ingest (disabled): 44 chars from user_message
-2025-08-04 11:58:17,194 - PurrRAG - INFO - Processing RAG ingest (disabled): 44 chars from user_message
-2025-08-04 11:58:17,222 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:58:17] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:58:17,262 - PurrRAG - INFO - Processing RAG ingest (disabled): 657 chars from ai_response
-2025-08-04 11:58:17,262 - PurrRAG - INFO - Processing RAG ingest (disabled): 657 chars from ai_response
-2025-08-04 11:58:17,323 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:58:17] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 11:58:17,379 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:58:17] "POST /chat HTTP/1.1" 200 -
-2025-08-04 11:58:31,598 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:58:31] "POST /chat HTTP/1.1" 200 -
-2025-08-04 11:58:33,568 - purr_rag - ERROR - Error retrieving chat history: Unknown arguments: ['filter']
-2025-08-04 11:58:33,600 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 11:58:33] "GET /save-chat HTTP/1.1" 200 -
-2025-08-04 12:11:00,201 - purr_rag - INFO - Qdrant cloud client initialized successfully
-2025-08-04 12:11:00,202 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 12:11:00,217 - purr_rag - ERROR - Failed to load embedding models: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 12:11:00,223 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 12:11:00,238 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 12:11:00,984 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 12:11:05,112 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 12:11:05,112 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 12:11:10,728 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:10] "GET / HTTP/1.1" 200 -
-2025-08-04 12:11:13,593 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:13] "GET /login HTTP/1.1" 200 -
-2025-08-04 12:11:17,296 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:17] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 12:11:18,407 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:18] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 12:11:18,515 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:18] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 12:11:27,692 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 12:11:27,697 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
-2025-08-04 12:11:28,196 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:28] "GET /bot HTTP/1.1" 200 -
-2025-08-04 12:11:35,724 - PurrRAG - INFO - Processing RAG ingest (disabled): 11 chars from user_message
-2025-08-04 12:11:35,724 - PurrRAG - INFO - Processing RAG ingest (disabled): 11 chars from user_message
-2025-08-04 12:11:35,738 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:35] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:11:35,753 - PurrRAG - INFO - Processing RAG ingest (disabled): 316 chars from ai_response
-2025-08-04 12:11:35,753 - PurrRAG - INFO - Processing RAG ingest (disabled): 316 chars from ai_response
-2025-08-04 12:11:35,773 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:35] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:11:35,803 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:35] "POST /chat HTTP/1.1" 200 -
-2025-08-04 12:11:48,006 - PurrRAG - INFO - Processing RAG ingest (disabled): 12 chars from user_message
-2025-08-04 12:11:48,006 - PurrRAG - INFO - Processing RAG ingest (disabled): 12 chars from user_message
-2025-08-04 12:11:48,024 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:48] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:11:48,044 - PurrRAG - INFO - Processing RAG ingest (disabled): 684 chars from ai_response
-2025-08-04 12:11:48,044 - PurrRAG - INFO - Processing RAG ingest (disabled): 684 chars from ai_response
-2025-08-04 12:11:48,065 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:48] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:11:48,091 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:48] "POST /chat HTTP/1.1" 200 -
-2025-08-04 12:11:56,644 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:11:56] "POST /chat HTTP/1.1" 200 -
-2025-08-04 12:12:06,758 - purr_rag - ERROR - Error retrieving chat history: Unknown arguments: ['filter']
-2025-08-04 12:12:06,778 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:12:06] "GET /save-chat HTTP/1.1" 200 -
-2025-08-04 12:12:30,147 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 12:12:30,588 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 12:12:30,883 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 12:12:31,173 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 12:12:31,458 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 12:12:31,460 - purr_rag - INFO - Created new collection: chat_2
-2025-08-04 12:12:31,498 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:12:31] "GET /bot HTTP/1.1" 200 -
-2025-08-04 12:13:05,305 - purr_rag - INFO - Qdrant cloud client initialized successfully
-2025-08-04 12:13:05,305 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 12:13:05,322 - purr_rag - ERROR - Failed to load embedding models: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 12:13:05,329 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 12:13:05,345 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 12:13:06,100 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 12:13:09,478 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 12:13:09,479 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 12:17:10,035 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 12:17:10,040 - purr_rag - INFO - Qdrant cloud client initialized successfully
-2025-08-04 12:17:10,040 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 12:17:10,078 - purr_rag - ERROR - Failed to load embedding models: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 12:17:10,081 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 12:17:10,101 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
-Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
-cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
-2025-08-04 12:17:10,893 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 12:17:12,889 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 12:17:12,889 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 12:18:02,193 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:02] "GET / HTTP/1.1" 200 -
-2025-08-04 12:18:05,399 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:05] "GET /login HTTP/1.1" 200 -
-2025-08-04 12:18:09,461 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:09] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 12:18:10,626 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:10] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 12:18:10,824 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:10] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 12:18:13,793 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 12:18:14,051 - httpx - INFO - HTTP Request: DELETE https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 12:18:14,064 - purr_rag - INFO - Deleted existing collection: chat_2
-2025-08-04 12:18:14,494 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 12:18:14,779 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 12:18:15,076 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 12:18:15,363 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 12:18:15,366 - purr_rag - INFO - Created new collection: chat_2
-2025-08-04 12:18:15,457 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:15] "GET /bot HTTP/1.1" 200 -
-2025-08-04 12:18:23,950 - PurrRAG - INFO - Processing RAG ingest (disabled): 11 chars from user_message
-2025-08-04 12:18:23,950 - PurrRAG - INFO - Processing RAG ingest (disabled): 11 chars from user_message
-2025-08-04 12:18:23,967 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:23] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:18:23,987 - PurrRAG - INFO - Processing RAG ingest (disabled): 261 chars from ai_response
-2025-08-04 12:18:23,987 - PurrRAG - INFO - Processing RAG ingest (disabled): 261 chars from ai_response
-2025-08-04 12:18:24,020 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:24] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:18:24,051 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:24] "POST /chat HTTP/1.1" 200 -
-2025-08-04 12:18:36,330 - PurrRAG - INFO - Processing RAG ingest (disabled): 27 chars from user_message
-2025-08-04 12:18:36,330 - PurrRAG - INFO - Processing RAG ingest (disabled): 27 chars from user_message
-2025-08-04 12:18:36,343 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:36] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:18:36,376 - PurrRAG - INFO - Processing RAG ingest (disabled): 723 chars from ai_response
-2025-08-04 12:18:36,376 - PurrRAG - INFO - Processing RAG ingest (disabled): 723 chars from ai_response
-2025-08-04 12:18:36,410 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:36] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 12:18:36,439 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:36] "POST /chat HTTP/1.1" 200 -
-2025-08-04 12:18:47,743 - purr_rag - ERROR - Error retrieving chat history: Unknown arguments: ['filter']
-2025-08-04 12:18:47,748 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:18:47] "GET /save-chat HTTP/1.1" 200 -
-2025-08-04 12:25:40,690 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:25:40] "POST /chat HTTP/1.1" 200 -
-2025-08-04 12:25:46,033 - purr_rag - ERROR - Error retrieving chat history: Unknown arguments: ['filter']
-2025-08-04 12:25:46,041 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 12:25:46] "GET /save-chat HTTP/1.1" 200 -
-2025-08-04 13:48:54,450 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 13:48:54,860 - httpx - INFO - HTTP Request: DELETE https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 13:48:54,860 - purr_rag - INFO - Deleted existing collection: chat_2
-2025-08-04 13:48:55,373 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 13:48:55,689 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 13:48:56,008 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 13:48:56,321 - httpx - INFO - HTTP Request: PUT https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2/index?wait=true "HTTP/1.1 200 OK"
-2025-08-04 13:48:56,321 - purr_rag - INFO - Created new collection: chat_2
-2025-08-04 13:48:56,577 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:48:56] "GET /bot HTTP/1.1" 200 -
-2025-08-04 13:50:02,851 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 13:50:02,862 - purr_rag - INFO - Qdrant cloud client initialized successfully
-2025-08-04 13:50:02,862 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 13:50:03,502 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 13:50:07,559 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
-2025-08-04 13:50:07,560 - purr_rag - INFO - Embedding models loaded successfully
-2025-08-04 13:50:07,565 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 13:50:09,349 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 13:50:09,349 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
-2025-08-04 13:50:10,746 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 13:50:15,889 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 13:50:15,889 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 13:52:10,781 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:10] "GET / HTTP/1.1" 200 -
-2025-08-04 13:52:15,416 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:15] "GET /login HTTP/1.1" 200 -
-2025-08-04 13:52:22,405 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:22] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 13:52:23,792 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:23] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 13:52:24,287 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 13:52:35,770 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:35] "GET /features HTTP/1.1" 200 -
-2025-08-04 13:52:35,921 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:35] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 13:52:38,314 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:38] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 13:52:38,388 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:52:38] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 13:54:30,335 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:54:30] "GET /features HTTP/1.1" 200 -
-2025-08-04 13:54:30,381 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:54:30] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 13:54:33,896 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 13:54:34,416 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 13:54:34,729 - httpx - INFO - HTTP Request: DELETE https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections/chat_2 "HTTP/1.1 200 OK"
-2025-08-04 13:54:34,765 - purr_rag - INFO - Deleted existing collection: chat_2
-2025-08-04 13:54:34,765 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
-2025-08-04 13:54:34,835 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:54:34] "GET /bot HTTP/1.1" 200 -
-2025-08-04 13:54:49,159 - PurrRAG - INFO - Processing RAG ingest (disabled): 14 chars from user_message
-2025-08-04 13:54:49,159 - PurrRAG - INFO - Processing RAG ingest (disabled): 14 chars from user_message
-2025-08-04 13:54:49,192 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:54:49] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 13:54:49,255 - PurrRAG - INFO - Processing RAG ingest (disabled): 248 chars from ai_response
-2025-08-04 13:54:49,255 - PurrRAG - INFO - Processing RAG ingest (disabled): 248 chars from ai_response
-2025-08-04 13:54:49,309 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:54:49] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 13:54:49,356 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:54:49] "POST /chat HTTP/1.1" 200 -
-2025-08-04 13:55:11,206 - PurrRAG - INFO - Processing RAG ingest (disabled): 15 chars from user_message
-2025-08-04 13:55:11,206 - PurrRAG - INFO - Processing RAG ingest (disabled): 15 chars from user_message
-2025-08-04 13:55:11,234 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:55:11] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 13:55:11,356 - PurrRAG - INFO - Processing RAG ingest (disabled): 773 chars from ai_response
-2025-08-04 13:55:11,356 - PurrRAG - INFO - Processing RAG ingest (disabled): 773 chars from ai_response
-2025-08-04 13:55:11,422 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:55:11] "POST /direct-rag-ingest HTTP/1.1" 200 -
-2025-08-04 13:55:11,538 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:55:11] "POST /chat HTTP/1.1" 200 -
-2025-08-04 13:55:27,998 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:55:27] "GET /features HTTP/1.1" 200 -
-2025-08-04 13:55:28,110 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:55:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 13:55:40,927 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 13:55:40] "GET /exambot HTTP/1.1" 200 -
-2025-08-04 14:10:51,795 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:10:51] "GET /exambot HTTP/1.1" 200 -
-2025-08-04 14:12:38,857 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 14:12:38,908 - purr_rag - INFO - Qdrant cloud client initialized successfully
-2025-08-04 14:12:38,908 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 14:12:39,666 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 14:12:44,052 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
-2025-08-04 14:12:44,052 - purr_rag - INFO - Embedding models loaded successfully
-2025-08-04 14:12:44,062 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
-2025-08-04 14:12:45,260 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
-2025-08-04 14:12:45,270 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
-2025-08-04 14:12:46,398 - blueprints.flashcard - INFO - Qdrant client initialized successfully
-2025-08-04 14:12:53,374 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.193.47:5000
-2025-08-04 14:12:53,374 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-04 14:15:23,490 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:23] "GET / HTTP/1.1" 200 -
-2025-08-04 14:15:25,054 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:25] "GET /login HTTP/1.1" 200 -
-2025-08-04 14:15:31,049 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:31] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 14:15:32,547 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:32] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 14:15:33,029 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:33] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:15:34,695 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:34] "GET /features HTTP/1.1" 200 -
-2025-08-04 14:15:34,740 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:34] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:15:36,725 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:15:36] "GET /exambot HTTP/1.1" 200 -
-2025-08-04 14:16:27,471 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:16:27] "GET /exambot HTTP/1.1" 200 -
-2025-08-04 14:16:54,364 - easyocr.easyocr - WARNING - Using CPU. Note: This module is much faster with a GPU.
-2025-08-04 14:19:53,075 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:19:53] "POST /process_exam HTTP/1.1" 200 -
-2025-08-04 14:30:10,940 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:10] "GET /features HTTP/1.1" 200 -
-2025-08-04 14:30:11,065 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:11] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:30:13,993 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:13] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 14:30:14,028 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:14] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:30:18,373 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:18] "GET /features HTTP/1.1" 200 -
-2025-08-04 14:30:18,406 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:18] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:30:23,055 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:23] "GET /rooms HTTP/1.1" 200 -
-2025-08-04 14:30:26,919 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:26] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 14:30:26,995 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:26] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:30:28,949 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:28] "GET /progress HTTP/1.1" 200 -
-2025-08-04 14:30:28,986 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:30:44,635 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 14:30:44,896 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 14:30:44,951 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:44] "GET /rag/progress HTTP/1.1" 200 -
-2025-08-04 14:30:47,802 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:47] "GET /forms HTTP/1.1" 200 -
-2025-08-04 14:30:52,981 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:52] "GET /progress HTTP/1.1" 200 -
-2025-08-04 14:30:53,060 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:53] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:30:55,649 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:55] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 14:30:55,858 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:55] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 14:30:55,890 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:30:55] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:31:02,762 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:31:02] "[32mGET /create-note.html HTTP/1.1[0m" 302 -
-2025-08-04 14:31:02,949 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:31:02] "GET /notes/create-note HTTP/1.1" 200 -
-2025-08-04 14:33:10,775 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:10] "GET /planning HTTP/1.1" 200 -
-2025-08-04 14:33:10,813 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:10] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:14,757 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:14] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 14:33:14,881 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:14] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 14:33:14,929 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:14] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:15,811 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:15] "GET /planning HTTP/1.1" 200 -
-2025-08-04 14:33:15,858 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:15] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:24,241 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:24] "GET /planning HTTP/1.1" 200 -
-2025-08-04 14:33:24,287 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:26,463 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:26] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 14:33:26,564 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:26] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 14:33:26,586 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:26] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:29,301 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:29] "GET /features HTTP/1.1" 200 -
-2025-08-04 14:33:29,346 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:29] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:31,368 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:31] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 14:33:31,445 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:31] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:34,189 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:34] "GET /planning HTTP/1.1" 200 -
-2025-08-04 14:33:34,224 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:34] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:37,160 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:37] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 14:33:37,229 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:37] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:38,423 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:38] "GET /planning HTTP/1.1" 200 -
-2025-08-04 14:33:38,459 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:38] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 14:33:45,090 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:45] "GET /profile HTTP/1.1" 200 -
-2025-08-04 14:33:45,137 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:45] "[33mGET /static/images/default-profile.png HTTP/1.1[0m" 404 -
-2025-08-04 14:33:48,558 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:48] "GET /planning HTTP/1.1" 200 -
-2025-08-04 14:33:48,590 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 14:33:48] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 15:26:54,635 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 15:26:54] "GET /features HTTP/1.1" 200 -
-2025-08-04 15:26:54,717 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 15:26:54] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 15:40:32,889 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 15:40:32] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 15:40:32,953 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 15:40:32] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 15:40:38,042 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 15:40:38] "GET /progress HTTP/1.1" 200 -
-2025-08-04 15:40:38,080 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 15:40:38] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:10:47,150 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 16:10:47,260 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:10:47] "GET /rag/progress HTTP/1.1" 200 -
-2025-08-04 16:10:57,005 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:10:57] "GET /features HTTP/1.1" 200 -
-2025-08-04 16:10:57,063 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:10:57] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:11:00,916 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:00] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:11:00,977 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:00] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:11:02,669 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:02] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 16:11:02,797 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:02] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 16:11:02,825 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:02] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:11:03,632 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:03] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:11:03,664 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:03] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:11:08,143 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:08] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:11:08,177 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:08] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:11:22,533 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:22] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:11:22,606 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:22] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:11:26,698 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:26] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 16:11:26,736 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:11:26] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:17:30,139 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:17:30] "GET /features HTTP/1.1" 200 -
-2025-08-04 16:17:30,172 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:17:30] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:19:16,514 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:19:16] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:19:16,580 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:19:16] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:21:28,811 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:28] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:21:28,857 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:21:30,515 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:30] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 16:21:30,626 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:30] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 16:21:30,650 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:30] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:21:33,233 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:33] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:21:33,273 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:21:33] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:30:08,395 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:08] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:30:08,430 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:08] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:30:18,418 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 16:30:18,527 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:18] "GET /rag/progress HTTP/1.1" 200 -
-2025-08-04 16:30:19,781 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:19] "GET /features HTTP/1.1" 200 -
-2025-08-04 16:30:19,815 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:19] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:30:52,724 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:52] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:30:52,750 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:52] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:30:55,086 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:55] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 16:30:55,120 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:55] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:30:56,872 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:56] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:30:56,974 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:30:56] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:31:01,149 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:01] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 16:31:01,186 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:01] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:31:02,918 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:02] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:31:02,975 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:02] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:31:04,095 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:04] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 16:31:04,238 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:04] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 16:31:04,275 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:04] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:31:06,979 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:06] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:31:07,006 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:31:07] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:36:10,633 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:10] "GET /features HTTP/1.1" 200 -
-2025-08-04 16:36:10,682 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:10] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:36:13,792 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:13] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 16:36:13,826 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:13] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:36:15,028 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:15] "GET /features HTTP/1.1" 200 -
-2025-08-04 16:36:15,061 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:15] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:36:16,340 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:16] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:36:16,406 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:16] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:36:20,549 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 16:36:20,601 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:20] "GET /rag/progress HTTP/1.1" 200 -
-2025-08-04 16:36:20,752 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:20] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 16:36:20,864 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:20] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 16:36:20,895 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:20] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:36:23,063 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:23] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:36:23,103 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:36:23] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:41:29,662 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:29] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:41:29,720 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:29] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:41:32,884 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:32] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 16:41:32,968 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:32] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:41:33,997 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:33] "GET /features HTTP/1.1" 200 -
-2025-08-04 16:41:34,051 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:34] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:41:34,985 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:34] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:41:35,005 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:35] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:41:35,789 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:35] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 16:41:35,904 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:35] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 16:41:35,935 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:35] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:41:36,764 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:36] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:41:36,812 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:41:36] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:55:46,339 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:55:46] "GET /progress HTTP/1.1" 200 -
-2025-08-04 16:55:46,418 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:55:46] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:55:58,825 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 16:55:58,888 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:55:58] "GET /rag/progress HTTP/1.1" 200 -
-2025-08-04 16:56:15,793 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:15] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
-2025-08-04 16:56:15,906 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:15] "GET /notes/ HTTP/1.1" 200 -
-2025-08-04 16:56:15,934 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:15] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:56:16,797 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:16] "GET /planning HTTP/1.1" 200 -
-2025-08-04 16:56:16,830 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:16] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:56:20,544 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:20] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 16:56:20,615 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:20] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 16:56:22,884 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:22] "GET / HTTP/1.1" 200 -
-2025-08-04 16:56:24,107 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:24] "[32mGET /home HTTP/1.1[0m" 302 -
-2025-08-04 16:56:24,238 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:24] "GET /index HTTP/1.1" 200 -
-2025-08-04 16:56:25,078 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:25] "[32mGET /home HTTP/1.1[0m" 302 -
-2025-08-04 16:56:25,206 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:25] "GET /index HTTP/1.1" 200 -
-2025-08-04 16:56:26,087 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:26] "[32mGET /home HTTP/1.1[0m" 302 -
-2025-08-04 16:56:26,217 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:26] "GET /index HTTP/1.1" 200 -
-2025-08-04 16:56:26,421 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:26] "[32mGET /home HTTP/1.1[0m" 302 -
-2025-08-04 16:56:26,552 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 16:56:26] "GET /index HTTP/1.1" 200 -
-2025-08-04 17:01:54,874 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:01:54] "GET /login HTTP/1.1" 200 -
-2025-08-04 17:01:58,508 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:01:58] "[32mPOST /login HTTP/1.1[0m" 302 -
-2025-08-04 17:01:59,576 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:01:59] "GET /dashboard HTTP/1.1" 200 -
-2025-08-04 17:01:59,619 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:01:59] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 17:02:01,211 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:02:01] "GET /features HTTP/1.1" 200 -
-2025-08-04 17:02:01,243 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:02:01] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 17:02:02,316 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:02:02] "GET /progress HTTP/1.1" 200 -
-2025-08-04 17:02:02,379 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:02:02] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
-2025-08-04 17:02:13,516 - httpx - INFO - HTTP Request: GET https://a2ed3dc4-db17-4e91-8390-e64052fb64c9.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
-2025-08-04 17:02:13,549 - werkzeug - INFO - 192.168.56.1 - - [04/Aug/2025 17:02:13] "GET /rag/progress HTTP/1.1" 200 -
+2025-09-15 00:25:01,251 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-15 00:51:47,802 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:51:47] "GET / HTTP/1.1" 200 -
+2025-09-15 00:51:47,963 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:51:47] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-15 00:51:49,986 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:51:49] "GET /login HTTP/1.1" 200 -
+2025-09-15 00:51:59,066 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:51:59] "POST /login HTTP/1.1" 200 -
+2025-09-15 00:52:09,822 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:09] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-15 00:52:11,324 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:11] "GET /dashboard HTTP/1.1" 200 -
+2025-09-15 00:52:11,723 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:11] "GET /static/js/security-utils.js HTTP/1.1" 200 -
+2025-09-15 00:52:11,740 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:11] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-15 00:52:46,982 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:46] "GET /features HTTP/1.1" 200 -
+2025-09-15 00:52:47,194 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:47] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-15 00:52:48,233 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:48] "GET /forms HTTP/1.1" 200 -
+2025-09-15 00:52:51,100 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-15 00:52:51,376 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-15 00:52:51,399 - purr_rag - ERROR - Error creating collection chat_3: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
+2025-09-15 00:52:51,482 - werkzeug - INFO - 127.0.0.1 - - [15/Sep/2025 00:52:51] "GET /bot HTTP/1.1" 200 -
+2025-09-16 19:04:32,875 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-16 19:04:32,879 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-16 19:04:32,879 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-16 19:04:33,506 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-16 19:04:38,455 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
+2025-09-16 19:04:38,483 - purr_rag - INFO - Embedding models loaded successfully
+2025-09-16 19:04:38,495 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-16 19:04:40,197 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-16 19:04:40,197 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-09-16 19:04:41,118 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-16 19:05:35,303 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-16 19:05:35,319 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-16 19:05:35,319 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-16 19:05:35,923 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-16 19:05:42,197 - sentence_transformers.cross_encoder.CrossEncoder - INFO - Use pytorch device: cpu
+2025-09-16 19:05:42,209 - purr_rag - INFO - Embedding models loaded successfully
+2025-09-16 19:05:42,238 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-16 19:05:43,920 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-16 19:05:43,921 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-09-16 19:05:45,561 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-16 19:05:49,779 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-16 19:05:49,779 - werkzeug - INFO -  * Running on http://172.18.193.47:5000/ (Press CTRL+C to quit)
+2025-09-16 19:05:55,728 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:05:55] "GET / HTTP/1.1" 200 -
+2025-09-16 19:05:56,146 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:05:56] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:05:56,172 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:05:56] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-16 19:06:05,416 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:05] "GET /login HTTP/1.1" 200 -
+2025-09-16 19:06:09,415 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:09] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-16 19:06:10,148 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:10] "GET /dashboard HTTP/1.1" 200 -
+2025-09-16 19:06:10,236 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:10] "GET /static/js/security-utils.js HTTP/1.1" 200 -
+2025-09-16 19:06:10,245 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:10] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:06:18,362 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:18] "GET /features HTTP/1.1" 200 -
+2025-09-16 19:06:18,399 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:18] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:06:19,957 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:19] "GET /progress HTTP/1.1" 200 -
+2025-09-16 19:06:20,007 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:20] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:06:21,582 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:21] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-09-16 19:06:21,841 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:21] "GET /notes/ HTTP/1.1" 200 -
+2025-09-16 19:06:21,872 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:21] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:06:24,262 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:24] "GET /planning HTTP/1.1" 200 -
+2025-09-16 19:06:24,305 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:06:25,453 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:25] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-09-16 19:06:25,567 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:25] "GET /notes/ HTTP/1.1" 200 -
+2025-09-16 19:06:25,593 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:25] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:06:29,412 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:29] "[32mGET /create-note.html HTTP/1.1[0m" 302 -
+2025-09-16 19:06:29,578 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:06:29] "GET /notes/create-note HTTP/1.1" 200 -
+2025-09-16 19:07:39,941 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:39] "GET /planning HTTP/1.1" 200 -
+2025-09-16 19:07:39,969 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:39] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:07:43,143 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:43] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-09-16 19:07:43,278 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:43] "GET /notes/ HTTP/1.1" 200 -
+2025-09-16 19:07:43,321 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:43] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:07:45,172 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:45] "GET /progress HTTP/1.1" 200 -
+2025-09-16 19:07:45,220 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:45] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:07:54,071 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-16 19:07:54,343 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-16 19:07:54,399 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:54] "GET /rag/progress HTTP/1.1" 200 -
+2025-09-16 19:07:56,995 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:56] "GET /dashboard HTTP/1.1" 200 -
+2025-09-16 19:07:57,043 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:57] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-16 19:07:57,065 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:57] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:07:58,562 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:58] "GET /features HTTP/1.1" 200 -
+2025-09-16 19:07:58,606 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:07:58] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-16 19:08:01,366 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:08:01] "GET /game HTTP/1.1" 200 -
+2025-09-16 19:08:05,433 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:08:05] "GET /forms HTTP/1.1" 200 -
+2025-09-16 19:08:08,941 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-16 19:08:09,196 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-16 19:08:09,214 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
+2025-09-16 19:08:09,264 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:08:09] "GET /bot HTTP/1.1" 200 -
+2025-09-16 19:08:12,409 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:08:12] "GET /rooms HTTP/1.1" 200 -

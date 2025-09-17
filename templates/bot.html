@@ -637,6 +637,7 @@
 
         <div class="upload-form" id="pdf-option">
             <form id="pdf-form" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="file" class="file-input" name="pdf" accept=".pdf" required>
                 <button type="submit" class="submit-button">Upload & Learn</button>
             </form>
@@ -646,6 +647,7 @@
 
         <div class="upload-form" id="code-option">
             <form id="code-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <textarea class="link-input" name="code" placeholder="Paste your code here or describe what you want to learn" rows="4" required></textarea>
                 <button type="submit" class="submit-button">Analyze & Learn</button>
             </form>
