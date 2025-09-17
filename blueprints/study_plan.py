@@ -18,6 +18,13 @@ from blueprints.study_tools import (
 import PyPDF2
 import google.generativeai as genai
 import numpy as np
+import hashlib
+
+# NOTE: We're using the Gemini API key configuration from app1.py
+# The genai module is already configured in the main application
+# No need to configure it again here
+
+print("Using Gemini API configuration from main application")
 
 # RAG dependencies
 from utils.model_loader import get_embedding_model
@@ -26,7 +33,11 @@ from qdrant_client.http import models as qdrant_models
 from qdrant_client.http.models import PointStruct
 import os
 
-study_plan = Blueprint('study_plan', __name__)
+# Create blueprint with explicit template folder to ensure proper resource access
+study_plan = Blueprint('study_plan', __name__, template_folder='templates')
+
+# Access to the application context ensures we share resources like the configured genai API
+# The main app already initializes the genai module with the API key from .env
 
 # RAG functionality with Qdrant for Study Plans
 # ===========================================================
@@ -686,7 +697,16 @@ def study_answer_api():
                 # If still no results, use fallback to direct Gemini generation
                 print("⚠️ No context found in user's study plans, falling back to direct AI generation")
                 try:
-                    model = genai.GenerativeModel('gemini-2.0-flash')
+                    # Try to create a model with the API key from main application
+                    try:
+                        model = genai.GenerativeModel('gemini-2.0-flash')
+                    except Exception as e:
+                        print(f"Error creating Gemini model for fallback: {e}")
+                        return jsonify({
+                            'success': False,
+                            'error': f"Could not initialize AI model: {str(e)}"
+                        }), 500
+                        
                     prompt = f"""
                     You are a helpful study assistant. The student asked: 
                     
@@ -739,7 +759,18 @@ def study_answer_api():
         # Generate answer using Gemini with RAG context
         try:
             print("🧠 Generating answer using Gemini with RAG context...")
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            
+            # The genai module is already configured in the main application
+            # Try to create a model with the API key configured there
+            try:
+                model = genai.GenerativeModel('gemini-2.0-flash')
+            except Exception as e:
+                print(f"Error creating Gemini model for RAG: {e}")
+                return jsonify({
+                    'success': False,
+                    'error': f"Could not initialize AI model: {str(e)}"
+                }), 500
+                
             prompt = f"""
             You are a helpful study assistant. The student asked:
             
@@ -843,7 +874,14 @@ def process_pdf_files(files):
 def extract_important_topics(pdf_content):
     """Extract important topics from PDF content using Gemini AI"""
     try:
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        # The genai module is already configured in the main application
+        # No need to check API key here
+        try:
+            model = genai.GenerativeModel('gemini-2.0-flash')
+        except Exception as e:
+            print(f"Error creating Gemini model for topic extraction: {e}")
+            return {"topics": [{"name": "Model Creation Failed", "importance": 5, "explanation": str(e), "recommended_time_minutes": 30, "key_points": ["Please check API key configuration"]}]}
+            
         prompt = f"""
         You are an expert academic analyzer and study plan creator. Based on the provided study material, create a comprehensive study plan. 
         Identify the most important 8-12 topics that a student should focus on when preparing for an exam on this material.
@@ -900,7 +938,12 @@ def extract_important_topics(pdf_content):
 def create_enhanced_study_schedule(form_data, topics_data):
     """Create an enhanced study schedule using ReAct framework (Reason → Act → Observe → Final Answer)"""
     try:
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        # The genai module is already configured in the main application
+        try:
+            model = genai.GenerativeModel('gemini-2.0-flash')
+        except Exception as e:
+            print(f"Error creating Gemini model: {e}")
+            return None
         
         # Format the input data for Gemini
         topics_json = json.dumps(topics_data)
@@ -1034,19 +1077,22 @@ def create_enhanced_study_schedule(form_data, topics_data):
                     day["activities"] = create_fallback_activities(topics_data["topics"], day_idx, form_data)
                     print(f"Added {len(day['activities'])} intelligent activities with ReAct framework")
             
-            print(f"Schedule processed with {len(enhanced_schedule['day_schedules'])} days")
+            day_schedules = enhanced_schedule.get('day_schedules', [])
+            print(f"Schedule processed with {len(day_schedules)} days")
             return enhanced_schedule
             
         except json.JSONDecodeError as e:
             print(f"ERROR parsing JSON from response: {e}")
             print("JSON content that failed to parse:")
             print(json_str[:500])  # Print first 500 chars for debugging
-            return {"day_schedules": create_fallback_schedule(form_data, topics_data), "plan_summary": "Fallback study plan"}
+            fallback = create_fallback_schedule(form_data, topics_data)
+            return fallback
             
     except Exception as e:
         print(f"Error generating enhanced schedule: {str(e)}")
         # Create fallback schedule
-        return {"day_schedules": create_fallback_schedule(form_data, topics_data), "plan_summary": "Fallback study plan"}
+        fallback = create_fallback_schedule(form_data, topics_data)
+        return fallback
 
 # ReAct Framework helper functions
 def topic_ranker_tool(topics):
@@ -1140,7 +1186,9 @@ def create_fallback_schedule(form_data, topics_data):
             
             # Get break preferences
             break_duration = int(form_data.get('breakDuration', 15))
-            break_interval = int(form_data.get('breakInterval', 60))
+            # Convert breakInterval to float first, then to minutes as int
+            break_interval_hours = float(form_data.get('breakInterval', 1))
+            break_interval = int(break_interval_hours * 60)  # Convert hours to minutes
             
             # Get sleep hours
             sleep_hours = int(form_data.get('sleepHours', 8))
@@ -1374,7 +1422,11 @@ def create_fallback_schedule(form_data, topics_data):
                 
                 # Add bedtime (based on wake time and sleep hours)
                 wake_time_obj = datetime.strptime(wake_time_str, "%H:%M")
-                bedtime_obj = (wake_time_obj - timedelta(hours=sleep_hours)) % timedelta(days=1)
+                # Calculate bedtime properly without using modulo
+                bedtime_obj = wake_time_obj - timedelta(hours=sleep_hours)
+                # If bedtime is on the previous day, add 24 hours to keep it on the same day
+                if bedtime_obj > wake_time_obj:
+                    bedtime_obj = bedtime_obj - timedelta(days=1)
                 bedtime = bedtime_obj.strftime("%H:%M")
                 
                 day_activities.append({
@@ -1507,7 +1559,9 @@ def create_fallback_activities(topics, day_idx, form_data=None):
     snack_time = form_data.get('snackTime', '16:00')
     dinner_time = form_data.get('dinnerTime', '19:00')
     break_duration = int(form_data.get('breakDuration', 15))
-    break_interval = int(form_data.get('breakInterval', 60))
+    # Convert breakInterval to float first, then to minutes as int
+    break_interval_hours = float(form_data.get('breakInterval', 1))
+    break_interval = int(break_interval_hours * 60)  # Convert hours to minutes
     
     # Calculate best times for study based on chronobiology
     # Most people are most productive in the morning and early afternoon
@@ -1847,17 +1901,44 @@ def create_study_plan():
         
         # Create the enhanced study schedule, passing the revision_only flag
         form_data['is_revision_only'] = is_revision_only  # Add the flag to form data
-        enhanced_schedule = create_enhanced_study_schedule(form_data, topics_data)
+        
+        try:
+            print("Attempting to create enhanced schedule...")
+            enhanced_schedule = create_enhanced_study_schedule(form_data, topics_data)
+            
+            if not enhanced_schedule or not isinstance(enhanced_schedule, dict):
+                print("Error: Enhanced schedule creation failed to return a valid schedule")
+                # Fall back to a simple schedule
+                enhanced_schedule = create_fallback_schedule(form_data, topics_data)
+                if not enhanced_schedule:
+                    # Create an absolute minimum fallback
+                    enhanced_schedule = {
+                        "plan_summary": "Basic study plan created due to scheduling errors",
+                        "day_schedules": []
+                    }
+        except Exception as e:
+            print(f"Error creating enhanced schedule: {e}")
+            # Fall back to a simple schedule
+            enhanced_schedule = create_fallback_schedule(form_data, topics_data)
+            if not enhanced_schedule:
+                # Create an absolute minimum fallback
+                enhanced_schedule = {
+                    "plan_summary": "Basic study plan created due to scheduling errors",
+                    "day_schedules": []
+                }
         
         # Debug the schedule response
-        print(f"Schedule generated with {len(enhanced_schedule.get('day_schedules', []))} days")
-        if enhanced_schedule.get('day_schedules'):
-            first_day = enhanced_schedule['day_schedules'][0]
+        day_schedules = enhanced_schedule.get('day_schedules', [])
+        print(f"Schedule generated with {len(day_schedules)} days")
+        if day_schedules and len(day_schedules) > 0:
+            first_day = day_schedules[0]
             print(f"First day: {first_day.get('formatted_date')}")
             activities = first_day.get('activities', [])
             print(f"Activities count: {len(activities)}")
             if activities:
                 print(f"First activity: {activities[0].get('title')}")
+        else:
+            print("Warning: No day schedules were generated in the enhanced schedule")
 
         # Define the study plan structure with the revision flag
         study_plan_data = {
