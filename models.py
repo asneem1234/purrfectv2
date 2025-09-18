@@ -163,7 +163,7 @@ class StudyRoom(db.Model):
 
     snapshots = db.relationship('WhiteboardSnapshot', backref='room', lazy=True)
     logs = db.relationship('UserLog', backref='room', lazy=True)
-    chat_messages = db.relationship('ChatMessage', backref='room', lazy=True)
+    chat_messages = db.relationship('ChatMessage', back_populates='study_room', lazy=True)
 
 
 class UserLog(db.Model):
@@ -237,6 +237,7 @@ class ChatMessage(db.Model):
     message = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Fix: Remove the backref entirely as it's causing conflicts
-    # StudyRoom already has a 'chat_messages' relationship defined elsewhere
-    study_room = db.relationship('StudyRoom', foreign_keys=[room_id])
+    # Use back_populates instead of defining a separate relationship
+    # This ensures bidirectional consistency with StudyRoom.chat_messages
+    study_room = db.relationship('StudyRoom', foreign_keys=[room_id], 
+                               back_populates='chat_messages', overlaps="room")
