@@ -11,6 +11,15 @@ Import this module before importing eventlet in your main application.
 import sys
 import os
 import platform
+import importlib
+
+# Import eventlet first
+try:
+    import eventlet
+    import eventlet.timeout
+except ImportError:
+    print("⚠️ Eventlet not installed, skipping patches")
+    eventlet = None
 
 # Flag to check if we're on Windows
 IS_WINDOWS = platform.system() == 'Windows'
@@ -18,8 +27,7 @@ IS_WINDOWS = platform.system() == 'Windows'
 print(f"Python version: {sys.version}")
 
 # Only apply patches if we're on Python 3.11 or higher
-if sys.version_info >= (3, 11):
-    import eventlet.timeout
+if eventlet and sys.version_info >= (3, 11):
     import socket
     
     # Create a custom wrapper for socket.timeout
@@ -62,9 +70,8 @@ if sys.version_info >= (3, 11):
         print(f"⚠️ Error applying six module patch: {e}")
 
 # Fix for eventlet.green attribute
-if not hasattr(eventlet, 'green'):
-    import sys
-    import importlib
+if eventlet and not hasattr(eventlet, 'green'):
+    print("Adding missing 'green' attribute to eventlet module...")
     
     # Create the module structure
     eventlet.green = importlib.import_module('eventlet.green')
