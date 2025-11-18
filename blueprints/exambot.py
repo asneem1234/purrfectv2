@@ -102,16 +102,19 @@ def process_exam():
     """Process an uploaded exam paper"""
     try:
         print("Received process_exam request")
+        print("Current user:", current_user.username if current_user and current_user.is_authenticated else "Not authenticated")
         # Print all form fields for debugging
         print("Form fields:", list(request.form.keys()))
         print("Files:", list(request.files.keys()))
         
         if 'exam_file' not in request.files:
-            return jsonify({"success": False, "error": "No file part"}), 400
+            print("ERROR: No file in request")
+            return jsonify({"success": False, "error": "No file part in the request. Please select a file to upload."}), 400
         
         file = request.files['exam_file']
         if file.filename == '':
-            return jsonify({"success": False, "error": "No selected file"}), 400
+            print("ERROR: Empty filename")
+            return jsonify({"success": False, "error": "No file selected. Please choose a file to upload."}), 400
         
         # Get exam details from form
         exam_info = {}

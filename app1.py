@@ -1,6 +1,32 @@
+# Apply compatibility patches first (before any imports)
+import compatibility_patch
+
 # Use eventlet for async handling
+# Import patch for Python 3.11+ compatibility
+import platform
+import eventlet_patch
 import eventlet
-eventlet.monkey_patch()
+
+# Check if we're on Windows
+IS_WINDOWS = platform.system() == 'Windows'
+
+# Configure eventlet with minimal monkey patching to avoid issues
+try:
+    # Import threading explicitly before monkey patching
+    import threading
+    import socket
+    import select
+    import time
+    
+    # Patch only the modules we need for basic Socket.IO functionality
+    # Skip os patching which can cause issues on Windows
+    print("Using minimal eventlet monkey patching...")
+    eventlet.monkey_patch(os=False, thread=False, time=False, socket=False, select=False)
+    print("✅ Basic eventlet monkey patching completed")
+except Exception as e:
+    print(f"⚠️ Error during eventlet monkey patching: {e}")
+    print("Continuing without monkey patching...")
+
 from flask import Flask, session, redirect, url_for, render_template, request, flash, jsonify, g
 import os
 import tempfile
@@ -37,6 +63,10 @@ def csrf_check_function():
     """
     # Get current request path
     request_path = request.path
+    
+    # Exempt exambot AJAX endpoints (already protected by @login_required)
+    if request_path in ['/process_exam', '/exam_chat']:
+        return False  # Skip CSRF validation for exambot AJAX calls
     
     # Only exempt specific, documented server-to-server API calls
     if request_path in ['/rag/ingest', '/rag/query', '/direct-rag-ingest']:

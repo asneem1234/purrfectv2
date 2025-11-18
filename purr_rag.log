@@ -139,3 +139,1018 @@
 2025-09-16 19:08:09,214 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
 2025-09-16 19:08:09,264 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:08:09] "GET /bot HTTP/1.1" 200 -
 2025-09-16 19:08:12,409 - werkzeug - INFO - 192.168.56.1 - - [16/Sep/2025 19:08:12] "GET /rooms HTTP/1.1" 200 -
+2025-09-18 02:14:31,066 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-09-18 02:14:32,297 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-09-18 02:14:34,446 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 02:14:34,453 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-18 02:14:34,456 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-09-18 02:15:15,509 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-18 02:15:20,453 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-18 02:15:20,454 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-09-18 02:15:21,573 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-18 02:15:27,437 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-18 02:15:27,437 - werkzeug - INFO -  * Running on http://172.18.193.47:5000/ (Press CTRL+C to quit)
+2025-09-18 02:15:34,855 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:34] "GET / HTTP/1.1" 200 -
+2025-09-18 02:15:35,634 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:35] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:15:36,055 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:36] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-18 02:15:39,296 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:39] "GET /login HTTP/1.1" 200 -
+2025-09-18 02:15:41,901 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:41] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 02:15:42,115 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:42] "GET /login HTTP/1.1" 200 -
+2025-09-18 02:15:46,912 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:46] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 02:15:47,245 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:15:47] "GET /login HTTP/1.1" 200 -
+2025-09-18 02:16:03,343 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:16:03] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 02:16:04,725 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:16:04] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 02:16:04,954 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:16:04] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 02:16:05,172 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:16:05] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:16:12,454 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:16:12] "GET / HTTP/1.1" 200 -
+2025-09-18 02:16:12,625 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:16:12] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:17:10,991 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:10] "GET /login HTTP/1.1" 200 -
+2025-09-18 02:17:14,249 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:14] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 02:17:14,902 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:14] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 02:17:15,340 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:15] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 02:17:15,384 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:15] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:17:36,771 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:36] "GET /features HTTP/1.1" 200 -
+2025-09-18 02:17:36,832 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:36] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:17:38,329 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:17:38] "GET /forms HTTP/1.1" 200 -
+2025-09-18 02:18:38,237 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:18:38] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-09-18 02:18:38,734 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:18:38] "GET /forms HTTP/1.1" 200 -
+2025-09-18 02:41:12,349 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-09-18 02:41:13,646 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-09-18 02:41:15,147 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 02:41:15,163 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-18 02:41:15,163 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-09-18 02:41:39,890 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-18 02:41:40,567 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
+Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
+cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
+2025-09-18 02:41:41,248 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-18 02:41:48,509 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.193.47:5000
+2025-09-18 02:41:48,509 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-18 02:41:57,114 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:41:57] "GET / HTTP/1.1" 200 -
+2025-09-18 02:41:57,463 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:41:57] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:41:57,805 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:41:57] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-18 02:42:03,267 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:03] "GET /login HTTP/1.1" 200 -
+2025-09-18 02:42:08,251 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:08] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 02:42:09,053 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:09] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 02:42:09,155 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:09] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:42:09,155 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:09] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 02:42:14,043 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:14] "GET /features HTTP/1.1" 200 -
+2025-09-18 02:42:14,108 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:14] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:42:15,260 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:15] "GET /forms HTTP/1.1" 200 -
+2025-09-18 02:42:50,087 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:50] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-09-18 02:42:50,237 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 02:42:50] "GET /forms HTTP/1.1" 200 -
+2025-09-18 02:52:11,431 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-09-18 02:52:12,616 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-09-18 02:52:14,050 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 02:52:14,056 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-18 02:52:14,056 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-09-18 02:52:28,008 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-18 02:52:28,561 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
+Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
+cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
+2025-09-18 02:52:29,348 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-18 02:52:32,540 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.193.47:5000
+2025-09-18 02:52:32,540 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-18 02:52:37,361 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:37] "GET / HTTP/1.1" 200 -
+2025-09-18 02:52:37,557 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:37] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:52:42,346 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:42] "GET /login HTTP/1.1" 200 -
+2025-09-18 02:52:45,505 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:45] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 02:52:46,288 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:46] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 02:52:46,347 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:46] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:52:46,638 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:46] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 02:52:56,683 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:52:56] "GET /forms HTTP/1.1" 200 -
+2025-09-18 02:53:27,231 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:53:27] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-09-18 02:53:27,757 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:53:27] "GET /studyplan HTTP/1.1" 200 -
+2025-09-18 02:55:50,573 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:55:50] "GET /features HTTP/1.1" 200 -
+2025-09-18 02:55:50,661 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:55:50] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 02:55:51,809 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:55:51] "GET /forms HTTP/1.1" 200 -
+2025-09-18 02:56:24,768 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:56:24] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-09-18 02:56:24,932 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 02:56:24] "GET /studyplan HTTP/1.1" 200 -
+2025-09-18 03:03:30,301 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-09-18 03:03:30,976 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-09-18 03:03:32,375 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 03:03:32,385 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-18 03:03:32,387 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-09-18 03:03:43,319 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-18 03:03:45,632 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device: cpu
+2025-09-18 03:03:45,632 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-09-18 03:03:46,491 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-18 03:03:48,823 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-18 03:03:48,823 - werkzeug - INFO -  * Running on http://172.18.193.47:5000/ (Press CTRL+C to quit)
+2025-09-18 03:03:54,259 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:03:54] "GET / HTTP/1.1" 200 -
+2025-09-18 03:03:54,548 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:03:54] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:03:57,776 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:03:57] "GET /login HTTP/1.1" 200 -
+2025-09-18 03:04:00,288 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:00] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 03:04:00,938 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:00] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 03:04:01,267 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:01] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:04:01,267 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:01] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 03:04:03,300 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:03] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:04:03,518 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:03] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:04:04,826 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:04:04] "GET /forms HTTP/1.1" 200 -
+2025-09-18 03:05:00,772 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:05:00] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-09-18 03:05:01,054 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:05:01] "GET /studyplan HTTP/1.1" 200 -
+2025-09-18 03:06:14,664 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:14] "[32mPOST /save-study-plan HTTP/1.1[0m" 302 -
+2025-09-18 03:06:15,296 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:15] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 03:06:15,348 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:15] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 03:06:15,657 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:15] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:06:20,200 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:20] "GET /studyplan/live/16 HTTP/1.1" 200 -
+2025-09-18 03:06:34,679 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:34] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 03:06:34,743 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:34] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:06:34,744 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:34] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 03:06:39,238 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:39] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:06:39,326 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:39] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:06:42,167 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 03:06:42,426 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 03:06:42,432 - purr_rag - ERROR - Error creating collection chat_3: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
+2025-09-18 03:06:42,470 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:06:42] "GET /bot HTTP/1.1" 200 -
+2025-09-18 03:07:10,777 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-09-18 03:07:10,793 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:07:10] "[31m[1mPOST /direct-rag-ingest HTTP/1.1[0m" 400 -
+2025-09-18 03:07:12,885 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-09-18 03:07:12,916 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:07:12] "[31m[1mPOST /direct-rag-ingest HTTP/1.1[0m" 400 -
+2025-09-18 03:07:12,949 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:07:12] "POST /chat HTTP/1.1" 200 -
+2025-09-18 03:07:47,813 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:07:47] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:07:47,873 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:07:47] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:07:50,686 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:07:50] "GET /game HTTP/1.1" 200 -
+2025-09-18 03:08:13,796 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:13] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:08:13,857 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:13] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:08:16,012 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:16] "GET /rooms HTTP/1.1" 200 -
+2025-09-18 03:08:19,420 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:19] "GET /create-room HTTP/1.1" 200 -
+2025-09-18 03:08:49,315 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:49] "[32mPOST /create-room HTTP/1.1[0m" 302 -
+2025-09-18 03:08:49,650 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:49] "GET /studyroom/athar HTTP/1.1" 200 -
+2025-09-18 03:08:49,780 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:49] "GET /socket.io/?EIO=4&transport=polling&t=PbPdQqf HTTP/1.1" 200 -
+2025-09-18 03:08:50,160 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:50] "POST /socket.io/?EIO=4&transport=polling&t=PbPdQqz&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:08:50,160 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:50] "GET /socket.io/?EIO=4&transport=polling&t=PbPdQr3&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:08:50,542 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:50] "POST /socket.io/?EIO=4&transport=polling&t=PbPdQwy&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:08:50,554 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:50] "POST /socket.io/?EIO=4&transport=polling&t=PbPdR0t&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:08:50,817 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:50] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1[0m" 500 -
+2025-09-18 03:08:53,247 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:53] "POST /socket.io/?EIO=4&transport=polling&t=PbPdRc4&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:08:53,593 - engineio.server - ERROR - post request handler error
+Traceback (most recent call last):
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\server.py", line 307, in handle_request
+    socket.handle_post_request(environ)
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\socket.py", line 113, in handle_post_request
+    p = payload.Payload(encoded_payload=body)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\payload.py", line 13, in __init__
+    self.decode(encoded_payload)
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\payload.py", line 44, in decode
+    raise ValueError('Too many packets in payload')
+ValueError: Too many packets in payload
+2025-09-18 03:08:53,657 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:53] "POST /socket.io/?EIO=4&transport=polling&t=PbPdRh2&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:08:53,983 - engineio.server - ERROR - post request handler error
+Traceback (most recent call last):
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\server.py", line 307, in handle_request
+    socket.handle_post_request(environ)
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\socket.py", line 113, in handle_post_request
+    p = payload.Payload(encoded_payload=body)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\payload.py", line 13, in __init__
+    self.decode(encoded_payload)
+  File "C:\Users\admin\OneDrive\Desktop\purrfect-main\.venv\Lib\site-packages\engineio\payload.py", line 44, in decode
+    raise ValueError('Too many packets in payload')
+ValueError: Too many packets in payload
+2025-09-18 03:08:54,000 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:08:54] "POST /socket.io/?EIO=4&transport=polling&t=PbPdRnZ&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:09:04,116 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:04] "POST /socket.io/?EIO=4&transport=polling&t=PbPdUF_&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:09:09,864 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:09] "POST /socket.io/?EIO=4&transport=polling&t=PbPdVfc&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:09:14,061 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:14] "POST /socket.io/?EIO=4&transport=polling&t=PbPdWgv&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1" 200 -
+2025-09-18 03:09:14,158 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:14] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:09:14,555 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:14] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:09:17,562 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:17] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 03:09:17,588 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:17] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:09:17,588 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:17] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 03:09:25,014 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:25] "GET /progress HTTP/1.1" 200 -
+2025-09-18 03:09:25,072 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:25] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:09:25,518 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:25] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:09:25,722 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:25] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:09:27,529 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:27] "GET /flashcardgenerator HTTP/1.1" 200 -
+2025-09-18 03:09:35,457 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:35] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PbPdQwx&sid=0-V0YXckih2OXuL2AAAA HTTP/1.1[0m" 400 -
+2025-09-18 03:09:40,065 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:40] "[32mGET /reset-flashcards HTTP/1.1[0m" 302 -
+2025-09-18 03:09:40,561 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:40] "GET /flashcardgenerator HTTP/1.1" 200 -
+2025-09-18 03:09:46,057 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 03:09:46,321 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 03:09:46,817 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3 "HTTP/1.1 200 OK"
+2025-09-18 03:09:47,234 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3/index?wait=true "HTTP/1.1 200 OK"
+2025-09-18 03:09:47,617 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3/index?wait=true "HTTP/1.1 200 OK"
+2025-09-18 03:09:47,987 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3/index?wait=true "HTTP/1.1 200 OK"
+2025-09-18 03:09:48,368 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3/index?wait=true "HTTP/1.1 200 OK"
+2025-09-18 03:09:48,869 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3/index?wait=true "HTTP/1.1 200 OK"
+2025-09-18 03:09:48,874 - blueprints.flashcard - INFO - Created collection: flashcards_3 with payload indexes
+2025-09-18 03:09:50,829 - httpx - INFO - HTTP Request: PUT https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections/flashcards_3/points?wait=true "HTTP/1.1 200 OK"
+2025-09-18 03:09:50,849 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:50] "[32mPOST /generate-flashcards HTTP/1.1[0m" 302 -
+2025-09-18 03:09:51,411 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:09:51] "GET /flashcard HTTP/1.1" 200 -
+2025-09-18 03:11:05,137 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:11:05] "GET /flashcard HTTP/1.1" 200 -
+2025-09-18 03:11:26,146 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:11:26] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:11:26,313 - werkzeug - INFO - 127.0.0.1 - - [18/Sep/2025 03:11:26] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:13:58,517 - werkzeug - INFO - 172.18.193.47 - - [18/Sep/2025 03:13:58] "GET /features HTTP/1.1" 200 -
+2025-09-18 03:13:58,653 - werkzeug - INFO - 172.18.193.47 - - [18/Sep/2025 03:13:58] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 03:13:58,910 - werkzeug - INFO - 172.18.193.47 - - [18/Sep/2025 03:13:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-18 03:14:11,512 - werkzeug - INFO - 172.18.193.47 - - [18/Sep/2025 03:14:11] "GET /rooms HTTP/1.1" 200 -
+2025-09-18 12:24:39,625 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-09-18 12:24:47,227 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-09-18 12:24:51,559 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 12:24:51,578 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-18 12:24:51,579 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-09-18 12:26:02,198 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-18 12:26:03,795 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
+Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
+cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
+2025-09-18 12:26:06,256 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-09-18 12:26:22,906 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.193.47:5000
+2025-09-18 12:26:22,906 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-18 12:26:33,196 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:26:33] "GET / HTTP/1.1" 200 -
+2025-09-18 12:26:34,286 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:26:34] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 12:28:35,948 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:28:35] "GET /login HTTP/1.1" 200 -
+2025-09-18 12:28:42,656 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:28:42] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-18 12:28:44,314 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:28:44] "GET /dashboard HTTP/1.1" 200 -
+2025-09-18 12:28:44,559 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:28:44] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-09-18 12:28:44,654 - werkzeug - INFO - 192.168.56.1 - - [18/Sep/2025 12:28:44] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-09-18 13:52:33,050 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-09-18 13:52:34,485 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-09-18 13:52:36,149 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-09-18 13:52:36,165 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-09-18 13:52:36,165 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-09-18 13:52:49,244 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-09-18 13:52:49,829 - blueprints.flashcard - ERROR - Error loading sentence transformer model: Failed to import transformers.models.bert.modeling_bert because of the following error (look up to see its traceback):
+Failed to import transformers.generation.utils because of the following error (look up to see its traceback):
+cannot import name 'split_torch_state_dict_into_shards' from 'huggingface_hub' (C:\Users\admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\huggingface_hub\__init__.py)
+2025-09-18 13:52:50,531 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-10-28 10:17:08,384 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 10:17:09,920 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 10:17:12,850 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 10:17:12,850 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 10:17:12,850 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 10:17:12,850 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 10:24:35,506 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 10:24:36,187 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 10:24:40,329 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 10:24:40,329 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 10:24:40,329 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 10:24:40,335 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 10:35:22,623 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 10:35:23,455 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 10:35:24,945 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 10:35:24,945 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 10:35:24,945 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 10:35:24,945 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 10:36:00,628 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-28 10:36:00,628 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-10-28 10:36:06,605 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-10-28 10:36:07,380 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-10-28 10:36:09,448 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-10-28 10:36:09,448 - werkzeug - INFO -  * Running on http://172.18.192.108:5000/ (Press CTRL+C to quit)
+2025-10-28 14:51:53,894 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 14:51:54,543 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 14:51:56,343 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 14:51:56,350 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 14:51:56,351 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 14:51:56,353 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 14:52:58,459 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-28 14:52:58,459 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-10-28 14:53:04,616 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-10-28 14:53:05,817 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-10-28 14:53:07,674 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-10-28 14:53:07,675 - werkzeug - INFO -  * Running on http://172.18.192.108:5000/ (Press CTRL+C to quit)
+2025-10-28 15:14:42,667 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:14:42] "GET / HTTP/1.1" 200 -
+2025-10-28 15:14:43,049 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:14:43] "GET /static/images/purrfect-logo.svg HTTP/1.1" 200 -
+2025-10-28 15:14:43,127 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:14:43] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-28 15:15:12,997 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:12] "GET /login HTTP/1.1" 200 -
+2025-10-28 15:15:23,034 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:23] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-28 15:15:23,067 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:23] "GET /login HTTP/1.1" 200 -
+2025-10-28 15:15:29,662 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:29] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-28 15:15:29,695 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:29] "GET /login HTTP/1.1" 200 -
+2025-10-28 15:15:37,192 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:37] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-28 15:15:37,231 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:37] "GET /login HTTP/1.1" 200 -
+2025-10-28 15:15:39,889 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:39] "GET /register HTTP/1.1" 200 -
+2025-10-28 15:15:56,126 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:56] "[32mPOST /register HTTP/1.1[0m" 302 -
+2025-10-28 15:15:56,157 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:15:56] "GET /login HTTP/1.1" 200 -
+2025-10-28 15:16:00,821 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:00] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-28 15:16:01,473 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:01] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 15:16:01,541 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:01] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 15:16:01,619 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:01] "GET /static/js/security-utils.js HTTP/1.1" 200 -
+2025-10-28 15:16:07,067 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:07] "GET /features HTTP/1.1" 200 -
+2025-10-28 15:16:07,099 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:07] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 15:16:08,502 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:08] "GET /progress HTTP/1.1" 200 -
+2025-10-28 15:16:08,533 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:08] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 15:16:16,065 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 15:16:16,390 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 15:16:16,530 - app1 - ERROR - Error getting collection stats: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 15:16:16,530 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:16] "GET /rag/progress HTTP/1.1" 200 -
+2025-10-28 15:16:17,925 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:17] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-10-28 15:16:18,025 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:18] "GET /notes/ HTTP/1.1" 200 -
+2025-10-28 15:16:18,083 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:18] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 15:16:20,602 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:20] "[32mGET /create-note.html HTTP/1.1[0m" 302 -
+2025-10-28 15:16:20,736 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:20] "GET /notes/create-note HTTP/1.1" 200 -
+2025-10-28 15:16:56,427 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:56] "GET /planning HTTP/1.1" 200 -
+2025-10-28 15:16:56,460 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:16:56] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 15:17:02,576 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:17:02] "GET /progress HTTP/1.1" 200 -
+2025-10-28 15:17:02,626 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:17:02] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 15:17:25,035 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:17:25] "GET /planning HTTP/1.1" 200 -
+2025-10-28 15:17:25,117 - werkzeug - INFO - 192.168.137.1 - - [28/Oct/2025 15:17:25] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 16:46:01,739 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 16:46:02,820 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 16:46:04,684 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 16:46:04,684 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:46:04,684 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:46:04,684 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 16:51:47,852 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 16:51:48,477 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 16:51:50,290 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 16:51:50,290 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:51:50,290 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:51:50,290 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 16:52:30,056 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-10-28 16:52:30,675 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-10-28 16:52:33,709 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 16:52:33,709 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:52:33,709 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:52:33,709 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-10-28 16:53:02,584 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-10-28 16:53:02,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-10-28 16:53:11,854 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-10-28 16:53:12,560 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-10-28 16:53:13,973 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-10-28 16:53:13,982 - werkzeug - INFO -  * Running on http://172.18.192.108:5000/ (Press CTRL+C to quit)
+2025-10-28 16:53:20,902 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:20] "GET / HTTP/1.1" 200 -
+2025-10-28 16:53:21,512 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:21] "GET /static/images/purrfect-logo.svg HTTP/1.1" 200 -
+2025-10-28 16:53:21,559 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:21] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-28 16:53:24,199 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:24] "GET /login HTTP/1.1" 200 -
+2025-10-28 16:53:29,046 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:29] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-10-28 16:53:30,030 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:30] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 16:53:30,097 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:30] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 16:53:30,103 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:30] "GET /static/js/security-utils.js HTTP/1.1" 200 -
+2025-10-28 16:53:38,317 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:38] "GET /features HTTP/1.1" 200 -
+2025-10-28 16:53:38,347 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:38] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 16:53:41,068 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:41] "GET /progress HTTP/1.1" 200 -
+2025-10-28 16:53:41,109 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:41] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 16:53:54,923 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 16:53:55,305 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 16:53:55,305 - app1 - ERROR - Error getting collection stats: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-10-28 16:53:55,339 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:53:55] "GET /rag/progress HTTP/1.1" 200 -
+2025-10-28 16:57:28,254 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:57:28] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 16:57:28,326 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:57:28] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-10-28 16:57:28,326 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:57:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 16:57:31,102 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:57:31] "GET /create-room HTTP/1.1" 200 -
+2025-10-28 16:57:36,241 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:57:36] "GET /forms HTTP/1.1" 200 -
+2025-10-28 16:58:45,096 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:58:45] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-10-28 16:58:45,436 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 16:58:45] "GET /studyplan HTTP/1.1" 200 -
+2025-10-28 17:00:06,686 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:00:06] "[32mPOST /save-study-plan HTTP/1.1[0m" 302 -
+2025-10-28 17:00:07,503 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:00:07] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 17:00:07,569 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:00:07] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 17:00:07,569 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:00:07] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-10-28 17:58:03,152 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:58:03] "GET /studyplan/live/18 HTTP/1.1" 200 -
+2025-10-28 17:58:57,448 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:58:57] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 17:58:57,532 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:58:57] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-10-28 17:58:57,534 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:58:57] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 17:59:00,193 - purr_rag - WARNING - Qdrant client not initialized, using in-memory context only
+2025-10-28 17:59:00,370 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:59:00] "GET /bot HTTP/1.1" 200 -
+2025-10-28 17:59:24,857 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:59:24] "GET /features HTTP/1.1" 200 -
+2025-10-28 17:59:24,912 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:59:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 17:59:26,849 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:59:26] "GET /flashcardgenerator HTTP/1.1" 200 -
+2025-10-28 17:59:57,767 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:59:57] "GET /features HTTP/1.1" 200 -
+2025-10-28 17:59:57,815 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 17:59:57] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 18:00:01,154 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:01] "GET /rooms HTTP/1.1" 200 -
+2025-10-28 18:00:04,854 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:04] "GET /studyroom/ree HTTP/1.1" 200 -
+2025-10-28 18:00:05,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:05] "GET /socket.io/?EIO=4&transport=polling&t=Pegp0R0 HTTP/1.1" 200 -
+2025-10-28 18:00:07,516 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:07] "POST /socket.io/?EIO=4&transport=polling&t=Pegp0Re&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1" 200 -
+2025-10-28 18:00:07,534 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:07] "GET /socket.io/?EIO=4&transport=polling&t=Pegp0Ru&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1" 200 -
+2025-10-28 18:00:07,600 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:07] "POST /socket.io/?EIO=4&transport=polling&t=Pegp0wr&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1" 200 -
+2025-10-28 18:00:07,649 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:07] "POST /socket.io/?EIO=4&transport=polling&t=Pegp0xs&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1" 200 -
+2025-10-28 18:00:07,899 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:07] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1[0m" 500 -
+2025-10-28 18:00:52,687 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:52] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegp0wq&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1[0m" 400 -
+2025-10-28 18:00:52,687 - engineio.server - ERROR - Invalid session 0DGAjHBGVAri_4DxAAAA (further occurrences of this error will be logged with level INFO)
+2025-10-28 18:00:52,687 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:52] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegpByR&sid=0DGAjHBGVAri_4DxAAAA HTTP/1.1[0m" 400 -
+2025-10-28 18:00:54,486 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:54] "GET /socket.io/?EIO=4&transport=polling&t=PegpCOO HTTP/1.1" 200 -
+2025-10-28 18:00:54,579 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:54] "POST /socket.io/?EIO=4&transport=polling&t=PegpCOd&sid=8WrhNhPfliFqCcz7AAAC HTTP/1.1" 200 -
+2025-10-28 18:00:54,579 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:54] "GET /socket.io/?EIO=4&transport=polling&t=PegpCOg&sid=8WrhNhPfliFqCcz7AAAC HTTP/1.1" 200 -
+2025-10-28 18:00:54,626 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:00:54] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=8WrhNhPfliFqCcz7AAAC HTTP/1.1[0m" 500 -
+2025-10-28 18:01:06,504 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:06] "POST /socket.io/?EIO=4&transport=polling&t=PegpFKF&sid=8WrhNhPfliFqCcz7AAAC HTTP/1.1" 200 -
+2025-10-28 18:01:39,631 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:39] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegpCP_&sid=8WrhNhPfliFqCcz7AAAC HTTP/1.1[0m" 400 -
+2025-10-28 18:01:39,631 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:39] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegpNPo&sid=8WrhNhPfliFqCcz7AAAC HTTP/1.1[0m" 400 -
+2025-10-28 18:01:41,498 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:41] "GET /socket.io/?EIO=4&transport=polling&t=PegpNsq HTTP/1.1" 200 -
+2025-10-28 18:01:41,554 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:41] "POST /socket.io/?EIO=4&transport=polling&t=PegpNs_&sid=wFoJXojUqkv5kwbwAAAE HTTP/1.1" 200 -
+2025-10-28 18:01:41,569 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:41] "GET /socket.io/?EIO=4&transport=polling&t=PegpNt4&sid=wFoJXojUqkv5kwbwAAAE HTTP/1.1" 200 -
+2025-10-28 18:01:41,616 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:01:41] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=wFoJXojUqkv5kwbwAAAE HTTP/1.1[0m" 500 -
+2025-10-28 18:02:06,513 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:06] "POST /socket.io/?EIO=4&transport=polling&t=PegpTzj&sid=wFoJXojUqkv5kwbwAAAE HTTP/1.1" 200 -
+2025-10-28 18:02:26,612 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:26] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegpNu7&sid=wFoJXojUqkv5kwbwAAAE HTTP/1.1[0m" 400 -
+2025-10-28 18:02:26,612 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:26] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegpYtw&sid=wFoJXojUqkv5kwbwAAAE HTTP/1.1[0m" 400 -
+2025-10-28 18:02:28,495 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:28] "GET /socket.io/?EIO=4&transport=polling&t=PegpZLH HTTP/1.1" 200 -
+2025-10-28 18:02:28,588 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:28] "POST /socket.io/?EIO=4&transport=polling&t=PegpZLf&sid=Zr0UcpvNfAfz6ZVPAAAG HTTP/1.1" 200 -
+2025-10-28 18:02:28,588 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:28] "GET /socket.io/?EIO=4&transport=polling&t=PegpZLk&sid=Zr0UcpvNfAfz6ZVPAAAG HTTP/1.1" 200 -
+2025-10-28 18:02:28,635 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:02:28] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Zr0UcpvNfAfz6ZVPAAAG HTTP/1.1[0m" 500 -
+2025-10-28 18:03:06,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegpicz&sid=Zr0UcpvNfAfz6ZVPAAAG HTTP/1.1" 200 -
+2025-10-28 18:03:13,632 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:13] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegpZMp&sid=Zr0UcpvNfAfz6ZVPAAAG HTTP/1.1[0m" 400 -
+2025-10-28 18:03:13,632 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:13] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegpkMZ&sid=Zr0UcpvNfAfz6ZVPAAAG HTTP/1.1[0m" 400 -
+2025-10-28 18:03:15,491 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:15] "GET /socket.io/?EIO=4&transport=polling&t=Pegpkpa HTTP/1.1" 200 -
+2025-10-28 18:03:15,553 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:15] "POST /socket.io/?EIO=4&transport=polling&t=Pegpkpi&sid=BucdKD9TDSe9_TauAAAI HTTP/1.1" 200 -
+2025-10-28 18:03:15,585 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:15] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=BucdKD9TDSe9_TauAAAI HTTP/1.1[0m" 500 -
+2025-10-28 18:03:15,617 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:03:15] "GET /socket.io/?EIO=4&transport=polling&t=Pegpkqn&sid=BucdKD9TDSe9_TauAAAI HTTP/1.1" 200 -
+2025-10-28 18:04:00,669 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:00] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegpkrb&sid=BucdKD9TDSe9_TauAAAI HTTP/1.1[0m" 400 -
+2025-10-28 18:04:00,669 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:00] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegpvrW&sid=BucdKD9TDSe9_TauAAAI HTTP/1.1[0m" 400 -
+2025-10-28 18:04:01,482 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:01] "GET /socket.io/?EIO=4&transport=polling&t=Pegpw2A HTTP/1.1" 200 -
+2025-10-28 18:04:01,528 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:01] "POST /socket.io/?EIO=4&transport=polling&t=Pegpw2H&sid=7j5iqC8bBhpGHEIKAAAK HTTP/1.1" 200 -
+2025-10-28 18:04:01,528 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:01] "GET /socket.io/?EIO=4&transport=polling&t=Pegpw2K&sid=7j5iqC8bBhpGHEIKAAAK HTTP/1.1" 200 -
+2025-10-28 18:04:01,591 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:01] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=7j5iqC8bBhpGHEIKAAAK HTTP/1.1[0m" 500 -
+2025-10-28 18:04:06,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:06] "POST /socket.io/?EIO=4&transport=polling&t=PegpxGQ&sid=7j5iqC8bBhpGHEIKAAAK HTTP/1.1" 200 -
+2025-10-28 18:04:46,589 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:46] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegpw3B&sid=7j5iqC8bBhpGHEIKAAAK HTTP/1.1[0m" 400 -
+2025-10-28 18:04:46,589 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:46] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegq52_&sid=7j5iqC8bBhpGHEIKAAAK HTTP/1.1[0m" 400 -
+2025-10-28 18:04:47,495 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:47] "GET /socket.io/?EIO=4&transport=polling&t=Pegq5H8 HTTP/1.1" 200 -
+2025-10-28 18:04:47,542 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:47] "POST /socket.io/?EIO=4&transport=polling&t=Pegq5HE&sid=vRWAF8Fa6bug3X2vAAAM HTTP/1.1" 200 -
+2025-10-28 18:04:47,542 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:47] "GET /socket.io/?EIO=4&transport=polling&t=Pegq5HG&sid=vRWAF8Fa6bug3X2vAAAM HTTP/1.1" 200 -
+2025-10-28 18:04:47,589 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:04:47] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=vRWAF8Fa6bug3X2vAAAM HTTP/1.1[0m" 500 -
+2025-10-28 18:05:06,512 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegq9wF&sid=vRWAF8Fa6bug3X2vAAAM HTTP/1.1" 200 -
+2025-10-28 18:05:32,593 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:32] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegq5I1&sid=vRWAF8Fa6bug3X2vAAAM HTTP/1.1[0m" 400 -
+2025-10-28 18:05:32,593 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:32] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegqGHr&sid=vRWAF8Fa6bug3X2vAAAM HTTP/1.1[0m" 400 -
+2025-10-28 18:05:33,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:33] "GET /socket.io/?EIO=4&transport=polling&t=PegqGVj HTTP/1.1" 200 -
+2025-10-28 18:05:33,546 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:33] "POST /socket.io/?EIO=4&transport=polling&t=PegqGVo&sid=KYtoBPTh03GrTcVHAAAO HTTP/1.1" 200 -
+2025-10-28 18:05:33,546 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:33] "GET /socket.io/?EIO=4&transport=polling&t=PegqGVs&sid=KYtoBPTh03GrTcVHAAAO HTTP/1.1" 200 -
+2025-10-28 18:05:33,593 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:05:33] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=KYtoBPTh03GrTcVHAAAO HTTP/1.1[0m" 500 -
+2025-10-28 18:06:06,500 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:06] "POST /socket.io/?EIO=4&transport=polling&t=PegqOZU&sid=KYtoBPTh03GrTcVHAAAO HTTP/1.1" 200 -
+2025-10-28 18:06:18,600 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:18] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegqGWq&sid=KYtoBPTh03GrTcVHAAAO HTTP/1.1[0m" 400 -
+2025-10-28 18:06:18,600 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:18] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegqRWk&sid=KYtoBPTh03GrTcVHAAAO HTTP/1.1[0m" 400 -
+2025-10-28 18:06:20,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:20] "GET /socket.io/?EIO=4&transport=polling&t=PegqR-C HTTP/1.1" 200 -
+2025-10-28 18:06:20,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:20] "POST /socket.io/?EIO=4&transport=polling&t=PegqR-T&sid=E9zxI0Hz1cXGIytaAAAQ HTTP/1.1" 200 -
+2025-10-28 18:06:20,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:20] "GET /socket.io/?EIO=4&transport=polling&t=PegqR-W&sid=E9zxI0Hz1cXGIytaAAAQ HTTP/1.1" 200 -
+2025-10-28 18:06:20,631 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:06:20] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=E9zxI0Hz1cXGIytaAAAQ HTTP/1.1[0m" 500 -
+2025-10-28 18:07:05,627 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:05] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegqR_k&sid=E9zxI0Hz1cXGIytaAAAQ HTTP/1.1[0m" 400 -
+2025-10-28 18:07:05,627 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:05] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegqc_U&sid=E9zxI0Hz1cXGIytaAAAQ HTTP/1.1[0m" 400 -
+2025-10-28 18:07:06,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:06] "GET /socket.io/?EIO=4&transport=polling&t=PegqdC- HTTP/1.1" 200 -
+2025-10-28 18:07:06,532 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:06] "POST /socket.io/?EIO=4&transport=polling&t=PegqdD2&sid=sxirbN7wjgp4tFx8AAAS HTTP/1.1" 200 -
+2025-10-28 18:07:06,547 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:06] "GET /socket.io/?EIO=4&transport=polling&t=PegqdD3&sid=sxirbN7wjgp4tFx8AAAS HTTP/1.1" 200 -
+2025-10-28 18:07:06,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:06] "POST /socket.io/?EIO=4&transport=polling&t=PegqdDv.0&sid=sxirbN7wjgp4tFx8AAAS HTTP/1.1" 200 -
+2025-10-28 18:07:06,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:06] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=sxirbN7wjgp4tFx8AAAS HTTP/1.1[0m" 500 -
+2025-10-28 18:07:51,597 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:51] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegqdDv&sid=sxirbN7wjgp4tFx8AAAS HTTP/1.1[0m" 400 -
+2025-10-28 18:07:51,597 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:51] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegqoDn&sid=sxirbN7wjgp4tFx8AAAS HTTP/1.1[0m" 400 -
+2025-10-28 18:07:53,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:53] "GET /socket.io/?EIO=4&transport=polling&t=PegqohD HTTP/1.1" 200 -
+2025-10-28 18:07:53,546 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:53] "POST /socket.io/?EIO=4&transport=polling&t=PegqohL&sid=5u8BqiMvKobQUFu6AAAU HTTP/1.1" 200 -
+2025-10-28 18:07:53,562 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:53] "GET /socket.io/?EIO=4&transport=polling&t=PegqohP&sid=5u8BqiMvKobQUFu6AAAU HTTP/1.1" 200 -
+2025-10-28 18:07:53,578 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:07:53] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=5u8BqiMvKobQUFu6AAAU HTTP/1.1[0m" 500 -
+2025-10-28 18:08:07,558 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:07] "POST /socket.io/?EIO=4&transport=polling&t=Pegqs7F&sid=5u8BqiMvKobQUFu6AAAU HTTP/1.1" 200 -
+2025-10-28 18:08:38,645 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:38] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegqoij&sid=5u8BqiMvKobQUFu6AAAU HTTP/1.1[0m" 400 -
+2025-10-28 18:08:38,645 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:38] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegqziu&sid=5u8BqiMvKobQUFu6AAAU HTTP/1.1[0m" 400 -
+2025-10-28 18:08:40,488 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:40] "GET /socket.io/?EIO=4&transport=polling&t=Pegq-9f HTTP/1.1" 200 -
+2025-10-28 18:08:40,535 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:40] "POST /socket.io/?EIO=4&transport=polling&t=Pegq-9j&sid=Sl8xjH8BFMb7txBqAAAW HTTP/1.1" 200 -
+2025-10-28 18:08:40,535 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:40] "GET /socket.io/?EIO=4&transport=polling&t=Pegq-9l&sid=Sl8xjH8BFMb7txBqAAAW HTTP/1.1" 200 -
+2025-10-28 18:08:40,582 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:08:40] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Sl8xjH8BFMb7txBqAAAW HTTP/1.1[0m" 500 -
+2025-10-28 18:09:08,488 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:08] "POST /socket.io/?EIO=4&transport=polling&t=Pegr4_F&sid=Sl8xjH8BFMb7txBqAAAW HTTP/1.1" 200 -
+2025-10-28 18:09:25,582 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:25] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegq-AU&sid=Sl8xjH8BFMb7txBqAAAW HTTP/1.1[0m" 400 -
+2025-10-28 18:09:25,582 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:25] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegr9AH&sid=Sl8xjH8BFMb7txBqAAAW HTTP/1.1[0m" 400 -
+2025-10-28 18:09:27,487 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:27] "GET /socket.io/?EIO=4&transport=polling&t=Pegr9e0 HTTP/1.1" 200 -
+2025-10-28 18:09:27,550 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:27] "POST /socket.io/?EIO=4&transport=polling&t=Pegr9e6&sid=Pm8rgADH2q_iKzusAAAY HTTP/1.1" 200 -
+2025-10-28 18:09:27,550 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:27] "GET /socket.io/?EIO=4&transport=polling&t=Pegr9e9&sid=Pm8rgADH2q_iKzusAAAY HTTP/1.1" 200 -
+2025-10-28 18:09:27,628 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:09:27] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Pm8rgADH2q_iKzusAAAY HTTP/1.1[0m" 500 -
+2025-10-28 18:10:09,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:09] "POST /socket.io/?EIO=4&transport=polling&t=PegrJuJ&sid=Pm8rgADH2q_iKzusAAAY HTTP/1.1" 200 -
+2025-10-28 18:10:12,627 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:12] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegr9fC&sid=Pm8rgADH2q_iKzusAAAY HTTP/1.1[0m" 400 -
+2025-10-28 18:10:12,627 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:12] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegrKfL&sid=Pm8rgADH2q_iKzusAAAY HTTP/1.1[0m" 400 -
+2025-10-28 18:10:14,486 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:14] "GET /socket.io/?EIO=4&transport=polling&t=PegrL6M HTTP/1.1" 200 -
+2025-10-28 18:10:14,517 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:14] "POST /socket.io/?EIO=4&transport=polling&t=PegrL6R&sid=qYHZ_oroNGfRFggqAAAa HTTP/1.1" 200 -
+2025-10-28 18:10:14,533 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:14] "GET /socket.io/?EIO=4&transport=polling&t=PegrL6S&sid=qYHZ_oroNGfRFggqAAAa HTTP/1.1" 200 -
+2025-10-28 18:10:14,579 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:14] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=qYHZ_oroNGfRFggqAAAa HTTP/1.1[0m" 500 -
+2025-10-28 18:10:59,583 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:59] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegrL7A&sid=qYHZ_oroNGfRFggqAAAa HTTP/1.1[0m" 400 -
+2025-10-28 18:10:59,583 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:10:59] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegrW71&sid=qYHZ_oroNGfRFggqAAAa HTTP/1.1[0m" 400 -
+2025-10-28 18:11:00,489 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:00] "GET /socket.io/?EIO=4&transport=polling&t=PegrWL9 HTTP/1.1" 200 -
+2025-10-28 18:11:00,520 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:00] "POST /socket.io/?EIO=4&transport=polling&t=PegrWLF&sid=p_VJCmMzO8YSO0kJAAAc HTTP/1.1" 200 -
+2025-10-28 18:11:00,535 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:00] "GET /socket.io/?EIO=4&transport=polling&t=PegrWLG&sid=p_VJCmMzO8YSO0kJAAAc HTTP/1.1" 200 -
+2025-10-28 18:11:00,582 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:00] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=p_VJCmMzO8YSO0kJAAAc HTTP/1.1[0m" 500 -
+2025-10-28 18:11:10,481 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:10] "POST /socket.io/?EIO=4&transport=polling&t=PegrYnO&sid=p_VJCmMzO8YSO0kJAAAc HTTP/1.1" 200 -
+2025-10-28 18:11:45,588 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:45] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegrWL-&sid=p_VJCmMzO8YSO0kJAAAc HTTP/1.1[0m" 400 -
+2025-10-28 18:11:45,588 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:45] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegrhLt&sid=p_VJCmMzO8YSO0kJAAAc HTTP/1.1[0m" 400 -
+2025-10-28 18:11:47,493 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:47] "GET /socket.io/?EIO=4&transport=polling&t=Pegrhpc HTTP/1.1" 200 -
+2025-10-28 18:11:47,540 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:47] "POST /socket.io/?EIO=4&transport=polling&t=Pegrhph&sid=8DdBYzyRMoblfXp_AAAe HTTP/1.1" 200 -
+2025-10-28 18:11:47,540 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:47] "GET /socket.io/?EIO=4&transport=polling&t=Pegrhpi&sid=8DdBYzyRMoblfXp_AAAe HTTP/1.1" 200 -
+2025-10-28 18:11:47,618 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:11:47] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=8DdBYzyRMoblfXp_AAAe HTTP/1.1[0m" 500 -
+2025-10-28 18:12:11,497 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:11] "POST /socket.io/?EIO=4&transport=polling&t=Pegrngo&sid=8DdBYzyRMoblfXp_AAAe HTTP/1.1" 200 -
+2025-10-28 18:12:32,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:32] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegrhqT&sid=8DdBYzyRMoblfXp_AAAe HTTP/1.1[0m" 400 -
+2025-10-28 18:12:32,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:32] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegrsqZ&sid=8DdBYzyRMoblfXp_AAAe HTTP/1.1[0m" 400 -
+2025-10-28 18:12:34,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:34] "GET /socket.io/?EIO=4&transport=polling&t=PegrtHq HTTP/1.1" 200 -
+2025-10-28 18:12:34,514 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:34] "POST /socket.io/?EIO=4&transport=polling&t=PegrtHv&sid=4ZrEocasmdN4W-zCAAAg HTTP/1.1" 200 -
+2025-10-28 18:12:34,530 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:34] "GET /socket.io/?EIO=4&transport=polling&t=PegrtHw&sid=4ZrEocasmdN4W-zCAAAg HTTP/1.1" 200 -
+2025-10-28 18:12:34,592 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:12:34] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=4ZrEocasmdN4W-zCAAAg HTTP/1.1[0m" 500 -
+2025-10-28 18:13:12,482 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:12] "POST /socket.io/?EIO=4&transport=polling&t=Pegs0Ze&sid=4ZrEocasmdN4W-zCAAAg HTTP/1.1" 200 -
+2025-10-28 18:13:19,592 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:19] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegrtIg&sid=4ZrEocasmdN4W-zCAAAg HTTP/1.1[0m" 400 -
+2025-10-28 18:13:19,592 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:19] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegs2Ih&sid=4ZrEocasmdN4W-zCAAAg HTTP/1.1[0m" 400 -
+2025-10-28 18:13:20,498 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:20] "GET /socket.io/?EIO=4&transport=polling&t=Pegs2Wq HTTP/1.1" 200 -
+2025-10-28 18:13:20,560 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:20] "POST /socket.io/?EIO=4&transport=polling&t=Pegs2XC&sid=vzStZ703WVjeeYl-AAAi HTTP/1.1" 200 -
+2025-10-28 18:13:20,576 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:20] "GET /socket.io/?EIO=4&transport=polling&t=Pegs2XQ&sid=vzStZ703WVjeeYl-AAAi HTTP/1.1" 200 -
+2025-10-28 18:13:20,639 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:13:20] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=vzStZ703WVjeeYl-AAAi HTTP/1.1[0m" 500 -
+2025-10-28 18:14:05,641 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:05] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegs2Y6&sid=vzStZ703WVjeeYl-AAAi HTTP/1.1[0m" 400 -
+2025-10-28 18:14:05,641 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:05] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegsDYC&sid=vzStZ703WVjeeYl-AAAi HTTP/1.1[0m" 400 -
+2025-10-28 18:14:07,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:07] "GET /socket.io/?EIO=4&transport=polling&t=PegsD-z HTTP/1.1" 200 -
+2025-10-28 18:14:07,531 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:07] "POST /socket.io/?EIO=4&transport=polling&t=PegsD_2&sid=f6yu8kOGj1U0Hl8cAAAk HTTP/1.1" 200 -
+2025-10-28 18:14:07,531 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:07] "GET /socket.io/?EIO=4&transport=polling&t=PegsD_4&sid=f6yu8kOGj1U0Hl8cAAAk HTTP/1.1" 200 -
+2025-10-28 18:14:07,578 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:07] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=f6yu8kOGj1U0Hl8cAAAk HTTP/1.1[0m" 500 -
+2025-10-28 18:14:13,489 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:13] "POST /socket.io/?EIO=4&transport=polling&t=PegsFSv&sid=f6yu8kOGj1U0Hl8cAAAk HTTP/1.1" 200 -
+2025-10-28 18:14:52,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:52] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegsD_r&sid=f6yu8kOGj1U0Hl8cAAAk HTTP/1.1[0m" 400 -
+2025-10-28 18:14:52,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:52] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegsO_h&sid=f6yu8kOGj1U0Hl8cAAAk HTTP/1.1[0m" 400 -
+2025-10-28 18:14:54,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:54] "GET /socket.io/?EIO=4&transport=polling&t=PegsPTR HTTP/1.1" 200 -
+2025-10-28 18:14:54,537 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:54] "POST /socket.io/?EIO=4&transport=polling&t=PegsPTX&sid=b30fuiU4FtafUzPeAAAm HTTP/1.1" 200 -
+2025-10-28 18:14:54,552 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:54] "GET /socket.io/?EIO=4&transport=polling&t=PegsPTb&sid=b30fuiU4FtafUzPeAAAm HTTP/1.1" 200 -
+2025-10-28 18:14:54,615 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:14:54] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=b30fuiU4FtafUzPeAAAm HTTP/1.1[0m" 500 -
+2025-10-28 18:15:14,489 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:14] "POST /socket.io/?EIO=4&transport=polling&t=PegsUM0&sid=b30fuiU4FtafUzPeAAAm HTTP/1.1" 200 -
+2025-10-28 18:15:39,614 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:39] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegsPUT&sid=b30fuiU4FtafUzPeAAAm HTTP/1.1[0m" 400 -
+2025-10-28 18:15:39,614 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:39] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegsaUY&sid=b30fuiU4FtafUzPeAAAm HTTP/1.1[0m" 400 -
+2025-10-28 18:15:41,489 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:41] "GET /socket.io/?EIO=4&transport=polling&t=Pegsaxo HTTP/1.1" 200 -
+2025-10-28 18:15:41,536 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:41] "POST /socket.io/?EIO=4&transport=polling&t=Pegsaxs&sid=lFL3kAeAFMrS4hDlAAAo HTTP/1.1" 200 -
+2025-10-28 18:15:41,551 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:41] "GET /socket.io/?EIO=4&transport=polling&t=Pegsaxt&sid=lFL3kAeAFMrS4hDlAAAo HTTP/1.1" 200 -
+2025-10-28 18:15:41,598 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:15:41] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=lFL3kAeAFMrS4hDlAAAo HTTP/1.1[0m" 500 -
+2025-10-28 18:16:15,482 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:15] "POST /socket.io/?EIO=4&transport=polling&t=PegsjF5&sid=lFL3kAeAFMrS4hDlAAAo HTTP/1.1" 200 -
+2025-10-28 18:16:26,595 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:26] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegsayp&sid=lFL3kAeAFMrS4hDlAAAo HTTP/1.1[0m" 400 -
+2025-10-28 18:16:26,595 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:26] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegslyb&sid=lFL3kAeAFMrS4hDlAAAo HTTP/1.1[0m" 400 -
+2025-10-28 18:16:28,485 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:28] "GET /socket.io/?EIO=4&transport=polling&t=PegsmQ6 HTTP/1.1" 200 -
+2025-10-28 18:16:28,532 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:28] "POST /socket.io/?EIO=4&transport=polling&t=PegsmQB&sid=L9h5Fsvfr5MCkdRuAAAq HTTP/1.1" 200 -
+2025-10-28 18:16:28,547 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:28] "GET /socket.io/?EIO=4&transport=polling&t=PegsmQF&sid=L9h5Fsvfr5MCkdRuAAAq HTTP/1.1" 200 -
+2025-10-28 18:16:28,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:16:28] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=L9h5Fsvfr5MCkdRuAAAq HTTP/1.1[0m" 500 -
+2025-10-28 18:17:13,600 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:13] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegsmRA&sid=L9h5Fsvfr5MCkdRuAAAq HTTP/1.1[0m" 400 -
+2025-10-28 18:17:13,600 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:13] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegsxR2&sid=L9h5Fsvfr5MCkdRuAAAq HTTP/1.1[0m" 400 -
+2025-10-28 18:17:14,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:14] "GET /socket.io/?EIO=4&transport=polling&t=Pegsxex HTTP/1.1" 200 -
+2025-10-28 18:17:14,537 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:14] "POST /socket.io/?EIO=4&transport=polling&t=Pegsxf0&sid=SSY7N4tjkUI-Yp1BAAAs HTTP/1.1" 200 -
+2025-10-28 18:17:14,537 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:14] "GET /socket.io/?EIO=4&transport=polling&t=Pegsxf1&sid=SSY7N4tjkUI-Yp1BAAAs HTTP/1.1" 200 -
+2025-10-28 18:17:14,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:14] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=SSY7N4tjkUI-Yp1BAAAs HTTP/1.1[0m" 500 -
+2025-10-28 18:17:16,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:16] "POST /socket.io/?EIO=4&transport=polling&t=Pegsy8E&sid=SSY7N4tjkUI-Yp1BAAAs HTTP/1.1" 200 -
+2025-10-28 18:17:59,586 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:59] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegsxfo&sid=SSY7N4tjkUI-Yp1BAAAs HTTP/1.1[0m" 400 -
+2025-10-28 18:17:59,586 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:17:59] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegt6fb&sid=SSY7N4tjkUI-Yp1BAAAs HTTP/1.1[0m" 400 -
+2025-10-28 18:18:01,491 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:01] "GET /socket.io/?EIO=4&transport=polling&t=Pegt77K HTTP/1.1" 200 -
+2025-10-28 18:18:01,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:01] "POST /socket.io/?EIO=4&transport=polling&t=Pegt77Q&sid=QV9e8AzsnBQrwJzoAAAu HTTP/1.1" 200 -
+2025-10-28 18:18:01,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:01] "GET /socket.io/?EIO=4&transport=polling&t=Pegt77U&sid=QV9e8AzsnBQrwJzoAAAu HTTP/1.1" 200 -
+2025-10-28 18:18:01,585 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:01] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=QV9e8AzsnBQrwJzoAAAu HTTP/1.1[0m" 500 -
+2025-10-28 18:18:17,488 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:17] "POST /socket.io/?EIO=4&transport=polling&t=PegtB1Q&sid=QV9e8AzsnBQrwJzoAAAu HTTP/1.1" 200 -
+2025-10-28 18:18:46,592 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:46] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegt78C&sid=QV9e8AzsnBQrwJzoAAAu HTTP/1.1[0m" 400 -
+2025-10-28 18:18:46,592 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:46] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegtI83&sid=QV9e8AzsnBQrwJzoAAAu HTTP/1.1[0m" 400 -
+2025-10-28 18:18:48,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:48] "GET /socket.io/?EIO=4&transport=polling&t=PegtIbZ HTTP/1.1" 200 -
+2025-10-28 18:18:48,529 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:48] "POST /socket.io/?EIO=4&transport=polling&t=PegtIbe&sid=ZN7d8NaOqUHUfphmAAAw HTTP/1.1" 200 -
+2025-10-28 18:18:48,529 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:48] "GET /socket.io/?EIO=4&transport=polling&t=PegtIbf&sid=ZN7d8NaOqUHUfphmAAAw HTTP/1.1" 200 -
+2025-10-28 18:18:48,576 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:18:48] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=ZN7d8NaOqUHUfphmAAAw HTTP/1.1[0m" 500 -
+2025-10-28 18:19:18,493 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:18] "POST /socket.io/?EIO=4&transport=polling&t=PegtPwb&sid=ZN7d8NaOqUHUfphmAAAw HTTP/1.1" 200 -
+2025-10-28 18:19:33,582 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:33] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegtIcR&sid=ZN7d8NaOqUHUfphmAAAw HTTP/1.1[0m" 400 -
+2025-10-28 18:19:33,582 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:33] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegtTcG&sid=ZN7d8NaOqUHUfphmAAAw HTTP/1.1[0m" 400 -
+2025-10-28 18:19:34,488 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:34] "GET /socket.io/?EIO=4&transport=polling&t=PegtTqP HTTP/1.1" 200 -
+2025-10-28 18:19:34,535 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:34] "POST /socket.io/?EIO=4&transport=polling&t=PegtTqT&sid=42HSHkxkULpebu7lAAAy HTTP/1.1" 200 -
+2025-10-28 18:19:34,535 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:34] "GET /socket.io/?EIO=4&transport=polling&t=PegtTqU&sid=42HSHkxkULpebu7lAAAy HTTP/1.1" 200 -
+2025-10-28 18:19:34,597 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:19:34] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=42HSHkxkULpebu7lAAAy HTTP/1.1[0m" 500 -
+2025-10-28 18:20:19,493 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:19] "POST /socket.io/?EIO=4&transport=polling&t=Pegtepi&sid=42HSHkxkULpebu7lAAAy HTTP/1.1" 200 -
+2025-10-28 18:20:19,601 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:19] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegtTrK&sid=42HSHkxkULpebu7lAAAy HTTP/1.1[0m" 400 -
+2025-10-28 18:20:19,647 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:19] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegterJ&sid=42HSHkxkULpebu7lAAAy HTTP/1.1[0m" 400 -
+2025-10-28 18:20:20,491 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:20] "GET /socket.io/?EIO=4&transport=polling&t=Pegtf3C HTTP/1.1" 200 -
+2025-10-28 18:20:20,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:20] "POST /socket.io/?EIO=4&transport=polling&t=Pegtf3I&sid=qk4FaUd4cSA7LgBnAAA0 HTTP/1.1" 200 -
+2025-10-28 18:20:20,553 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:20] "GET /socket.io/?EIO=4&transport=polling&t=Pegtf3L&sid=qk4FaUd4cSA7LgBnAAA0 HTTP/1.1" 200 -
+2025-10-28 18:20:20,616 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:20:20] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=qk4FaUd4cSA7LgBnAAA0 HTTP/1.1[0m" 500 -
+2025-10-28 18:21:05,607 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:05] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegtf4F&sid=qk4FaUd4cSA7LgBnAAA0 HTTP/1.1[0m" 400 -
+2025-10-28 18:21:05,607 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:05] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegtq4A&sid=qk4FaUd4cSA7LgBnAAA0 HTTP/1.1[0m" 400 -
+2025-10-28 18:21:07,482 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:07] "GET /socket.io/?EIO=4&transport=polling&t=PegtqXR HTTP/1.1" 200 -
+2025-10-28 18:21:07,529 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:07] "POST /socket.io/?EIO=4&transport=polling&t=PegtqXX&sid=kIQCr9kZEwQE1JtsAAA2 HTTP/1.1" 200 -
+2025-10-28 18:21:07,529 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:07] "GET /socket.io/?EIO=4&transport=polling&t=PegtqXb&sid=kIQCr9kZEwQE1JtsAAA2 HTTP/1.1" 200 -
+2025-10-28 18:21:07,591 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:07] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=kIQCr9kZEwQE1JtsAAA2 HTTP/1.1[0m" 500 -
+2025-10-28 18:21:20,485 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:20] "POST /socket.io/?EIO=4&transport=polling&t=Pegttik&sid=kIQCr9kZEwQE1JtsAAA2 HTTP/1.1" 200 -
+2025-10-28 18:21:52,585 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:52] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegtqYK&sid=kIQCr9kZEwQE1JtsAAA2 HTTP/1.1[0m" 400 -
+2025-10-28 18:21:52,585 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:52] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegt_YC&sid=kIQCr9kZEwQE1JtsAAA2 HTTP/1.1[0m" 400 -
+2025-10-28 18:21:53,491 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:53] "GET /socket.io/?EIO=4&transport=polling&t=Pegt_mK HTTP/1.1" 200 -
+2025-10-28 18:21:53,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:53] "POST /socket.io/?EIO=4&transport=polling&t=Pegt_mP&sid=z32LQlaYOirpAmUNAAA4 HTTP/1.1" 200 -
+2025-10-28 18:21:53,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:53] "GET /socket.io/?EIO=4&transport=polling&t=Pegt_mQ&sid=z32LQlaYOirpAmUNAAA4 HTTP/1.1" 200 -
+2025-10-28 18:21:53,616 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:21:53] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=z32LQlaYOirpAmUNAAA4 HTTP/1.1[0m" 500 -
+2025-10-28 18:22:21,511 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:21] "POST /socket.io/?EIO=4&transport=polling&t=Pegu6c6&sid=z32LQlaYOirpAmUNAAA4 HTTP/1.1" 200 -
+2025-10-28 18:22:38,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:38] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegt_nF&sid=z32LQlaYOirpAmUNAAA4 HTTP/1.1[0m" 400 -
+2025-10-28 18:22:38,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:38] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PeguAnJ&sid=z32LQlaYOirpAmUNAAA4 HTTP/1.1[0m" 400 -
+2025-10-28 18:22:40,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:40] "GET /socket.io/?EIO=4&transport=polling&t=PeguBEa HTTP/1.1" 200 -
+2025-10-28 18:22:40,530 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:40] "POST /socket.io/?EIO=4&transport=polling&t=PeguBEe&sid=sUWUnm47TtqJ8AJiAAA6 HTTP/1.1" 200 -
+2025-10-28 18:22:40,530 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:40] "GET /socket.io/?EIO=4&transport=polling&t=PeguBEf&sid=sUWUnm47TtqJ8AJiAAA6 HTTP/1.1" 200 -
+2025-10-28 18:22:40,592 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:22:40] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=sUWUnm47TtqJ8AJiAAA6 HTTP/1.1[0m" 500 -
+2025-10-28 18:23:22,494 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:22] "POST /socket.io/?EIO=4&transport=polling&t=PeguLV7&sid=sUWUnm47TtqJ8AJiAAA6 HTTP/1.1" 200 -
+2025-10-28 18:23:25,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:25] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PeguBFW&sid=sUWUnm47TtqJ8AJiAAA6 HTTP/1.1[0m" 400 -
+2025-10-28 18:23:25,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:25] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PeguMFK&sid=sUWUnm47TtqJ8AJiAAA6 HTTP/1.1[0m" 400 -
+2025-10-28 18:23:27,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:27] "GET /socket.io/?EIO=4&transport=polling&t=PeguMj3 HTTP/1.1" 200 -
+2025-10-28 18:23:27,553 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:27] "POST /socket.io/?EIO=4&transport=polling&t=PeguMj9&sid=eUSwWaZImurKa4yvAAA8 HTTP/1.1" 200 -
+2025-10-28 18:23:27,553 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:27] "GET /socket.io/?EIO=4&transport=polling&t=PeguMjC&sid=eUSwWaZImurKa4yvAAA8 HTTP/1.1" 200 -
+2025-10-28 18:23:27,600 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:23:27] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=eUSwWaZImurKa4yvAAA8 HTTP/1.1[0m" 500 -
+2025-10-28 18:24:12,606 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:12] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PeguMk7&sid=eUSwWaZImurKa4yvAAA8 HTTP/1.1[0m" 400 -
+2025-10-28 18:24:12,606 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:12] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PeguXk1&sid=eUSwWaZImurKa4yvAAA8 HTTP/1.1[0m" 400 -
+2025-10-28 18:24:14,496 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:14] "GET /socket.io/?EIO=4&transport=polling&t=PeguYBX HTTP/1.1" 200 -
+2025-10-28 18:24:14,527 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:14] "POST /socket.io/?EIO=4&transport=polling&t=PeguYBc&sid=1Frt5fn_XqmkX0dZAAA- HTTP/1.1" 200 -
+2025-10-28 18:24:14,543 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:14] "GET /socket.io/?EIO=4&transport=polling&t=PeguYBd&sid=1Frt5fn_XqmkX0dZAAA- HTTP/1.1" 200 -
+2025-10-28 18:24:14,590 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:14] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=1Frt5fn_XqmkX0dZAAA- HTTP/1.1[0m" 500 -
+2025-10-28 18:24:23,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:23] "POST /socket.io/?EIO=4&transport=polling&t=PeguaOA&sid=1Frt5fn_XqmkX0dZAAA- HTTP/1.1" 200 -
+2025-10-28 18:24:59,589 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:59] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PeguYCL&sid=1Frt5fn_XqmkX0dZAAA- HTTP/1.1[0m" 400 -
+2025-10-28 18:24:59,589 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:24:59] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegujC7&sid=1Frt5fn_XqmkX0dZAAA- HTTP/1.1[0m" 400 -
+2025-10-28 18:25:00,495 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:00] "GET /socket.io/?EIO=4&transport=polling&t=PegujQG HTTP/1.1" 200 -
+2025-10-28 18:25:00,542 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:00] "POST /socket.io/?EIO=4&transport=polling&t=PegujQK&sid=Lvr6EFYvldr6HctKAABA HTTP/1.1" 200 -
+2025-10-28 18:25:00,542 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:00] "GET /socket.io/?EIO=4&transport=polling&t=PegujQL&sid=Lvr6EFYvldr6HctKAABA HTTP/1.1" 200 -
+2025-10-28 18:25:00,620 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:00] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Lvr6EFYvldr6HctKAABA HTTP/1.1[0m" 500 -
+2025-10-28 18:25:24,500 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:24] "POST /socket.io/?EIO=4&transport=polling&t=PegupHI&sid=Lvr6EFYvldr6HctKAABA HTTP/1.1" 200 -
+2025-10-28 18:25:45,615 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:45] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegujR8&sid=Lvr6EFYvldr6HctKAABA HTTP/1.1[0m" 400 -
+2025-10-28 18:25:45,615 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:45] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PeguuRJ&sid=Lvr6EFYvldr6HctKAABA HTTP/1.1[0m" 400 -
+2025-10-28 18:25:47,493 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:47] "GET /socket.io/?EIO=4&transport=polling&t=Peguuuc HTTP/1.1" 200 -
+2025-10-28 18:25:47,540 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:47] "POST /socket.io/?EIO=4&transport=polling&t=Peguuul&sid=RvJyv_XWlAEJ6MKSAABC HTTP/1.1" 200 -
+2025-10-28 18:25:47,540 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:47] "GET /socket.io/?EIO=4&transport=polling&t=Peguuum&sid=RvJyv_XWlAEJ6MKSAABC HTTP/1.1" 200 -
+2025-10-28 18:25:47,618 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:25:47] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=RvJyv_XWlAEJ6MKSAABC HTTP/1.1[0m" 500 -
+2025-10-28 18:26:25,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:25] "POST /socket.io/?EIO=4&transport=polling&t=Pegv2AI&sid=RvJyv_XWlAEJ6MKSAABC HTTP/1.1" 200 -
+2025-10-28 18:26:32,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:32] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PeguuvV&sid=RvJyv_XWlAEJ6MKSAABC HTTP/1.1[0m" 400 -
+2025-10-28 18:26:32,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:32] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegv3vY&sid=RvJyv_XWlAEJ6MKSAABC HTTP/1.1[0m" 400 -
+2025-10-28 18:26:34,482 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:34] "GET /socket.io/?EIO=4&transport=polling&t=Pegv4Mp HTTP/1.1" 200 -
+2025-10-28 18:26:34,545 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:34] "POST /socket.io/?EIO=4&transport=polling&t=Pegv4Mw&sid=vEF5gK_4GvycU4C1AABE HTTP/1.1" 200 -
+2025-10-28 18:26:34,545 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:34] "GET /socket.io/?EIO=4&transport=polling&t=Pegv4M-&sid=vEF5gK_4GvycU4C1AABE HTTP/1.1" 200 -
+2025-10-28 18:26:34,607 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:26:34] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=vEF5gK_4GvycU4C1AABE HTTP/1.1[0m" 500 -
+2025-10-28 18:27:19,610 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:19] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegv4Nu&sid=vEF5gK_4GvycU4C1AABE HTTP/1.1[0m" 400 -
+2025-10-28 18:27:19,610 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:19] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegvFNz&sid=vEF5gK_4GvycU4C1AABE HTTP/1.1[0m" 400 -
+2025-10-28 18:27:20,484 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:20] "GET /socket.io/?EIO=4&transport=polling&t=PegvFbb HTTP/1.1" 200 -
+2025-10-28 18:27:20,531 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:20] "POST /socket.io/?EIO=4&transport=polling&t=PegvFbg&sid=h1Hy7kvJKW1ZPu_nAABG HTTP/1.1" 200 -
+2025-10-28 18:27:20,531 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:20] "GET /socket.io/?EIO=4&transport=polling&t=PegvFbh&sid=h1Hy7kvJKW1ZPu_nAABG HTTP/1.1" 200 -
+2025-10-28 18:27:20,609 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:20] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=h1Hy7kvJKW1ZPu_nAABG HTTP/1.1[0m" 500 -
+2025-10-28 18:27:26,489 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:27:26] "POST /socket.io/?EIO=4&transport=polling&t=PegvH3X&sid=h1Hy7kvJKW1ZPu_nAABG HTTP/1.1" 200 -
+2025-10-28 18:28:05,604 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:05] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegvFca&sid=h1Hy7kvJKW1ZPu_nAABG HTTP/1.1[0m" 400 -
+2025-10-28 18:28:05,604 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:05] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegvQcd&sid=h1Hy7kvJKW1ZPu_nAABG HTTP/1.1[0m" 400 -
+2025-10-28 18:28:07,486 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:07] "GET /socket.io/?EIO=4&transport=polling&t=PegvR3_ HTTP/1.1" 200 -
+2025-10-28 18:28:07,533 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:07] "POST /socket.io/?EIO=4&transport=polling&t=PegvR45&sid=oivDw2X8fSmRdfKPAABI HTTP/1.1" 200 -
+2025-10-28 18:28:07,533 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:07] "GET /socket.io/?EIO=4&transport=polling&t=PegvR4A&sid=oivDw2X8fSmRdfKPAABI HTTP/1.1" 200 -
+2025-10-28 18:28:07,596 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:07] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=oivDw2X8fSmRdfKPAABI HTTP/1.1[0m" 500 -
+2025-10-28 18:28:27,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:27] "POST /socket.io/?EIO=4&transport=polling&t=PegvVyi&sid=oivDw2X8fSmRdfKPAABI HTTP/1.1" 200 -
+2025-10-28 18:28:52,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:52] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegvR4y&sid=oivDw2X8fSmRdfKPAABI HTTP/1.1[0m" 400 -
+2025-10-28 18:28:52,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:52] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegvc4r&sid=oivDw2X8fSmRdfKPAABI HTTP/1.1[0m" 400 -
+2025-10-28 18:28:54,485 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:54] "GET /socket.io/?EIO=4&transport=polling&t=PegvcYL HTTP/1.1" 200 -
+2025-10-28 18:28:54,531 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:54] "POST /socket.io/?EIO=4&transport=polling&t=PegvcYQ&sid=MvwvJepQk9uS8AWJAABK HTTP/1.1" 200 -
+2025-10-28 18:28:54,531 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:54] "GET /socket.io/?EIO=4&transport=polling&t=PegvcYR&sid=MvwvJepQk9uS8AWJAABK HTTP/1.1" 200 -
+2025-10-28 18:28:54,578 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:28:54] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=MvwvJepQk9uS8AWJAABK HTTP/1.1[0m" 500 -
+2025-10-28 18:29:28,496 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:28] "POST /socket.io/?EIO=4&transport=polling&t=Pegvkrv&sid=MvwvJepQk9uS8AWJAABK HTTP/1.1" 200 -
+2025-10-28 18:29:39,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:39] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegvcZF&sid=MvwvJepQk9uS8AWJAABK HTTP/1.1[0m" 400 -
+2025-10-28 18:29:39,584 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:39] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegvnZ3&sid=MvwvJepQk9uS8AWJAABK HTTP/1.1[0m" 400 -
+2025-10-28 18:29:41,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:41] "GET /socket.io/?EIO=4&transport=polling&t=Pegvo0p HTTP/1.1" 200 -
+2025-10-28 18:29:41,537 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:41] "POST /socket.io/?EIO=4&transport=polling&t=Pegvo0u&sid=z_Z4N2ExkIafImhmAABM HTTP/1.1" 200 -
+2025-10-28 18:29:41,537 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:41] "GET /socket.io/?EIO=4&transport=polling&t=Pegvo0v&sid=z_Z4N2ExkIafImhmAABM HTTP/1.1" 200 -
+2025-10-28 18:29:41,615 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:29:41] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=z_Z4N2ExkIafImhmAABM HTTP/1.1[0m" 500 -
+2025-10-28 18:30:26,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:26] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegvo1l&sid=z_Z4N2ExkIafImhmAABM HTTP/1.1[0m" 400 -
+2025-10-28 18:30:26,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:26] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegvz1q&sid=z_Z4N2ExkIafImhmAABM HTTP/1.1[0m" 400 -
+2025-10-28 18:30:28,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:28] "GET /socket.io/?EIO=4&transport=polling&t=PegvzV3 HTTP/1.1" 200 -
+2025-10-28 18:30:28,545 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:28] "POST /socket.io/?EIO=4&transport=polling&t=PegvzVC&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1" 200 -
+2025-10-28 18:30:28,545 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:28] "GET /socket.io/?EIO=4&transport=polling&t=PegvzVD&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1" 200 -
+2025-10-28 18:30:28,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:28] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1[0m" 500 -
+2025-10-28 18:30:29,493 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:30:29] "POST /socket.io/?EIO=4&transport=polling&t=Pegvzk-&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1" 200 -
+2025-10-28 18:31:06,528 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegw6nV&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1" 200 -
+2025-10-28 18:31:13,610 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:13] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegvzWI&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1[0m" 400 -
+2025-10-28 18:31:13,617 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:13] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegw8WN&sid=Vz0hJlZ9TcDhZtc6AABO HTTP/1.1[0m" 400 -
+2025-10-28 18:31:15,483 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:15] "GET /socket.io/?EIO=4&transport=polling&t=Pegw8zT HTTP/1.1" 200 -
+2025-10-28 18:31:15,561 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:15] "POST /socket.io/?EIO=4&transport=polling&t=Pegw8zf&sid=vvVv79ve6di6nYO-AABQ HTTP/1.1" 200 -
+2025-10-28 18:31:15,561 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:15] "GET /socket.io/?EIO=4&transport=polling&t=Pegw8zk&sid=vvVv79ve6di6nYO-AABQ HTTP/1.1" 200 -
+2025-10-28 18:31:15,608 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:31:15] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=vvVv79ve6di6nYO-AABQ HTTP/1.1[0m" 500 -
+2025-10-28 18:32:00,614 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:00] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegw8-t&sid=vvVv79ve6di6nYO-AABQ HTTP/1.1[0m" 400 -
+2025-10-28 18:32:00,614 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:00] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegwJ-j&sid=vvVv79ve6di6nYO-AABQ HTTP/1.1[0m" 400 -
+2025-10-28 18:32:02,490 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:02] "GET /socket.io/?EIO=4&transport=polling&t=PegwKRy HTTP/1.1" 200 -
+2025-10-28 18:32:02,552 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:02] "POST /socket.io/?EIO=4&transport=polling&t=PegwKS8&sid=hbad_jSCbTknaRoEAABS HTTP/1.1" 200 -
+2025-10-28 18:32:02,552 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:02] "GET /socket.io/?EIO=4&transport=polling&t=PegwKSD&sid=hbad_jSCbTknaRoEAABS HTTP/1.1" 200 -
+2025-10-28 18:32:02,599 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:02] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=hbad_jSCbTknaRoEAABS HTTP/1.1[0m" 500 -
+2025-10-28 18:32:06,500 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:06] "POST /socket.io/?EIO=4&transport=polling&t=PegwLQW&sid=hbad_jSCbTknaRoEAABS HTTP/1.1" 200 -
+2025-10-28 18:32:47,607 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:47] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegwKT8&sid=hbad_jSCbTknaRoEAABS HTTP/1.1[0m" 400 -
+2025-10-28 18:32:47,639 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:47] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegwVTF&sid=hbad_jSCbTknaRoEAABS HTTP/1.1[0m" 400 -
+2025-10-28 18:32:49,491 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:49] "GET /socket.io/?EIO=4&transport=polling&t=PegwVwG HTTP/1.1" 200 -
+2025-10-28 18:32:49,554 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:49] "POST /socket.io/?EIO=4&transport=polling&t=PegwVwN&sid=Ny5Tm3zmKJdQpO0-AABU HTTP/1.1" 200 -
+2025-10-28 18:32:49,561 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:49] "GET /socket.io/?EIO=4&transport=polling&t=PegwVwP&sid=Ny5Tm3zmKJdQpO0-AABU HTTP/1.1" 200 -
+2025-10-28 18:32:49,611 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:32:49] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Ny5Tm3zmKJdQpO0-AABU HTTP/1.1[0m" 500 -
+2025-10-28 18:33:06,495 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegwa3y&sid=Ny5Tm3zmKJdQpO0-AABU HTTP/1.1" 200 -
+2025-10-28 18:33:34,606 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:34] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegwVxR&sid=Ny5Tm3zmKJdQpO0-AABU HTTP/1.1[0m" 400 -
+2025-10-28 18:33:34,606 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:34] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegwgxI&sid=Ny5Tm3zmKJdQpO0-AABU HTTP/1.1[0m" 400 -
+2025-10-28 18:33:36,665 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:36] "GET /socket.io/?EIO=4&transport=polling&t=PegwhQW HTTP/1.1" 200 -
+2025-10-28 18:33:36,781 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:36] "POST /socket.io/?EIO=4&transport=polling&t=PegwhSJ&sid=5GNWfstdNbIZ6zu0AABW HTTP/1.1" 200 -
+2025-10-28 18:33:36,789 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:36] "GET /socket.io/?EIO=4&transport=polling&t=PegwhSL&sid=5GNWfstdNbIZ6zu0AABW HTTP/1.1" 200 -
+2025-10-28 18:33:37,084 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:33:37] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=5GNWfstdNbIZ6zu0AABW HTTP/1.1[0m" 500 -
+2025-10-28 18:34:06,544 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegwok7&sid=5GNWfstdNbIZ6zu0AABW HTTP/1.1" 200 -
+2025-10-28 18:34:22,174 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:22] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegwhTX&sid=5GNWfstdNbIZ6zu0AABW HTTP/1.1[0m" 400 -
+2025-10-28 18:34:22,193 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:22] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegwsYj&sid=5GNWfstdNbIZ6zu0AABW HTTP/1.1[0m" 400 -
+2025-10-28 18:34:23,514 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:23] "GET /socket.io/?EIO=4&transport=polling&t=PegwstL HTTP/1.1" 200 -
+2025-10-28 18:34:23,659 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:23] "POST /socket.io/?EIO=4&transport=polling&t=Pegwstf&sid=cyRML31xorVGEDE9AABY HTTP/1.1" 200 -
+2025-10-28 18:34:23,715 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:23] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=cyRML31xorVGEDE9AABY HTTP/1.1[0m" 500 -
+2025-10-28 18:34:23,773 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:34:23] "GET /socket.io/?EIO=4&transport=polling&t=Pegwsth&sid=cyRML31xorVGEDE9AABY HTTP/1.1" 200 -
+2025-10-28 18:35:06,550 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegx1Na&sid=cyRML31xorVGEDE9AABY HTTP/1.1" 200 -
+2025-10-28 18:35:08,832 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:08] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegwsxU&sid=cyRML31xorVGEDE9AABY HTTP/1.1[0m" 400 -
+2025-10-28 18:35:08,881 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:08] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegx1y0&sid=cyRML31xorVGEDE9AABY HTTP/1.1[0m" 400 -
+2025-10-28 18:35:10,525 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:10] "GET /socket.io/?EIO=4&transport=polling&t=Pegx2LY HTTP/1.1" 200 -
+2025-10-28 18:35:10,591 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:10] "POST /socket.io/?EIO=4&transport=polling&t=Pegx2M6&sid=7FFXSDJZeg2Pms76AABa HTTP/1.1" 200 -
+2025-10-28 18:35:10,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:10] "GET /socket.io/?EIO=4&transport=polling&t=Pegx2MG&sid=7FFXSDJZeg2Pms76AABa HTTP/1.1" 200 -
+2025-10-28 18:35:10,658 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:10] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=7FFXSDJZeg2Pms76AABa HTTP/1.1[0m" 500 -
+2025-10-28 18:35:55,650 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:55] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegx2N4&sid=7FFXSDJZeg2Pms76AABa HTTP/1.1[0m" 400 -
+2025-10-28 18:35:55,669 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:55] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegxDNE&sid=7FFXSDJZeg2Pms76AABa HTTP/1.1[0m" 400 -
+2025-10-28 18:35:57,499 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:57] "GET /socket.io/?EIO=4&transport=polling&t=PegxDpz HTTP/1.1" 200 -
+2025-10-28 18:35:57,593 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:57] "POST /socket.io/?EIO=4&transport=polling&t=PegxDqE&sid=Gxe1Q_qjSGxswcmAAABc HTTP/1.1" 200 -
+2025-10-28 18:35:57,593 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:57] "GET /socket.io/?EIO=4&transport=polling&t=PegxDqI&sid=Gxe1Q_qjSGxswcmAAABc HTTP/1.1" 200 -
+2025-10-28 18:35:57,640 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:35:57] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Gxe1Q_qjSGxswcmAAABc HTTP/1.1[0m" 500 -
+2025-10-28 18:36:07,530 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:07] "POST /socket.io/?EIO=4&transport=polling&t=PegxGGY&sid=Gxe1Q_qjSGxswcmAAABc HTTP/1.1" 200 -
+2025-10-28 18:36:42,650 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:42] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegxDrc&sid=Gxe1Q_qjSGxswcmAAABc HTTP/1.1[0m" 400 -
+2025-10-28 18:36:42,669 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:42] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegxOra&sid=Gxe1Q_qjSGxswcmAAABc HTTP/1.1[0m" 400 -
+2025-10-28 18:36:43,515 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:43] "GET /socket.io/?EIO=4&transport=polling&t=PegxP2p HTTP/1.1" 200 -
+2025-10-28 18:36:43,562 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:43] "POST /socket.io/?EIO=4&transport=polling&t=PegxP2-&sid=hTGZVlqssbnMqRmAAABe HTTP/1.1" 200 -
+2025-10-28 18:36:43,562 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:43] "GET /socket.io/?EIO=4&transport=polling&t=PegxP33&sid=hTGZVlqssbnMqRmAAABe HTTP/1.1" 200 -
+2025-10-28 18:36:43,629 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:36:43] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=hTGZVlqssbnMqRmAAABe HTTP/1.1[0m" 500 -
+2025-10-28 18:37:08,515 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:37:08] "POST /socket.io/?EIO=4&transport=polling&t=PegxV9V&sid=hTGZVlqssbnMqRmAAABe HTTP/1.1" 200 -
+2025-10-28 18:37:28,625 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:37:28] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegxP3x&sid=hTGZVlqssbnMqRmAAABe HTTP/1.1[0m" 400 -
+2025-10-28 18:40:31,879 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:40:31] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegyGlT&sid=hTGZVlqssbnMqRmAAABe HTTP/1.1[0m" 400 -
+2025-10-28 18:40:33,502 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:40:33] "GET /socket.io/?EIO=4&transport=polling&t=PegyHCQ HTTP/1.1" 200 -
+2025-10-28 18:40:33,585 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:40:33] "POST /socket.io/?EIO=4&transport=polling&t=PegyHCY&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1" 200 -
+2025-10-28 18:40:33,594 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:40:33] "GET /socket.io/?EIO=4&transport=polling&t=PegyHCd&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1" 200 -
+2025-10-28 18:40:33,655 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:40:33] "POST /socket.io/?EIO=4&transport=polling&t=PegyHD-&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1" 200 -
+2025-10-28 18:40:33,669 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:40:33] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1[0m" 500 -
+2025-10-28 18:41:06,547 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:06] "POST /socket.io/?EIO=4&transport=polling&t=PegyPGd&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1" 200 -
+2025-10-28 18:41:18,653 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:18] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegyHDz&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1[0m" 400 -
+2025-10-28 18:41:18,660 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:18] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegySE1&sid=g9GNX7Lm1Kpa2WaLAABg HTTP/1.1[0m" 400 -
+2025-10-28 18:41:20,493 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:20] "GET /socket.io/?EIO=4&transport=polling&t=PegySgd HTTP/1.1" 200 -
+2025-10-28 18:41:20,565 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:20] "POST /socket.io/?EIO=4&transport=polling&t=PegySgm&sid=MuEYz5dUp_oMoRWRAABi HTTP/1.1" 200 -
+2025-10-28 18:41:20,570 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:20] "GET /socket.io/?EIO=4&transport=polling&t=PegySgo&sid=MuEYz5dUp_oMoRWRAABi HTTP/1.1" 200 -
+2025-10-28 18:41:20,663 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:41:20] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=MuEYz5dUp_oMoRWRAABi HTTP/1.1[0m" 500 -
+2025-10-28 18:42:05,654 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:05] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegySh-&sid=MuEYz5dUp_oMoRWRAABi HTTP/1.1[0m" 400 -
+2025-10-28 18:42:05,664 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:05] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegydiS&sid=MuEYz5dUp_oMoRWRAABi HTTP/1.1[0m" 400 -
+2025-10-28 18:42:06,499 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:06] "GET /socket.io/?EIO=4&transport=polling&t=PegydvL HTTP/1.1" 200 -
+2025-10-28 18:42:06,646 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegydvk&sid=3iwNL-OpudOUZeMtAABk HTTP/1.1" 200 -
+2025-10-28 18:42:06,730 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:06] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=3iwNL-OpudOUZeMtAABk HTTP/1.1[0m" 500 -
+2025-10-28 18:42:06,745 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:06] "GET /socket.io/?EIO=4&transport=polling&t=Pegydws&sid=3iwNL-OpudOUZeMtAABk HTTP/1.1" 200 -
+2025-10-28 18:42:07,581 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:07] "POST /socket.io/?EIO=4&transport=polling&t=Pegye9-&sid=3iwNL-OpudOUZeMtAABk HTTP/1.1" 200 -
+2025-10-28 18:42:51,918 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:51] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegyd-c&sid=3iwNL-OpudOUZeMtAABk HTTP/1.1[0m" 400 -
+2025-10-28 18:42:51,942 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:51] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegyo_N&sid=3iwNL-OpudOUZeMtAABk HTTP/1.1[0m" 400 -
+2025-10-28 18:42:53,492 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:53] "GET /socket.io/?EIO=4&transport=polling&t=PegypNl HTTP/1.1" 200 -
+2025-10-28 18:42:53,573 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:53] "POST /socket.io/?EIO=4&transport=polling&t=PegypNt&sid=sXhYyC9nLknLr8R7AABm HTTP/1.1" 200 -
+2025-10-28 18:42:53,578 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:53] "GET /socket.io/?EIO=4&transport=polling&t=PegypNv&sid=sXhYyC9nLknLr8R7AABm HTTP/1.1" 200 -
+2025-10-28 18:42:53,647 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:42:53] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=sXhYyC9nLknLr8R7AABm HTTP/1.1[0m" 500 -
+2025-10-28 18:43:38,641 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:38] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegypPE&sid=sXhYyC9nLknLr8R7AABm HTTP/1.1[0m" 400 -
+2025-10-28 18:43:58,178 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:58] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegz36A&sid=sXhYyC9nLknLr8R7AABm HTTP/1.1[0m" 400 -
+2025-10-28 18:43:58,380 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:58] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegz35x&sid=sXhYyC9nLknLr8R7AABm HTTP/1.1[0m" 400 -
+2025-10-28 18:43:59,228 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:59] "GET /socket.io/?EIO=4&transport=polling&t=Pegz3Ql HTTP/1.1" 200 -
+2025-10-28 18:43:59,381 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:59] "POST /socket.io/?EIO=4&transport=polling&t=Pegz3Q_&sid=goHs9OTJbwn827DvAABo HTTP/1.1" 200 -
+2025-10-28 18:43:59,394 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:59] "GET /socket.io/?EIO=4&transport=polling&t=Pegz3RA&sid=goHs9OTJbwn827DvAABo HTTP/1.1" 200 -
+2025-10-28 18:43:59,640 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:43:59] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=goHs9OTJbwn827DvAABo HTTP/1.1[0m" 500 -
+2025-10-28 18:44:06,524 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegz5Co&sid=goHs9OTJbwn827DvAABo HTTP/1.1" 200 -
+2025-10-28 18:44:44,496 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:44] "POST /socket.io/?EIO=4&transport=polling&t=PegzEU5&sid=goHs9OTJbwn827DvAABo HTTP/1.1" 200 -
+2025-10-28 18:44:44,628 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:44] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=Pegz3Te&sid=goHs9OTJbwn827DvAABo HTTP/1.1[0m" 400 -
+2025-10-28 18:44:45,512 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:45] "GET /socket.io/?EIO=4&transport=polling&t=PegzEk4 HTTP/1.1" 200 -
+2025-10-28 18:44:45,573 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:45] "POST /socket.io/?EIO=4&transport=polling&t=PegzEkB&sid=0YmF-jSWz2QFxcByAABq HTTP/1.1" 200 -
+2025-10-28 18:44:45,578 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:45] "GET /socket.io/?EIO=4&transport=polling&t=PegzEkD&sid=0YmF-jSWz2QFxcByAABq HTTP/1.1" 200 -
+2025-10-28 18:44:45,656 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:44:45] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=0YmF-jSWz2QFxcByAABq HTTP/1.1[0m" 500 -
+2025-10-28 18:45:07,538 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:07] "POST /socket.io/?EIO=4&transport=polling&t=PegzK5s&sid=0YmF-jSWz2QFxcByAABq HTTP/1.1" 200 -
+2025-10-28 18:45:30,645 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:30] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegzElE&sid=0YmF-jSWz2QFxcByAABq HTTP/1.1[0m" 400 -
+2025-10-28 18:45:30,663 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:30] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegzPlT&sid=0YmF-jSWz2QFxcByAABq HTTP/1.1[0m" 400 -
+2025-10-28 18:45:32,540 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:32] "GET /socket.io/?EIO=4&transport=polling&t=PegzQCL HTTP/1.1" 200 -
+2025-10-28 18:45:32,710 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:32] "POST /socket.io/?EIO=4&transport=polling&t=PegzQD_&sid=Np8xiResfKyy8UG5AABs HTTP/1.1" 200 -
+2025-10-28 18:45:32,715 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:32] "GET /socket.io/?EIO=4&transport=polling&t=PegzQEc&sid=Np8xiResfKyy8UG5AABs HTTP/1.1" 200 -
+2025-10-28 18:45:32,802 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:45:32] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=Np8xiResfKyy8UG5AABs HTTP/1.1[0m" 500 -
+2025-10-28 18:46:08,641 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:08] "POST /socket.io/?EIO=4&transport=polling&t=PegzZ0D&sid=Np8xiResfKyy8UG5AABs HTTP/1.1" 200 -
+2025-10-28 18:46:17,792 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:17] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegzQFk&sid=Np8xiResfKyy8UG5AABs HTTP/1.1[0m" 400 -
+2025-10-28 18:46:17,828 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:17] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegzbGG&sid=Np8xiResfKyy8UG5AABs HTTP/1.1[0m" 400 -
+2025-10-28 18:46:19,495 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:19] "GET /socket.io/?EIO=4&transport=polling&t=PegzbgW HTTP/1.1" 200 -
+2025-10-28 18:46:19,657 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:19] "POST /socket.io/?EIO=4&transport=polling&t=Pegzbgi&sid=KKDYT6N5U6KFHSiHAABu HTTP/1.1" 200 -
+2025-10-28 18:46:19,669 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:19] "GET /socket.io/?EIO=4&transport=polling&t=Pegzbgu&sid=KKDYT6N5U6KFHSiHAABu HTTP/1.1" 200 -
+2025-10-28 18:46:19,794 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:46:19] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=KKDYT6N5U6KFHSiHAABu HTTP/1.1[0m" 500 -
+2025-10-28 18:47:04,826 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:04] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegzbjR&sid=KKDYT6N5U6KFHSiHAABu HTTP/1.1[0m" 400 -
+2025-10-28 18:47:04,950 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:04] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=Pegzmmm&sid=KKDYT6N5U6KFHSiHAABu HTTP/1.1[0m" 400 -
+2025-10-28 18:47:06,524 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:06] "GET /socket.io/?EIO=4&transport=polling&t=Pegzn8z HTTP/1.1" 200 -
+2025-10-28 18:47:06,732 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:06] "POST /socket.io/?EIO=4&transport=polling&t=Pegzn9h&sid=8FlxFDGBsRqR_i1ZAABw HTTP/1.1" 200 -
+2025-10-28 18:47:06,741 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:06] "GET /socket.io/?EIO=4&transport=polling&t=Pegzn9w&sid=8FlxFDGBsRqR_i1ZAABw HTTP/1.1" 200 -
+2025-10-28 18:47:06,835 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:06] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=8FlxFDGBsRqR_i1ZAABw HTTP/1.1[0m" 500 -
+2025-10-28 18:47:09,719 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:09] "POST /socket.io/?EIO=4&transport=polling&t=PegznxI&sid=8FlxFDGBsRqR_i1ZAABw HTTP/1.1" 200 -
+2025-10-28 18:47:51,821 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:51] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegznCv&sid=8FlxFDGBsRqR_i1ZAABw HTTP/1.1[0m" 400 -
+2025-10-28 18:47:51,845 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:51] "[31m[1mPOST /socket.io/?EIO=4&transport=polling&t=PegzyDN&sid=8FlxFDGBsRqR_i1ZAABw HTTP/1.1[0m" 400 -
+2025-10-28 18:47:53,512 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:53] "GET /socket.io/?EIO=4&transport=polling&t=PegzydO HTTP/1.1" 200 -
+2025-10-28 18:47:53,680 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:53] "POST /socket.io/?EIO=4&transport=polling&t=Pegzydp&sid=RdMzjDFDq0TE7Zn_AABy HTTP/1.1" 200 -
+2025-10-28 18:47:53,781 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:53] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=RdMzjDFDq0TE7Zn_AABy HTTP/1.1[0m" 500 -
+2025-10-28 18:47:53,798 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:47:53] "GET /socket.io/?EIO=4&transport=polling&t=Pegzydx&sid=RdMzjDFDq0TE7Zn_AABy HTTP/1.1" 200 -
+2025-10-28 18:48:38,958 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 18:48:38] "[31m[1mGET /socket.io/?EIO=4&transport=polling&t=PegzyjR&sid=RdMzjDFDq0TE7Zn_AABy HTTP/1.1[0m" 400 -
+2025-10-28 20:10:29,572 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 20:10:29] "GET /socket.io/?EIO=4&transport=polling&t=PehGsT- HTTP/1.1" 200 -
+2025-10-28 20:10:34,287 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 20:10:34] "POST /socket.io/?EIO=4&transport=polling&t=PehGsca&sid=d8DDxqVKjOntbWsdAAB0 HTTP/1.1" 200 -
+2025-10-28 20:10:34,319 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 20:10:34] "GET /socket.io/?EIO=4&transport=polling&t=PehGsco&sid=d8DDxqVKjOntbWsdAAB0 HTTP/1.1" 200 -
+2025-10-28 20:10:35,488 - flask_wtf.csrf - INFO - The CSRF token has expired.
+2025-10-28 20:10:35,619 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 20:10:35] "[31m[1mPOST /studyroom/delete/ree HTTP/1.1[0m" 400 -
+2025-10-28 20:10:35,867 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 20:10:35] "[35m[1mGET /socket.io/?EIO=4&transport=websocket&sid=d8DDxqVKjOntbWsdAAB0 HTTP/1.1[0m" 500 -
+2025-10-28 20:11:16,793 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 20:11:16] "GET /exambot HTTP/1.1" 200 -
+2025-10-28 23:36:58,800 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:36:58] "GET /features HTTP/1.1" 200 -
+2025-10-28 23:36:58,953 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:36:58] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 23:37:15,212 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:15] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 23:37:15,370 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:15] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 23:37:15,458 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:15] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-10-28 23:37:26,708 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-10-28 23:37:26,800 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:26] "[32mPOST /studyplan/delete/18 HTTP/1.1[0m" 302 -
+2025-10-28 23:37:28,162 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:28] "GET /dashboard HTTP/1.1" 200 -
+2025-10-28 23:37:28,261 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-10-28 23:37:28,264 - werkzeug - INFO - 192.168.56.1 - - [28/Oct/2025 23:37:28] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-11-18 21:19:10,487 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-11-18 21:19:12,316 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-11-18 21:19:17,475 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 21:19:17,477 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:19:17,478 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:19:17,479 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-11-18 21:23:55,807 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-11-18 21:23:56,930 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-11-18 21:23:59,587 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 21:23:59,587 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:23:59,587 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:23:59,587 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-11-18 21:26:41,919 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-11-18 21:26:43,001 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-11-18 21:26:45,839 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 21:26:45,839 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:26:45,839 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:26:45,839 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-11-18 21:27:21,756 - datasets - INFO - PyTorch version 2.2.1 available.
+2025-11-18 21:27:21,756 - datasets - INFO - TensorFlow version 2.12.0 available.
+2025-11-18 21:27:21,771 - datasets - INFO - JAX version 0.4.30 available.
+2025-11-18 21:27:23,857 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-11-18 21:27:23,857 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-11-18 21:27:29,078 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-11-18 21:27:30,307 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-11-18 21:27:33,412 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.74.90.176:5000
+2025-11-18 21:27:33,412 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 21:41:37,610 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:37] "GET / HTTP/1.1" 200 -
+2025-11-18 21:41:37,918 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:37] "GET /static/images/purrfect-logo.svg HTTP/1.1" 200 -
+2025-11-18 21:41:37,983 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-11-18 21:41:39,785 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:39] "GET /login HTTP/1.1" 200 -
+2025-11-18 21:41:44,383 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:44] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-11-18 21:41:44,476 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:44] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-11-18 21:41:44,825 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:44] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-11-18 21:41:44,853 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:44] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-11-18 21:41:44,983 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:41:44] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-11-18 21:43:22,988 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:43:22] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-11-18 21:43:23,026 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:43:23] "[36mGET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-11-18 21:43:23,174 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:43:23] "[36mGET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-11-18 21:43:23,332 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:43:23] "[36mGET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-11-18 21:46:17,681 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-11-18 21:46:18,841 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-11-18 21:46:20,863 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 21:46:20,863 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:46:20,863 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:46:20,863 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-11-18 21:46:45,916 - datasets - INFO - PyTorch version 2.2.1 available.
+2025-11-18 21:46:45,931 - datasets - INFO - TensorFlow version 2.12.0 available.
+2025-11-18 21:46:45,931 - datasets - INFO - JAX version 0.4.30 available.
+2025-11-18 21:46:46,825 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-11-18 21:46:46,825 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-11-18 21:46:53,343 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-11-18 21:46:53,953 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-11-18 21:46:57,290 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.74.90.176:5000
+2025-11-18 21:46:57,290 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-18 21:47:07,963 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:07] "GET / HTTP/1.1" 200 -
+2025-11-18 21:47:08,327 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:08] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 21:47:12,055 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:12] "GET /login HTTP/1.1" 200 -
+2025-11-18 21:47:16,948 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:16] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-11-18 21:47:21,455 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:21] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 21:47:21,522 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:21] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 21:47:21,594 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:21] "GET /static/js/security-utils.js HTTP/1.1" 200 -
+2025-11-18 21:47:24,532 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:24] "GET /features HTTP/1.1" 200 -
+2025-11-18 21:47:24,564 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 21:47:26,197 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:47:26] "GET /forms HTTP/1.1" 200 -
+2025-11-18 21:48:28,478 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:28] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-11-18 21:48:29,245 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:29] "GET /studyplan HTTP/1.1" 200 -
+2025-11-18 21:48:41,945 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:41] "[32mPOST /save-study-plan HTTP/1.1[0m" 302 -
+2025-11-18 21:48:45,719 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:45] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 21:48:45,784 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:45] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-11-18 21:48:45,784 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:45] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 21:48:50,955 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:50] "GET /features HTTP/1.1" 200 -
+2025-11-18 21:48:50,997 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:48:50] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 21:49:12,360 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:49:12] "GET /rooms HTTP/1.1" 200 -
+2025-11-18 21:49:36,128 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:49:36] "GET /flashcardgenerator HTTP/1.1" 200 -
+2025-11-18 21:49:47,705 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:49:47] "[32mGET /reset-flashcards HTTP/1.1[0m" 302 -
+2025-11-18 21:49:48,153 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:49:48] "GET /flashcardgenerator HTTP/1.1" 200 -
+2025-11-18 21:49:55,781 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 21:49:55,781 - blueprints.flashcard - ERROR - Error checking collections: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:49:55,816 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:49:55] "[32mPOST /generate-flashcards HTTP/1.1[0m" 302 -
+2025-11-18 21:49:56,535 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:49:56] "GET /flashcard HTTP/1.1" 200 -
+2025-11-18 21:50:58,890 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:50:58] "GET /features HTTP/1.1" 200 -
+2025-11-18 21:50:58,967 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:50:58] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 21:51:03,411 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:51:03] "GET /exambot HTTP/1.1" 200 -
+2025-11-18 21:51:41,122 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-11-18 21:51:41,138 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 21:51:41] "[31m[1mPOST /process_exam HTTP/1.1[0m" 400 -
+2025-11-18 21:59:18,024 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-11-18 21:59:18,586 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-11-18 21:59:20,169 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 21:59:20,169 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:59:20,169 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 21:59:20,169 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-11-18 22:00:05,371 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-11-18 22:00:05,371 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-11-18 22:00:10,715 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-11-18 22:00:11,358 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-11-18 22:02:50,534 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-11-18 22:02:51,277 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-11-18 22:02:54,368 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 22:02:54,368 - purr_rag - WARNING - Cloud Qdrant connection failed despite credentials: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 22:02:54,368 - purr_rag - ERROR - Failed to initialize any Qdrant client: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 22:02:54,368 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-11-18 22:03:05,577 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-11-18 22:03:05,577 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-11-18 22:03:11,982 - blueprints.flashcard - INFO - Sentence transformer model loaded successfully
+2025-11-18 22:03:12,603 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-11-18 22:03:15,713 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-11-18 22:03:15,713 - werkzeug - INFO -  * Running on http://10.74.90.176:5000/ (Press CTRL+C to quit)
+2025-11-18 22:03:21,168 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:21] "GET / HTTP/1.1" 200 -
+2025-11-18 22:03:21,476 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:21] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:03:24,634 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:24] "GET /login HTTP/1.1" 200 -
+2025-11-18 22:03:30,479 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:30] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-11-18 22:03:32,659 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:32] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 22:03:32,754 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:32] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-11-18 22:03:32,760 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:32] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:03:41,754 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:41] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-11-18 22:03:42,480 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:42] "GET /notes/ HTTP/1.1" 200 -
+2025-11-18 22:03:42,522 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:42] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:03:45,271 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:45] "[32mGET /create-note.html HTTP/1.1[0m" 302 -
+2025-11-18 22:03:45,676 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:03:45] "GET /notes/create-note HTTP/1.1" 200 -
+2025-11-18 22:05:24,846 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:24] "GET /planning HTTP/1.1" 200 -
+2025-11-18 22:05:24,892 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:24] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:05:27,963 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:27] "[32mGET /exam-plan-creater HTTP/1.1[0m" 302 -
+2025-11-18 22:05:28,342 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:28] "GET /exam-plan-creator HTTP/1.1" 200 -
+2025-11-18 22:05:53,260 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:53] "[32mPOST /add-calender HTTP/1.1[0m" 302 -
+2025-11-18 22:05:55,216 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:55] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 22:05:55,316 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:55] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-11-18 22:05:55,323 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:05:55] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:06:26,832 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:26] "POST /delete-exam-plan/4 HTTP/1.1" 200 -
+2025-11-18 22:06:28,416 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:28] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 22:06:28,473 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:06:28,476 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:28] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-11-18 22:06:34,327 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 22:06:34,358 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:34] "[32mPOST /studyplan/delete/19 HTTP/1.1[0m" 302 -
+2025-11-18 22:06:36,097 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:36] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 22:06:36,135 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:36] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-11-18 22:06:36,135 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:36] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:06:49,861 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:49] "GET /progress HTTP/1.1" 200 -
+2025-11-18 22:06:49,954 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:49] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:06:56,837 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:06:56] "[33mGET /exam-details/null HTTP/1.1[0m" 404 -
+2025-11-18 22:07:08,351 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 22:07:08,645 - httpx - INFO - HTTP Request: GET https://29e29c2b-dd94-4b5b-867e-b0f875bbb4fa.us-west-1-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 404 Not Found"
+2025-11-18 22:07:08,662 - app1 - ERROR - Error getting collection stats: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'404 page not found\n'
+2025-11-18 22:07:08,761 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:08] "GET /rag/progress HTTP/1.1" 200 -
+2025-11-18 22:07:11,489 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:11] "GET /features HTTP/1.1" 200 -
+2025-11-18 22:07:11,536 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:11] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:07:13,827 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:13] "GET /planning HTTP/1.1" 200 -
+2025-11-18 22:07:13,885 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:13] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:07:18,537 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:18] "GET /dashboard HTTP/1.1" 200 -
+2025-11-18 22:07:18,580 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:18] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-11-18 22:07:18,583 - werkzeug - INFO - 192.168.56.1 - - [18/Nov/2025 22:07:18] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
