@@ -1,3 +1,7 @@
+# Render Deployment Requirements (CPU-only, lightweight)
+# This file excludes heavy CUDA dependencies for cloud deployment
+
+# Flask and Web Framework
 Flask==2.2.3
 flask-socketio
 Flask-Login==0.6.2
@@ -24,31 +28,20 @@ SQLAlchemy==2.0.25
 python-dotenv==1.0.0
 requests==2.28.2
 
-# File processing
+# File processing (lightweight)
 Pillow>=10.0.0
 PyPDF2==3.0.1
 PyMuPDF==1.22.3
-pytesseract
-easyocr==1.7.1
 
 # Data processing (lightweight)
 numpy==1.24.3
 pandas==2.0.3
 pydantic==1.10.8
 
-# ML/AI dependencies (lightweight versions)
-# Using CPU-only versions to avoid CUDA dependencies
-huggingface_hub>=0.19.0
-transformers>=4.35.0
-sentence-transformers>=2.7.0
-torch>=2.0.1
-torchvision>=0.15.2
-torchaudio>=2.0.2
-
 # API & Services
 google-generativeai==0.3.1
 
-# Vector Storage (Qdrant client only, not the full server)
+# Vector Storage (Qdrant client only)
 qdrant-client==1.6.1
 
 # Web & APIs
@@ -67,3 +60,15 @@ typing-extensions==4.7.1
 bcrypt==4.0.1
 tqdm==4.65.0
 youtube-transcript-api==0.6.1
+
+# =====================================================
+# OPTIONAL HEAVY LIBRARIES - Loaded lazily if needed
+# These are NOT installed by default on Render
+# Install manually if ML features are required:
+# =====================================================
+# torch  # CPU-only: --index-url https://download.pytorch.org/whl/cpu
+# sentence-transformers>=2.7.0
+# transformers>=4.35.0
+# huggingface_hub>=0.19.0
+# easyocr==1.7.1
+# pytesseract
