@@ -2363,10 +2363,10 @@ def chat():
                     # Then try to get it as a dictionary key
                     elif hasattr(current_user, '__getitem__') and 'rag_enabled' in current_user:
                         rag_enabled = current_user['rag_enabled']
-                    # Default to True for now during development
+                    # DISABLED: RAG via HTTP causes deadlock on single-worker deployments
                     else:
-                        rag_enabled = True
-                        print("RAG enabled by default for testing")
+                        rag_enabled = False  # Was True - disabled to prevent Render deadlock
+                        print("RAG disabled to prevent single-worker deadlock")
             except Exception as e:
                 print(f"Error checking RAG status: {e}")
                 rag_enabled = False
@@ -2430,10 +2430,10 @@ def chat():
                     # Then try to get it as a dictionary key
                     elif hasattr(current_user, '__getitem__') and 'rag_enabled' in current_user:
                         rag_enabled = current_user['rag_enabled']
-                    # Default to True for now during development
+                    # DISABLED: RAG via HTTP causes deadlock on single-worker deployments
                     else:
-                        rag_enabled = True
-                        print("RAG enabled by default for testing")
+                        rag_enabled = False  # Was True - disabled to prevent Render deadlock
+                        print("RAG disabled to prevent single-worker deadlock")
             except Exception as e:
                 print(f"Error checking RAG status: {e}")
                 rag_enabled = False
