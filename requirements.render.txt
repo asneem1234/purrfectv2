@@ -1,0 +1,74 @@
+# Render Deployment Requirements (CPU-only, lightweight)
+# This file excludes heavy CUDA dependencies for cloud deployment
+
+# Flask and Web Framework
+Flask==2.2.3
+flask-socketio
+Flask-Login==0.6.2
+Flask-Session==0.5.0
+Flask-SQLAlchemy==3.0.3
+Flask-WTF==1.1.1
+WTForms==3.0.1
+Werkzeug==2.2.3
+Jinja2==3.1.2
+itsdangerous==2.1.2
+click==8.1.3
+MarkupSafe==2.1.2
+
+# Server and WebSockets
+gunicorn==20.1.0
+eventlet==0.33.3
+dnspython>=1.15.0,<2.0.0
+
+# Database
+psycopg2-binary
+SQLAlchemy==2.0.25
+
+# Environment and HTTP
+python-dotenv==1.0.0
+requests==2.28.2
+
+# File processing (lightweight)
+Pillow>=10.0.0
+PyPDF2==3.0.1
+PyMuPDF==1.22.3
+
+# Data processing (lightweight)
+numpy==1.24.3
+pandas==2.0.3
+pydantic==1.10.8
+
+# API & Services
+google-generativeai==0.3.1
+
+# Vector Storage (Qdrant client only)
+qdrant-client==1.6.1
+
+# Web & APIs
+fastapi==0.99.1
+uvicorn==0.23.2
+posthog==3.0.2
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+six==1.16.0
+urllib3==1.26.18
+certifi==2025.8.3
+charset-normalizer==3.3.2
+typing-extensions==4.7.1
+bcrypt==4.0.1
+tqdm==4.65.0
+youtube-transcript-api==0.6.1
+
+# =====================================================
+# OPTIONAL HEAVY LIBRARIES - Loaded lazily if needed
+# These are NOT installed by default on Render
+# Install manually if ML features are required:
+# =====================================================
+# torch  # CPU-only: --index-url https://download.pytorch.org/whl/cpu
+# sentence-transformers>=2.7.0
+# transformers>=4.35.0
+# huggingface_hub>=0.19.0
+# easyocr==1.7.1
+# pytesseract

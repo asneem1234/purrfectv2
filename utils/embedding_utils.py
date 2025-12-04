@@ -7,47 +7,79 @@ import re
 import time
 import uuid
 import traceback
-from sentence_transformers import SentenceTransformer
 import numpy as np
 from flask import current_app
 import qdrant_client
 from qdrant_client.http.models import Distance, VectorParams, PointStruct
 
+# Lazy loading for heavy ML libraries (sentence-transformers requires torch)
+_sentence_transformers_loaded = None
+_SentenceTransformer = None
+
+def _load_sentence_transformers():
+    """Lazy load sentence-transformers module only when needed"""
+    global _sentence_transformers_loaded, _SentenceTransformer
+    if _sentence_transformers_loaded is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+            _sentence_transformers_loaded = True
+            _SentenceTransformer = SentenceTransformer
+            print("sentence-transformers module loaded successfully (embedding_utils)")
+        except ImportError as e:
+            print(f"Warning: sentence-transformers not available - using mock embeddings: {e}")
+            _sentence_transformers_loaded = False
+            _SentenceTransformer = None
+    return _SentenceTransformer
+
+# Mock embedding model for when sentence-transformers is not available
+class MockEmbeddingModel:
+    """Mock embedding model that returns random vectors for testing"""
+    def encode(self, text, **kwargs):
+        print(f"WARNING: Using mock embeddings for: {str(text)[:30]}...")
+        if isinstance(text, list):
+            return [np.random.rand(384).astype(np.float32) for _ in text]
+        return np.random.rand(384).astype(np.float32)
+
 # Initialize the embedding model
 def get_embedding_model():
     """Get or initialize the sentence transformer model for embeddings.
     Uses 'sentence-transformers/all-MiniLM-L6-v2' for efficient embeddings.
-    Includes fallbacks for environment issues."""
-    if hasattr(current_app, 'embedding_model'):
+    Includes fallbacks for environment issues. Lazy loaded."""
+    if hasattr(current_app, 'embedding_model') and current_app.embedding_model is not None:
         return current_app.embedding_model
     
-    # If no model exists in app context, try to create a new one
-    try:
-        # Try the primary model
-        model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-        print("Successfully loaded sentence-transformers/all-MiniLM-L6-v2 model")
-    except Exception as e:
-        print(f"Error loading primary model: {e}")
+    # Try to lazy load sentence-transformers
+    SentenceTransformer = _load_sentence_transformers()
+    
+    if SentenceTransformer is None:
+        # sentence-transformers not available, use mock
+        print("Using mock embedding model (sentence-transformers not installed)")
+        model = MockEmbeddingModel()
+    else:
+        # If no model exists in app context, try to create a new one
         try:
-            # Try a simpler model as fallback
-            print("Trying fallback model...")
-            model = SentenceTransformer('paraphrase-MiniLM-L3-v2')
-            print("Successfully loaded fallback model: paraphrase-MiniLM-L3-v2")
-        except Exception as fallback_error:
-            print(f"Error loading fallback model: {fallback_error}")
-            print("Using mock embedding model for testing")
-            # Create a mock model that returns random vectors for testing
-            class MockEmbeddingModel:
-                def encode(self, text, **kwargs):
-                    print(f"WARNING: Using mock embeddings for: {text[:30]}...")
-                    if isinstance(text, list):
-                        return [np.random.rand(384).astype(np.float32) for _ in text]
-                    return np.random.rand(384).astype(np.float32)
-            model = MockEmbeddingModel()
+            # Try the primary model
+            model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+            print("Successfully loaded sentence-transformers/all-MiniLM-L6-v2 model")
+        except Exception as e:
+            print(f"Error loading primary model: {e}")
+            try:
+                # Try a simpler model as fallback
+                print("Trying fallback model...")
+                model = SentenceTransformer('paraphrase-MiniLM-L3-v2')
+                print("Successfully loaded fallback model: paraphrase-MiniLM-L3-v2")
+            except Exception as fallback_error:
+                print(f"Error loading fallback model: {fallback_error}")
+                print("Using mock embedding model for testing")
+                model = MockEmbeddingModel()
     
     # Store in app context if available
-    if current_app:
-        current_app.embedding_model = model
+    try:
+        if current_app:
+            current_app.embedding_model = model
+    except RuntimeError:
+        # Outside of application context
+        pass
     
     return model
 

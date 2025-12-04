@@ -7,7 +7,6 @@ import re
 import uuid
 from typing import List, Dict, Any, Optional, Tuple
 import numpy as np
-from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
@@ -16,6 +15,25 @@ EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 DEFAULT_COLLECTION = "tutor_chunks"
 VECTOR_SIZE = 384  # Size of embeddings for all-MiniLM-L6-v2
 
+# Lazy loading for sentence-transformers (requires torch)
+_sentence_transformers_loaded = None
+_SentenceTransformer = None
+
+def _load_sentence_transformers():
+    """Lazy load sentence-transformers module only when needed"""
+    global _sentence_transformers_loaded, _SentenceTransformer
+    if _sentence_transformers_loaded is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+            _sentence_transformers_loaded = True
+            _SentenceTransformer = SentenceTransformer
+            print("sentence-transformers module loaded successfully (tutor_utils)")
+        except ImportError as e:
+            print(f"Warning: sentence-transformers not available: {e}")
+            _sentence_transformers_loaded = False
+            _SentenceTransformer = None
+    return _SentenceTransformer
+
 # Initialize the embedding model
 _model = None
 
@@ -23,6 +41,9 @@ def get_embedding_model():
     """Lazy-load the embedding model to avoid loading it until needed."""
     global _model
     if _model is None:
+        SentenceTransformer = _load_sentence_transformers()
+        if SentenceTransformer is None:
+            raise ImportError("sentence-transformers is not installed. Please install it with: pip install sentence-transformers")
         try:
             _model = SentenceTransformer(EMBEDDING_MODEL)
         except Exception as e:

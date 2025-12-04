@@ -11,7 +11,26 @@ import time
 import google.generativeai as genai
 import uuid
 import hashlib
-from sentence_transformers import SentenceTransformer
+
+# Lazy loading for heavy ML libraries (sentence-transformers requires torch)
+_sentence_transformers = None
+_SentenceTransformer = None
+
+def _get_sentence_transformer():
+    """Lazy load sentence-transformers module only when needed"""
+    global _sentence_transformers, _SentenceTransformer
+    if _sentence_transformers is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+            _sentence_transformers = True
+            _SentenceTransformer = SentenceTransformer
+            print("sentence-transformers module loaded successfully")
+        except ImportError as e:
+            print(f"Warning: sentence-transformers not available - embedding features disabled: {e}")
+            _sentence_transformers = False
+            _SentenceTransformer = None
+    return _SentenceTransformer
+
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as qdrant_models
 from qdrant_client.http.models import PointStruct, Distance
@@ -22,13 +41,24 @@ logger = logging.getLogger(__name__)
 # Create flashcard blueprint
 flashcard_bp = Blueprint('flashcard', __name__)
 
-# Initialize sentence transformer model for embeddings
-try:
-    embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-    logger.info("Sentence transformer model loaded successfully")
-except Exception as e:
-    logger.error(f"Error loading sentence transformer model: {e}")
-    embedding_model = None
+# Initialize sentence transformer model for embeddings (lazy loaded)
+embedding_model = None
+
+def get_embedding_model():
+    """Get or initialize the embedding model (lazy loaded)"""
+    global embedding_model
+    if embedding_model is None:
+        SentenceTransformer = _get_sentence_transformer()
+        if SentenceTransformer is None:
+            logger.warning("sentence-transformers not available. Embedding features disabled.")
+            return None
+        try:
+            embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+            logger.info("Sentence transformer model loaded successfully")
+        except Exception as e:
+            logger.error(f"Error loading sentence transformer model: {e}")
+            return None
+    return embedding_model
 
 # Initialize Qdrant client (will be None if env vars not available)
 try:
@@ -61,13 +91,14 @@ def get_collection_name(user_id):
     return f"flashcards_{user_id}"
 
 def create_embedding(text):
-    """Create embedding for text using sentence-transformers"""
-    if embedding_model is None:
+    """Create embedding for text using sentence-transformers (lazy loaded)"""
+    model = get_embedding_model()
+    if model is None:
         logger.warning("Embedding model not available. Cannot create embeddings.")
         return None
     
     try:
-        embedding = embedding_model.encode(text)
+        embedding = model.encode(text)
         return embedding.tolist()
     except Exception as e:
         logger.error(f"Error creating embedding: {e}")

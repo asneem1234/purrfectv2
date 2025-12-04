@@ -13,8 +13,23 @@ import io
 import uuid
 import traceback
 import PyPDF2  # Add PyPDF2 for PDF processing
-import easyocr  # Add EasyOCR for image text extraction
 import time
+
+# Lazy loading for heavy libraries (EasyOCR requires torch which is huge)
+_easyocr = None
+
+def _get_easyocr():
+    """Lazy load easyocr module only when needed"""
+    global _easyocr
+    if _easyocr is None:
+        try:
+            import easyocr
+            _easyocr = easyocr
+            print("EasyOCR module loaded successfully")
+        except ImportError as e:
+            print(f"Warning: EasyOCR not available - OCR features disabled: {e}")
+            _easyocr = False
+    return _easyocr if _easyocr else None
 
 # Create exam bot blueprint
 exambot_bp = Blueprint('exambot_bp', __name__)
@@ -26,21 +41,30 @@ def get_exam_sessions():
         current_app.exam_sessions = {}
     return current_app.exam_sessions
 
-# EasyOCR reader - initialize once and reuse
+# EasyOCR reader - initialize once and reuse (lazy loaded)
 _ocr_reader = None
 
 def get_ocr_reader():
-    """Get or initialize the EasyOCR reader"""
+    """Get or initialize the EasyOCR reader (lazy loaded)"""
     global _ocr_reader
     if _ocr_reader is None:
+        easyocr = _get_easyocr()
+        if easyocr is None:
+            print("EasyOCR not available - cannot initialize OCR reader")
+            return None
         print("Initializing EasyOCR reader...")
         # Initialize for English only
         _ocr_reader = easyocr.Reader(['en'], gpu=False)
     return _ocr_reader
 
 def extract_text_from_image(image_path):
-    """Extract text from image files using EasyOCR"""
+    """Extract text from image files using EasyOCR (lazy loaded)"""
     try:
+        # Check if EasyOCR is available
+        reader = get_ocr_reader()
+        if reader is None:
+            return "[OCR feature not available. EasyOCR library is not installed. Please describe the image content manually.]"
+        
         print(f"Processing image file with EasyOCR: {image_path}")
         start_time = time.time()
         
