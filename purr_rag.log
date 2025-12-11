@@ -1367,3 +1367,110 @@ b'404 page not found\n'
 2025-11-19 15:44:45,866 - werkzeug - INFO - 10.74.90.176 - - [19/Nov/2025 15:44:45] "GET /dashboard HTTP/1.1" 200 -
 2025-11-19 15:44:46,014 - werkzeug - INFO - 10.74.90.176 - - [19/Nov/2025 15:44:46] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
 2025-11-19 15:44:46,017 - werkzeug - INFO - 10.74.90.176 - - [19/Nov/2025 15:44:46] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:23:11,829 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-12-04 16:23:12,595 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-12-04 16:23:14,996 - httpx - INFO - HTTP Request: GET https://c269b995-1162-4b10-8e13-74d7375ca5d5.us-west-2-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-12-04 16:23:15,001 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-12-04 16:23:15,001 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-12-04 16:23:16,892 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-12-04 16:23:21,960 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-12-04 16:23:21,960 - werkzeug - INFO -  * Running on http://10.74.90.176:5000/ (Press CTRL+C to quit)
+2025-12-04 16:24:52,894 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:24:52] "GET / HTTP/1.1" 200 -
+2025-12-04 16:24:53,329 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:24:53] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:24:53,417 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:24:53] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-12-04 16:24:55,054 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:24:55] "GET /login HTTP/1.1" 200 -
+2025-12-04 16:24:59,853 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:24:59] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-12-04 16:25:04,765 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:04] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 16:25:05,425 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:05] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:25:05,661 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:05] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-12-04 16:25:13,982 - httpx - INFO - HTTP Request: GET https://c269b995-1162-4b10-8e13-74d7375ca5d5.us-west-2-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-12-04 16:25:14,392 - httpx - INFO - HTTP Request: GET https://c269b995-1162-4b10-8e13-74d7375ca5d5.us-west-2-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-12-04 16:25:14,394 - purr_rag - ERROR - Error creating collection chat_2: module 'qdrant_client.http.models.models' has no attribute 'SparseVectorParams'
+2025-12-04 16:25:14,415 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:14] "GET /bot HTTP/1.1" 200 -
+2025-12-04 16:25:25,842 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-12-04 16:25:25,852 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:25] "[31m[1mPOST /direct-rag-ingest HTTP/1.1[0m" 400 -
+2025-12-04 16:25:25,873 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-12-04 16:25:25,909 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:25] "[31m[1mPOST /direct-rag-ingest HTTP/1.1[0m" 400 -
+2025-12-04 16:25:25,953 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:25] "POST /chat HTTP/1.1" 200 -
+2025-12-04 16:25:47,403 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-12-04 16:25:47,410 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:47] "[31m[1mPOST /direct-rag-ingest HTTP/1.1[0m" 400 -
+2025-12-04 16:25:47,429 - flask_wtf.csrf - INFO - The CSRF token is missing.
+2025-12-04 16:25:47,470 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:47] "[31m[1mPOST /direct-rag-ingest HTTP/1.1[0m" 400 -
+2025-12-04 16:25:47,507 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:47] "POST /chat HTTP/1.1" 200 -
+2025-12-04 16:25:56,932 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:56] "GET /features HTTP/1.1" 200 -
+2025-12-04 16:25:57,044 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:25:57] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:26:01,665 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:26:01] "GET /forms HTTP/1.1" 200 -
+2025-12-04 16:27:41,994 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:27:41] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-12-04 16:27:42,875 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:27:42] "GET /studyplan HTTP/1.1" 200 -
+2025-12-04 16:27:55,799 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:27:55] "[32mPOST /save-study-plan HTTP/1.1[0m" 302 -
+2025-12-04 16:27:59,794 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:27:59] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 16:27:59,868 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:27:59] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-12-04 16:27:59,873 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:27:59] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:28:03,685 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:03] "GET /studyplan/live/23 HTTP/1.1" 200 -
+2025-12-04 16:28:17,099 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:17] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 16:28:17,168 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:17] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-12-04 16:28:17,174 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:17] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:28:23,053 - httpx - INFO - HTTP Request: GET https://c269b995-1162-4b10-8e13-74d7375ca5d5.us-west-2-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-12-04 16:28:23,080 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:23] "[32mPOST /studyplan/delete/23 HTTP/1.1[0m" 302 -
+2025-12-04 16:28:26,930 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:26] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 16:28:26,994 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:26] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-12-04 16:28:27,000 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:27] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:28:29,405 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:29] "GET /features HTTP/1.1" 200 -
+2025-12-04 16:28:29,451 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:28:29] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 16:35:34,818 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:35:34] "GET / HTTP/1.1" 200 -
+2025-12-04 16:35:34,889 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 16:35:34] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:10:45,296 - blueprints.study_plan - INFO - Using lazy-loading for sentence transformer model
+2025-12-04 17:10:47,001 - blueprints.study_plan - INFO - Qdrant client initialized successfully
+2025-12-04 17:10:48,803 - httpx - INFO - HTTP Request: GET https://c269b995-1162-4b10-8e13-74d7375ca5d5.us-west-2-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-12-04 17:10:48,805 - purr_rag - INFO - Qdrant cloud client initialized successfully
+2025-12-04 17:10:48,805 - purr_rag - INFO - Using lazy-loading for embedding models
+2025-12-04 17:10:49,506 - blueprints.flashcard - INFO - Qdrant client initialized successfully
+2025-12-04 17:10:52,625 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.74.90.176:5000
+2025-12-04 17:10:52,625 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-04 17:11:07,831 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:11:07] "GET / HTTP/1.1" 200 -
+2025-12-04 17:11:08,230 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:11:08] "GET /static/images/purrfect-logo.svg HTTP/1.1" 200 -
+2025-12-04 17:11:08,353 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:11:08] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-12-04 17:36:51,607 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:36:51] "GET /login HTTP/1.1" 200 -
+2025-12-04 17:37:00,936 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:00] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-12-04 17:37:01,069 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:01] "GET /login HTTP/1.1" 200 -
+2025-12-04 17:37:18,132 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:18] "POST /login HTTP/1.1" 200 -
+2025-12-04 17:37:21,286 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:21] "GET /register HTTP/1.1" 200 -
+2025-12-04 17:37:39,531 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:39] "[32mPOST /register HTTP/1.1[0m" 302 -
+2025-12-04 17:37:39,706 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:39] "GET /register HTTP/1.1" 200 -
+2025-12-04 17:37:49,046 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:49] "GET /register HTTP/1.1" 200 -
+2025-12-04 17:37:54,693 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:54] "GET / HTTP/1.1" 200 -
+2025-12-04 17:37:55,187 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:55] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:37:59,468 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:59] "GET / HTTP/1.1" 200 -
+2025-12-04 17:37:59,748 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:37:59] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:38:00,839 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:00] "GET /login HTTP/1.1" 200 -
+2025-12-04 17:38:23,564 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:23] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-12-04 17:38:28,171 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:28] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 17:38:28,450 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:28] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:38:28,453 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:28] "GET /static/js/security-utils.js HTTP/1.1" 200 -
+2025-12-04 17:38:53,266 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:53] "GET /features HTTP/1.1" 200 -
+2025-12-04 17:38:53,659 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:38:53] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:39:24,824 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:39:24] "GET /forms HTTP/1.1" 200 -
+2025-12-04 17:41:43,814 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:41:43] "[32mPOST /create-study-plan HTTP/1.1[0m" 302 -
+2025-12-04 17:41:46,620 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:41:46] "GET /studyplan HTTP/1.1" 200 -
+2025-12-04 17:44:45,637 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:44:45] "[32mPOST /save-study-plan HTTP/1.1[0m" 302 -
+2025-12-04 17:44:50,516 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:44:50] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 17:44:50,649 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:44:50] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:44:50,653 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:44:50] "[36mGET /static/js/security-utils.js HTTP/1.1[0m" 304 -
+2025-12-04 17:44:59,329 - httpx - INFO - HTTP Request: GET https://c269b995-1162-4b10-8e13-74d7375ca5d5.us-west-2-0.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+2025-12-04 17:44:59,742 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:44:59] "[32mPOST /studyplan/delete/24 HTTP/1.1[0m" 302 -
+2025-12-04 17:45:04,347 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:04] "GET /dashboard HTTP/1.1" 200 -
+2025-12-04 17:45:05,570 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:05] "GET /progress HTTP/1.1" 200 -
+2025-12-04 17:45:05,886 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:05] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:45:34,564 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:34] "[32mGET /notes-coming-soon HTTP/1.1[0m" 302 -
+2025-12-04 17:45:35,106 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:35] "GET /notes/ HTTP/1.1" 200 -
+2025-12-04 17:45:35,452 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:35] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:45:51,840 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:51] "[32mGET /create-note.html HTTP/1.1[0m" 302 -
+2025-12-04 17:45:52,558 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:45:52] "GET /notes/create-note HTTP/1.1" 200 -
+2025-12-04 17:47:33,149 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:47:33] "GET /planning HTTP/1.1" 200 -
+2025-12-04 17:47:33,413 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:47:33] "[36mGET /static/images/purrfect-logo.svg HTTP/1.1[0m" 304 -
+2025-12-04 17:47:38,768 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:47:38] "[32mGET /exam-plan-creater HTTP/1.1[0m" 302 -
+2025-12-04 17:47:39,492 - werkzeug - INFO - 192.168.56.1 - - [04/Dec/2025 17:47:39] "GET /exam-plan-creator HTTP/1.1" 200 -
