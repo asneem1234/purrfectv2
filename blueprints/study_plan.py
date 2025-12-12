@@ -699,7 +699,7 @@ def study_answer_api():
                 try:
                     # Try to create a model with the API key from main application
                     try:
-                        model = genai.GenerativeModel('gemini-2.0-flash')
+                        model = genai.GenerativeModel('gemini-2.5-flash-lite')
                     except Exception as e:
                         print(f"Error creating Gemini model for fallback: {e}")
                         return jsonify({
@@ -763,7 +763,7 @@ def study_answer_api():
             # The genai module is already configured in the main application
             # Try to create a model with the API key configured there
             try:
-                model = genai.GenerativeModel('gemini-2.0-flash')
+                model = genai.GenerativeModel('gemini-2.5-flash-lite')
             except Exception as e:
                 print(f"Error creating Gemini model for RAG: {e}")
                 return jsonify({

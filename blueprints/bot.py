@@ -102,7 +102,7 @@ def extract_text_from_pdf(pdf_file):
 
 def get_gemini_model():
     """Get the Gemini generative model"""
-    return genai.GenerativeModel('gemini-2.0-flash')
+    return genai.GenerativeModel('gemini-2.5-flash-lite')
 
 def manage_pdf_progress(session_id, action, content=None, response=None, topic=None):
     """

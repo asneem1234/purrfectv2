@@ -10,14 +10,14 @@ def get_gemini_model():
     from flask import current_app
     try:
         if hasattr(current_app, 'genai'):
-            return current_app.genai.GenerativeModel('gemini-2.0-flash')
+            return current_app.genai.GenerativeModel('gemini-2.5-flash-lite')
         else:
             # If not in app context or app doesn't have genai, import directly
             import google.generativeai as genai
             import os
             api_key = os.environ.get('GEMINI_API_KEY', "AIzaSyCS1Jmabh4heMRYZpKxpi3IEBnaNCorgy4")
             genai.configure(api_key=api_key)
-            return genai.GenerativeModel('gemini-2.0-flash')
+            return genai.GenerativeModel('gemini-2.5-flash-lite')
     except Exception as e:
         print(f"Error creating Gemini model: {e}")
         return None

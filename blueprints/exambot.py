@@ -545,7 +545,7 @@ def generate_exam_response(exam_session, user_message):
         answers = exam_session.get('answers', {})
         
         # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         # More flexible approach to question identification
         # Instead of strict pattern matching, we'll use a more general prompt

@@ -80,7 +80,7 @@ except Exception as e:
 
 def get_gemini_model():
     """Get the Gemini generative model"""
-    return genai.GenerativeModel('gemini-2.0-flash')
+    return genai.GenerativeModel('gemini-2.5-flash-lite')
 
 # Qdrant Utility Functions
 def get_collection_name(user_id):
