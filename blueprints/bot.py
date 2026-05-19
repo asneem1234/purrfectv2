@@ -1054,6 +1054,13 @@ def generate_teaching_response(content, content_type, previous_context=None, ses
             if response_text.endswith("```"):
                 response_text = response_text[:-3].strip()
             
+            # Extract JSON block if there is extra text (e.g. from ReAct framework)
+            if not response_text.startswith("{"):
+                start_idx = response_text.find('{')
+                end_idx = response_text.rfind('}')
+                if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                    response_text = response_text[start_idx:end_idx+1]
+            
             # Parse as JSON to validate
             json_response = json.loads(response_text)
             

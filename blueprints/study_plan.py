@@ -877,7 +877,7 @@ def extract_important_topics(pdf_content):
         # The genai module is already configured in the main application
         # No need to check API key here
         try:
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            model = genai.GenerativeModel('gemini-2.5-flash')
         except Exception as e:
             print(f"Error creating Gemini model for topic extraction: {e}")
             return {"topics": [{"name": "Model Creation Failed", "importance": 5, "explanation": str(e), "recommended_time_minutes": 30, "key_points": ["Please check API key configuration"]}]}
@@ -940,7 +940,7 @@ def create_enhanced_study_schedule(form_data, topics_data):
     try:
         # The genai module is already configured in the main application
         try:
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            model = genai.GenerativeModel('gemini-2.5-flash')
         except Exception as e:
             print(f"Error creating Gemini model: {e}")
             return None
