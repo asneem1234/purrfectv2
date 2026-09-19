@@ -981,6 +981,19 @@
     </style>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div style="max-width: 900px; margin: 20px auto 0; padding: 0 20px;">
+            {% for message in messages %}
+            <div style="padding: 12px 18px; margin-bottom: 10px; border-radius: 20px;
+                        border: 2px solid #f5a3a3; background-color: #ffeaea;
+                        color: #a32a2a; font-size: 0.95rem; text-align: center;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
     {% if show_list %}
         <!-- Display the list of plans -->
         <h1>Your Study Plans</h1>
@@ -1176,6 +1189,7 @@
           <input type="hidden" name="exam_date" value="{{ study_plan.exam_date|default('') }}">
           <input type="hidden" name="prep_start_date" value="{{ study_plan.prep_start_date|default('') }}">
           <input type="hidden" name="is_revision_only" value="{{ 'true' if study_plan.is_revision_only else 'false' }}">
+          <input type="hidden" name="class_id" value="{{ study_plan.class_id|default('') }}">
         </form>
 
         <script>

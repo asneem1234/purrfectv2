@@ -149,6 +149,104 @@
             position: relative;
         }
 
+        /* Rest & meal schedule form */
+        .schedule-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+            width: 100%;
+            max-width: 560px;
+            text-align: left;
+        }
+
+        .schedule-card h2 {
+            color: var(--pink-accent);
+            margin: 0 0 5px 0;
+        }
+
+        .schedule-card .hint {
+            margin: 0 0 20px 0;
+            font-size: 0.9rem;
+            opacity: 0.75;
+        }
+
+        .schedule-card h3 {
+            color: var(--pink-accent);
+            margin: 25px 0 15px 0;
+            font-size: 1.05rem;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        .schedule-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .schedule-field input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--pink-light);
+            border-radius: 30px;
+            font-size: 1rem;
+            background-color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .schedule-field input:focus {
+            border-color: var(--pink-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+
+        .schedule-field input[type="range"] {
+            padding: 0;
+            border: none;
+            accent-color: var(--pink-accent);
+        }
+
+        .schedule-save {
+            margin-top: 25px;
+            padding: 14px 30px;
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .schedule-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .flash-messages {
+            max-width: 560px;
+            margin: 0 auto 20px;
+        }
+
+        .flash-message {
+            padding: 12px 18px;
+            border-radius: 20px;
+            border: 2px solid var(--pink-accent);
+            background-color: #fff2f7;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .flash-message + .flash-message {
+            margin-top: 10px;
+        }
+
         .profile-picture {
             width: 150px;
             height: 150px;
@@ -681,8 +779,18 @@
             <p>View your basic profile information.</p>
         </div>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
         <!-- Simplified Profile Container -->
-        <div class="profile-container" style="display: flex; justify-content: center;">
+        <div class="profile-container" style="display: flex; flex-direction: column; align-items: center; gap: 25px;">
             <!-- Profile Card - Simplified -->
             <div class="profile-card" style="width: 100%; max-width: 400px;">
                 <div class="profile-picture" id="profile-picture-container">
@@ -706,11 +814,70 @@
                 
                 <p class="profile-email">{{ user.email|default('') }}</p>
             </div>
+
+            <!-- Rest & Meal Schedule -->
+            <div class="schedule-card">
+                <h2><span class="icon">😴</span> Rest &amp; Meal Schedule</h2>
+                <p class="hint">Saved once and reused for every study plan you create.</p>
+
+                <form method="POST" action="{{ url_for('profile') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="schedule-field" style="margin-bottom: 18px;">
+                        <label for="sleepHours">Sleep Hours <span id="sleepHoursValue">{{ profile.sleep_hours }} hours</span></label>
+                        <input type="range" min="4" max="8" value="{{ profile.sleep_hours }}" id="sleepHours" name="sleepHours">
+                    </div>
+
+                    <div class="schedule-grid">
+                        <div class="schedule-field">
+                            <label for="breakDuration">Break Duration (minutes)</label>
+                            <input type="number" id="breakDuration" name="breakDuration" min="5" max="60"
+                                   value="{{ profile.break_duration }}" required>
+                        </div>
+                        <div class="schedule-field">
+                            <label for="breakInterval">Break Interval (hours of study)</label>
+                            <input type="number" id="breakInterval" name="breakInterval" min="1" max="4" step="0.5"
+                                   value="{{ profile.break_interval }}" required>
+                        </div>
+                    </div>
+
+                    <h3>Meal Times</h3>
+                    <div class="schedule-grid">
+                        <div class="schedule-field">
+                            <label for="breakfastTime">🍳 Breakfast</label>
+                            <input type="time" id="breakfastTime" name="breakfastTime" value="{{ profile.breakfast_time }}" required>
+                        </div>
+                        <div class="schedule-field">
+                            <label for="lunchTime">🍱 Lunch</label>
+                            <input type="time" id="lunchTime" name="lunchTime" value="{{ profile.lunch_time }}" required>
+                        </div>
+                        <div class="schedule-field">
+                            <label for="snackTime">🍎 Snack</label>
+                            <input type="time" id="snackTime" name="snackTime" value="{{ profile.snack_time }}" required>
+                        </div>
+                        <div class="schedule-field">
+                            <label for="dinnerTime">🍲 Dinner</label>
+                            <input type="time" id="dinnerTime" name="dinnerTime" value="{{ profile.dinner_time }}" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="schedule-save">Save Schedule</button>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Keep the sleep hours readout in sync with the slider
+            const sleepHoursSlider = document.getElementById('sleepHours');
+            const sleepHoursValue = document.getElementById('sleepHoursValue');
+            if (sleepHoursSlider && sleepHoursValue) {
+                sleepHoursSlider.addEventListener('input', function() {
+                    sleepHoursValue.textContent = this.value + ' hours';
+                });
+            }
+
             // Profile picture upload handling
             const profilePicContainer = document.getElementById('profile-picture-container');
             const profilePicUpload = document.getElementById('profile-pic-upload');

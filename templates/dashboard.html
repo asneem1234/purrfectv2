@@ -223,6 +223,81 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* Class materials grouped by exam */
+        .materials-card {
+            margin-top: 25px;
+        }
+
+        .exam-materials-group {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .exam-materials-group:last-child {
+            border-bottom: none;
+        }
+
+        .exam-materials-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .exam-materials-title {
+            font-weight: 600;
+        }
+
+        .exam-materials-meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .exam-materials-count {
+            flex-shrink: 0;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            background-color: rgba(255, 133, 180, 0.12);
+            border-radius: 20px;
+            padding: 3px 10px;
+            white-space: nowrap;
+        }
+
+        .exam-materials-list {
+            list-style: none;
+            margin: 10px 0 0 0;
+            padding: 0;
+        }
+
+        .exam-materials-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 13px;
+            padding: 4px 0;
+        }
+
+        .material-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .material-date {
+            flex-shrink: 0;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .exam-materials-empty {
+            margin: 8px 0 0 0;
+            font-size: 13px;
+            color: #999;
+        }
         
         .dashboard-card:hover {
             transform: translateY(-5px);
@@ -1320,6 +1395,79 @@
             </div>
         </div>
         
+        <!-- Class Materials per Exam -->
+        <div class="dashboard-card materials-card">
+            <div class="card-header">
+                <div class="card-title">Class Materials by Exam</div>
+                <div class="card-icon">📚</div>
+            </div>
+            <div style="max-height: 340px; overflow-y: auto; padding-right: 5px;">
+                {% if exam_materials %}
+                    {% for entry in exam_materials %}
+                    <div class="exam-materials-group">
+                        <div class="exam-materials-head">
+                            <div>
+                                <div class="exam-materials-title">{{ entry.title }}</div>
+                                <div class="exam-materials-meta">
+                                    {{ entry.class_label }}
+                                    {% if entry.exam_date %} &middot; {{ entry.exam_date.strftime('%d %b, %Y') }}{% endif %}
+                                </div>
+                            </div>
+                            <span class="exam-materials-count">
+                                {{ entry.materials|length }} file{{ '' if entry.materials|length == 1 else 's' }}
+                            </span>
+                        </div>
+
+                        {% if entry.materials %}
+                        <ul class="exam-materials-list">
+                            {% for material in entry.materials %}
+                            <li>
+                                <span class="material-name" title="{{ material.original_filename }}">
+                                    {% if material.source_type == 'gdoc' %}
+                                        📝 <a href="{{ material.source_url }}" target="_blank" rel="noopener noreferrer"
+                                              style="color: inherit;">{{ material.original_filename }}</a>
+                                    {% else %}
+                                        📄 {{ material.original_filename }}
+                                    {% endif %}
+                                </span>
+                                <span class="material-date">
+                                    {{ material.uploaded_at.strftime('%d %b') if material.uploaded_at else '' }}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="exam-materials-empty">
+                            No materials uploaded for this exam yet.
+                        </p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-events-message" style="text-align: center; padding: 30px 20px;">
+                        <div style="font-size: 40px; margin-bottom: 15px;">📚</div>
+                        <h3 style="color: var(--accent); margin-bottom: 10px;">No class materials yet</h3>
+                        <p>Pick a class when you create a study plan, and the PDFs you upload will show up here.</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="{{ url_for('study_plan.forms') }}" style="
+                    background-color: var(--accent);
+                    color: white;
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 14px;
+                    font-weight: 500;
+                    box-shadow: 0 3px 8px rgba(255, 133, 180, 0.3);
+                ">
+                    📄 Upload Material
+                </a>
+            </div>
+        </div>
+
         <!-- Calendar Card - Now explicitly shows that it contains exam plans -->
         <div class="dashboard-card calendar-card">
             <div class="card-header">
