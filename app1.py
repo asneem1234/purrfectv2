@@ -528,28 +528,43 @@ def dashboard():
                 'study_goals': plan.study_goals
             })
         
-        # Group each exam's uploaded materials for the dashboard.
-        # Uploads are scoped to one exam within a class, so a class's midterm
-        # and final each list only their own files.
-        planned_class_ids = {p.class_id for p in upcoming_plans if p.class_id}
-        materials_by_exam_key = {}
-        if planned_class_ids:
-            for material in ClassMaterial.query.filter(
-                ClassMaterial.class_id.in_(planned_class_ids)
-            ).order_by(ClassMaterial.uploaded_at.desc()).all():
-                key = (material.class_id, material.exam_name)
-                materials_by_exam_key.setdefault(key, []).append(material)
+        # Group uploaded materials by the exam they were uploaded for.
+        #
+        # Driven by class_material rows rather than by saved study plans: the
+        # upload happens when the planner form is submitted, but the plan row
+        # isn't written until the student saves the generated plan. Iterating
+        # plans would hide every material whose plan hasn't been saved yet.
+        grouped_materials = {}
+        for material in ClassMaterial.query.filter_by(
+            user_id=current_user.id
+        ).order_by(ClassMaterial.uploaded_at.desc()).all():
+            key = (material.class_id, material.exam_name)
+            grouped_materials.setdefault(key, []).append(material)
 
-        exam_materials = [
-            {
-                'plan_id': plan.id,
-                'title': plan.title,
-                'exam_date': plan.exam_date,
-                'class_label': plan.study_class.label if plan.study_class else None,
-                'materials': materials_by_exam_key.get((plan.class_id, plan.title), [])
-            }
-            for plan in upcoming_plans if plan.class_id
-        ]
+        # Look up labels and any matching saved plan, one query each
+        classes_by_id = {
+            c.id: c for c in StudyClass.query.filter_by(user_id=current_user.id).all()
+        }
+        plans_by_key = {(p.class_id, p.title): p for p in upcoming_plans if p.class_id}
+
+        exam_materials = []
+        for (class_id, exam_name), items in grouped_materials.items():
+            plan = plans_by_key.get((class_id, exam_name))
+            study_class = classes_by_id.get(class_id)
+            exam_materials.append({
+                'plan_id': plan.id if plan else None,
+                'has_plan': plan is not None,
+                'title': exam_name or 'Unassigned',
+                'exam_date': plan.exam_date if plan else None,
+                'class_label': study_class.label if study_class else None,
+                'materials': items
+            })
+
+        # Most recently uploaded exam first
+        exam_materials.sort(
+            key=lambda entry: entry['materials'][0].uploaded_at or datetime.datetime.min,
+            reverse=True
+        )
 
         # Pass to template with all the required data
         return render_template('dashboard.html',
@@ -1068,8 +1083,11 @@ if __name__ == "__main__":
     # Configure minimal logging
     import logging
     logging.basicConfig(level=logging.INFO)
-    
-    # Use Flask's built-in server with threading but NO reloader to avoid watchdog errors
-    print("Server starting without auto-reloading (to avoid watchdog errors)...")
-    app.run(host=host, port=port, debug=True, use_reloader=False, threaded=True)
+
+    # Auto-reload on code changes. Pinned to the 'stat' reloader because the
+    # watchdog-based one is what used to cause errors here - stat polling has no
+    # such problem and watchdog isn't a declared dependency anyway.
+    print("Server starting with auto-reloading enabled (stat reloader)...")
+    app.run(host=host, port=port, debug=True, use_reloader=True,
+            reloader_type='stat', threaded=True)
     
