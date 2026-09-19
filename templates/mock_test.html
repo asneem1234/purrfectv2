@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Test | Purr:fect</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --light-pink: #ffd1e3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 30px 20px 60px;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            color: var(--pink-accent);
+            font-size: 2rem;
+        }
+
+        .logo p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .panel {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        select, input[type="number"], textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid var(--light-pink);
+            border-radius: 20px;
+            font-size: 1rem;
+            background-color: var(--white);
+            transition: all 0.3s;
+        }
+
+        textarea {
+            border-radius: 15px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--pink-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 14px 32px;
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--shadow); }
+        .btn[disabled] { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .btn-link {
+            background: none;
+            color: var(--pink-accent);
+            padding: 0;
+            font-weight: 600;
+        }
+
+        .flash-message {
+            padding: 12px 18px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            border: 2px solid #f5a3a3;
+            background-color: #ffeaea;
+            color: #a32a2a;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        /* Generated paper */
+        .paper-head {
+            text-align: center;
+            border-bottom: 2px solid var(--light-pink);
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+        }
+
+        .paper-head h2 {
+            color: var(--pink-accent);
+            margin-bottom: 8px;
+        }
+
+        .paper-meta {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .paper-instructions {
+            font-style: italic;
+            margin-top: 12px;
+            font-size: 0.92rem;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            margin: 28px 0 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--light-pink);
+        }
+
+        .section-head h3 {
+            color: var(--pink-accent);
+            font-size: 1.05rem;
+        }
+
+        .section-marks {
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+
+        .question {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .question-number {
+            flex-shrink: 0;
+            font-weight: 600;
+            min-width: 26px;
+        }
+
+        .question-marks {
+            flex-shrink: 0;
+            margin-left: auto;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+
+        details.answer-key {
+            margin-top: 30px;
+            border-top: 2px solid var(--light-pink);
+            padding-top: 18px;
+        }
+
+        details.answer-key summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--pink-accent);
+            list-style: none;
+        }
+
+        details.answer-key summary::-webkit-details-marker { display: none; }
+        details.answer-key summary::before { content: '▸ '; }
+        details.answer-key[open] summary::before { content: '▾ '; }
+
+        .answer {
+            margin: 14px 0;
+            padding-left: 14px;
+            border-left: 3px solid var(--light-pink);
+            line-height: 1.6;
+        }
+
+        .answer-q {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .sources {
+            list-style: none;
+            margin-top: 8px;
+        }
+
+        .sources li { font-size: 0.9rem; padding: 3px 0; }
+
+        .empty { text-align: center; padding: 20px 0; }
+        .empty .icon { font-size: 42px; margin-bottom: 12px; }
+
+        @media print {
+            body { background: var(--white); padding: 0; }
+            .no-print { display: none; }
+            .panel { box-shadow: none; padding: 0; }
+            details.answer-key { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>📝 Mock Test</h1>
+            <p>A practice paper from your materials, in your professor's style</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="panel no-print">
+            {% if exams %}
+            <form method="POST" action="{{ url_for('mock_test_bp.mock_test') }}" id="mockTestForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="field">
+                    <label for="examKey">Exam</label>
+                    <select id="examKey" name="examKey" required>
+                        <option value="">Choose an exam…</option>
+                        {% for exam in exams %}
+                        <option value="{{ exam.key }}" {% if selected_key == exam.key %}selected{% endif %}>
+                            {{ exam.label }} ({{ exam.material_count }} material{{ '' if exam.material_count == 1 else 's' }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="persona">Professor persona</label>
+                    <textarea id="persona" name="persona" rows="5"
+                              placeholder="How does your professor write exams? e.g. Loves multi-step mechanisms. Always one long synthesis question. Penalises missing units. Prefers 'explain why' over 'define'.">{{ persona }}</textarea>
+                    <p class="hint">
+                        The more specific you are about their style, favourite topics and pet
+                        peeves, the closer the paper will feel to the real thing.
+                    </p>
+                </div>
+
+                <div class="grid">
+                    <div class="field">
+                        <label for="difficulty">Difficulty</label>
+                        <select id="difficulty" name="difficulty">
+                            {% for level in difficulties %}
+                            <option value="{{ level }}" {% if difficulty == level %}selected{% endif %}>{{ level }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="duration">Duration (minutes)</label>
+                        <select id="duration" name="duration">
+                            {% for mins in durations %}
+                            <option value="{{ mins }}" {% if duration == mins %}selected{% endif %}>{{ mins }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="questionCount">Roughly how many questions</label>
+                        <input type="number" id="questionCount" name="questionCount"
+                               min="3" max="30" value="{{ question_count }}">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">Generate Mock Test</button>
+                <p class="hint">Writing a full paper takes a while — give it a moment.</p>
+            </form>
+            {% else %}
+            <div class="empty">
+                <div class="icon">📚</div>
+                <h2>No materials to build a test from</h2>
+                <p>Create a study plan with a class selected and upload your materials first.</p>
+                <a href="{{ url_for('study_plan.forms') }}" class="btn">Upload Material</a>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if paper %}
+        <div class="panel">
+            <div class="paper-head">
+                <h2>{{ paper.title }}</h2>
+                <div class="paper-meta">
+                    Duration: {{ paper.duration_minutes }} minutes
+                    &nbsp;&middot;&nbsp; Total: {{ paper.total_marks }} marks
+                </div>
+                {% if paper.instructions %}
+                <div class="paper-instructions">{{ paper.instructions }}</div>
+                {% endif %}
+            </div>
+
+            {% for section in paper.sections %}
+            <div class="section-head">
+                <h3>{{ section.name }}</h3>
+                {% if section.marks %}<span class="section-marks">[{{ section.marks }} marks]</span>{% endif %}
+            </div>
+            {% for question in section.questions %}
+            <div class="question">
+                <span class="question-number">{{ question.number }}.</span>
+                <span>{{ question.text }}</span>
+                {% if question.marks %}<span class="question-marks">[{{ question.marks }}]</span>{% endif %}
+            </div>
+            {% endfor %}
+            {% endfor %}
+
+            <details class="answer-key">
+                <summary>Show answer key</summary>
+                {% for section in paper.sections %}
+                <h3 style="margin: 18px 0 8px; font-size: 1rem;">{{ section.name }}</h3>
+                {% for question in section.questions %}
+                <div class="answer">
+                    <div class="answer-q">{{ question.number }}. {{ question.text }}</div>
+                    <div>{{ question.answer }}</div>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </details>
+
+            {% if materials %}
+            <p class="hint no-print" style="margin-top: 20px;">Written from:</p>
+            <ul class="sources no-print">
+                {% for material in materials %}
+                <li>{{ '📝' if material.source_type == 'gdoc' else '📄' }} {{ material.original_filename }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="no-print" style="margin-top: 15px;">
+                <button type="button" class="btn btn-link" onclick="window.print()">Print or save as PDF</button>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="no-print" style="text-align: center;">
+            <a href="/dashboard" style="color: var(--pink-accent); font-weight: 600;">← Back to dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // Writing a paper is slow - make it obvious the click landed
+        const form = document.getElementById('mockTestForm');
+        if (form) {
+            form.addEventListener('submit', function() {
+                const btn = document.getElementById('submitBtn');
+                btn.disabled = true;
+                btn.textContent = 'Writing your paper…';
+            });
+        }
+    </script>
+</body>
+</html>
