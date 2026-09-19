@@ -128,6 +128,110 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<User {self.username}>"
         
+class StudentProfile(db.Model):
+    """Per-student rest and meal preferences.
+
+    These used to be asked for on every study plan, but they rarely change,
+    so they live on the profile and every new plan reads them from here.
+    """
+    __tablename__ = 'student_profile'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), unique=True, nullable=False)
+
+    sleep_hours = db.Column(db.Integer, default=6)
+    break_duration = db.Column(db.Integer, default=15)   # minutes
+    break_interval = db.Column(db.Float, default=1.5)    # hours of study between breaks
+
+    # Kept as 'HH:MM' strings, matching what the time inputs post and what the
+    # scheduler already expects to receive.
+    breakfast_time = db.Column(db.String(5), default='08:00')
+    lunch_time = db.Column(db.String(5), default='13:00')
+    snack_time = db.Column(db.String(5), default='16:00')
+    dinner_time = db.Column(db.String(5), default='19:00')
+
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('profile', uselist=False))
+
+    def to_form_data(self):
+        """Shape the profile like the form fields the scheduler reads."""
+        return {
+            'sleepHours': self.sleep_hours,
+            'breakDuration': self.break_duration,
+            'breakInterval': self.break_interval,
+            'breakfastTime': self.breakfast_time,
+            'lunchTime': self.lunch_time,
+            'snackTime': self.snack_time,
+            'dinnerTime': self.dinner_time,
+        }
+
+    def __repr__(self):
+        return f'<StudentProfile user:{self.user_id}>'
+
+
+def get_student_profile(user_id):
+    """Return a student's profile, creating one with defaults on first use."""
+    profile = StudentProfile.query.filter_by(user_id=user_id).first()
+    if profile is None:
+        profile = StudentProfile(user_id=user_id)
+        db.session.add(profile)
+        db.session.commit()
+    return profile
+
+
+class StudyClass(db.Model):
+    """A class/course the student is currently taking."""
+    __tablename__ = 'study_class'
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'name', name='uq_study_class_user_name'),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
+    code = db.Column(db.String(32), nullable=True)      # e.g. "CHEM 210"
+    name = db.Column(db.String(120), nullable=False)    # e.g. "Organic Chemistry"
+    is_archived = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('classes', lazy=True))
+    materials = db.relationship('ClassMaterial', backref='study_class',
+                                lazy=True, cascade='all, delete-orphan')
+
+    @property
+    def label(self):
+        """Display name for the class picker, e.g. 'CHEM 210 - Organic Chemistry'"""
+        return f'{self.code} - {self.name}' if self.code else self.name
+
+    def __repr__(self):
+        return f'<StudyClass {self.label} user:{self.user_id}>'
+
+
+class ClassMaterial(db.Model):
+    """A PDF uploaded for one exam within a class."""
+    __tablename__ = 'class_material'
+
+    id = db.Column(db.Integer, primary_key=True)
+    class_id = db.Column(db.Integer, db.ForeignKey('study_class.id', ondelete='CASCADE'),
+                         nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
+    # The exam this upload is for. Held as the exam name rather than a study_plan
+    # FK because the upload happens on the planner form, before the plan itself
+    # is saved. StudyPlan.title is set from the same value, which is what the
+    # dashboard joins on.
+    exam_name = db.Column(db.String(255), nullable=True, index=True)
+    # 'pdf' for an uploaded file, 'gdoc' for text imported from a Google Doc
+    source_type = db.Column(db.String(16), default='pdf')
+    source_url = db.Column(db.String(512), nullable=True)   # the original Google Doc link
+    original_filename = db.Column(db.String(255), nullable=False)  # what the student named it
+    stored_filename = db.Column(db.String(255), nullable=False)    # collision-free name on disk
+    file_path = db.Column(db.String(512), nullable=False)
+    uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<ClassMaterial {self.original_filename} class:{self.class_id} exam:{self.exam_name}>'
+
+
 class StudyPlan(db.Model):
     __tablename__ = 'study_plan'  # Keep the explicitly set table name
 

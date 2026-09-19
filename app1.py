@@ -306,6 +306,7 @@ def reset_database():
 
 # Import all models before creating tables so SQLAlchemy knows about them.
 from models import User, StudyPlan, StudyRoom, UserLog, WhiteboardSnapshot, ExamPlan, RAGIngestEvent, RAGUsageLog
+from models import StudentProfile, StudyClass, ClassMaterial, get_student_profile
 
 # Create tables within app context for local development.
 # Flask-Migrate remains the source of truth for schema changes.
