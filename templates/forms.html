@@ -573,6 +573,41 @@
         <form id="studyPlanForm" method="POST" action="/create-study-plan" enctype="multipart/form-data">
             <!-- CSRF Token -->
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <!-- Class Section -->
+            <div class="form-section">
+                <h2><span class="icon">🎓</span> Your Class</h2>
+                <div class="form-group focus-animation">
+                    <label for="classId">Which class is this exam for?</label>
+                    <select id="classId" name="classId">
+                        <option value="">No class / one-off exam</option>
+                        {% for c in classes %}
+                        <option value="{{ c.id }}">{{ c.label }}</option>
+                        {% endfor %}
+                        <option value="__new__">+ Add a class…</option>
+                    </select>
+                    <div class="floating-icon">🎓</div>
+                </div>
+
+                <!-- Revealed only when "+ Add a class..." is picked -->
+                <div id="newClassFields" style="display: none;">
+                    <div class="form-grid">
+                        <div class="form-group focus-animation">
+                            <label for="newClassCode">Class Code <span style="font-weight: 400; opacity: 0.7;">(optional)</span></label>
+                            <input type="text" id="newClassCode" name="newClassCode" placeholder="e.g., CHEM 210">
+                        </div>
+                        <div class="form-group focus-animation">
+                            <label for="newClassName">Class Name</label>
+                            <input type="text" id="newClassName" name="newClassName" placeholder="e.g., Organic Chemistry">
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin: 0; font-size: 0.9rem; opacity: 0.75;">
+                    Materials you upload are saved against this class and exam.
+                </p>
+            </div>
+
             <!-- Upload Study Materials Section -->
             <div class="form-section">
                 <h2><span class="icon">📚</span> Upload Your Study Materials</h2>
@@ -582,6 +617,18 @@
                     <p>or click to browse your files</p>
                     <input type="file" id="studyMaterials" name="studyMaterials" multiple accept=".pdf">
                 </div>
+
+                <!-- Google Doc import -->
+                <div class="form-group focus-animation" style="margin-top: 20px;">
+                    <label for="googleDocUrl">…or paste a Google Doc link</label>
+                    <input type="url" id="googleDocUrl" name="googleDocUrl"
+                           placeholder="https://docs.google.com/document/d/…"
+                           pattern="https://docs\.google\.com/.*">
+                    <div class="floating-icon">📝</div>
+                </div>
+                <p style="margin: -10px 0 0 0; font-size: 0.85rem; opacity: 0.7;">
+                    The doc must be shared as “Anyone with the link can view”.
+                </p>
                 
                 <!-- Add Exam Name field -->
                 <div class="form-group focus-animation" style="margin-top: 20px;">
@@ -622,55 +669,13 @@
                 <p style="color: #999; font-size: 0.9rem; margin-top: 5px;">Note: Preparation will end 2 hours before your exam.</p>
             </div>
             
-            <!-- Rest & Meal Schedule Section -->
+            <!-- Rest & meal schedule now lives on the profile, so it isn't re-entered per plan -->
             <div class="form-section">
-                <h2><span class="icon">😴</span> Rest & Meal Schedule</h2>
-                
-                <div class="slider-container">
-                    <label for="sleepHours">Sleep Hours <span id="sleepHoursValue">6 hours</span></label>
-                    <input type="range" min="4" max="8" value="6" class="slider" id="sleepHours" name="sleepHours">
-                </div>
-                
-                <div class="form-grid">
-                    <div class="form-group focus-animation">
-                        <label for="breakDuration">Break Duration (minutes)</label>
-                        <input type="number" id="breakDuration" name="breakDuration" min="5" max="60" value="15" required>
-                        <div class="floating-icon">⏱️</div>
-                    </div>
-                    
-                    <div class="form-group focus-animation">
-                        <label for="breakInterval">Break Interval (hours of study)</label>
-                        <input type="number" id="breakInterval" name="breakInterval" min="1" max="4" step="0.5" value="1.5" required>
-                        <div class="floating-icon">⌛</div>
-                    </div>
-                </div>
-                
-                <h3 style="color: var(--pink-accent); margin: 20px 0 15px 0;">Meal Times</h3>
-                <div class="meal-times">
-                    <div class="form-group focus-animation">
-                        <label for="breakfastTime">Breakfast Time</label>
-                        <input type="time" id="breakfastTime" name="breakfastTime" value="08:00" required>
-                        <div class="floating-icon">🍳</div>
-                    </div>
-                    
-                    <div class="form-group focus-animation">
-                        <label for="lunchTime">Lunch Time</label>
-                        <input type="time" id="lunchTime" name="lunchTime" value="13:00" required>
-                        <div class="floating-icon">🍱</div>
-                    </div>
-                    
-                    <div class="form-group focus-animation">
-                        <label for="snackTime">Snack Time</label>
-                        <input type="time" id="snackTime" name="snackTime" value="16:00" required>
-                        <div class="floating-icon">🍎</div>
-                    </div>
-                    
-                    <div class="form-group focus-animation">
-                        <label for="dinnerTime">Dinner Time</label>
-                        <input type="time" id="dinnerTime" name="dinnerTime" value="19:00" required>
-                        <div class="floating-icon">🍲</div>
-                    </div>
-                </div>
+                <h2><span class="icon">😴</span> Rest &amp; Meal Schedule</h2>
+                <p style="margin: 0; font-size: 0.95rem; opacity: 0.8;">
+                    Your plan uses the sleep, break and meal times saved on your
+                    <a href="{{ url_for('profile') }}" style="color: var(--pink-accent); font-weight: 600;">profile</a>.
+                </p>
             </div>
             
             <!-- Submit Button -->
@@ -683,21 +688,31 @@
     <script>
         // Add animations for elements
         document.addEventListener('DOMContentLoaded', function() {
+            // Show the new-class fields only while "+ Add a class..." is selected,
+            // and only require a class name while they're visible.
+            const classSelect = document.getElementById('classId');
+            const newClassFields = document.getElementById('newClassFields');
+            const newClassName = document.getElementById('newClassName');
+
+            function syncNewClassFields() {
+                const addingClass = classSelect.value === '__new__';
+                newClassFields.style.display = addingClass ? 'block' : 'none';
+                newClassName.required = addingClass;
+                if (addingClass) {
+                    newClassName.focus();
+                }
+            }
+
+            classSelect.addEventListener('change', syncNewClassFields);
+            syncNewClassFields();
+
             // Random positioning for decorative elements
             const decorElements = document.querySelectorAll('.decorative-element');
             decorElements.forEach(elem => {
                 // Add random animation delay
                 elem.style.animationDelay = `${Math.random() * 5}s`;
             });
-            
-            // Update slider value display
-            const sleepHoursSlider = document.getElementById('sleepHours');
-            const sleepHoursValue = document.getElementById('sleepHoursValue');
-            
-            sleepHoursSlider.addEventListener('input', function() {
-                sleepHoursValue.textContent = this.value + ' hours';
-            });
-            
+
             // Eye follow mouse effect
             const eyes = document.querySelectorAll('.eye');
             document.addEventListener('mousemove', (e) => {

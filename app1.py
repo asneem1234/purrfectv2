@@ -313,6 +313,7 @@ with app.app_context():
 
 # Now it's safe to import models AFTER db is initialized with app
 from models import User, StudyPlan, StudyRoom, UserLog, WhiteboardSnapshot, ExamPlan, RAGIngestEvent, RAGUsageLog
+from models import StudentProfile, StudyClass, ClassMaterial, get_student_profile
 
 # Initialize login manager
 login_manager = LoginManager()
@@ -527,11 +528,35 @@ def dashboard():
                 'study_goals': plan.study_goals
             })
         
+        # Group each exam's uploaded materials for the dashboard.
+        # Uploads are scoped to one exam within a class, so a class's midterm
+        # and final each list only their own files.
+        planned_class_ids = {p.class_id for p in upcoming_plans if p.class_id}
+        materials_by_exam_key = {}
+        if planned_class_ids:
+            for material in ClassMaterial.query.filter(
+                ClassMaterial.class_id.in_(planned_class_ids)
+            ).order_by(ClassMaterial.uploaded_at.desc()).all():
+                key = (material.class_id, material.exam_name)
+                materials_by_exam_key.setdefault(key, []).append(material)
+
+        exam_materials = [
+            {
+                'plan_id': plan.id,
+                'title': plan.title,
+                'exam_date': plan.exam_date,
+                'class_label': plan.study_class.label if plan.study_class else None,
+                'materials': materials_by_exam_key.get((plan.class_id, plan.title), [])
+            }
+            for plan in upcoming_plans if plan.class_id
+        ]
+
         # Pass to template with all the required data
-        return render_template('dashboard.html', 
+        return render_template('dashboard.html',
                             user=current_user,
                             private_rooms=private_rooms,
                             upcoming_plans=upcoming_plans,
+                            exam_materials=exam_materials,
                             exam_plans=exam_plans_data)
     except Exception as e:
         print(f"Error rendering dashboard: {str(e)}")
@@ -683,16 +708,78 @@ def planning():
         return redirect(url_for('landing'))
 
 # Add route for user profile page
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    """Handle user profile page"""
+    """Handle user profile page, including rest & meal preferences"""
     try:
-        return render_template('profile.html', user=current_user)
+        student_profile = get_student_profile(current_user.id)
+
+        if request.method == 'POST':
+            errors = update_student_profile(student_profile, request.form)
+            if errors:
+                for message in errors:
+                    flash(message)
+            else:
+                db.session.commit()
+                flash('Your rest & meal schedule has been saved.')
+            return redirect(url_for('profile'))
+
+        return render_template('profile.html', user=current_user, profile=student_profile)
     except Exception as e:
         print(f"Error rendering profile template: {str(e)}")
         flash("Error loading profile page. Please try again later.")
         return redirect(url_for('dashboard'))
+
+
+def update_student_profile(student_profile, form):
+    """Apply posted rest & meal values to a profile. Returns a list of errors.
+
+    Nothing is written to the profile unless every field validates, so a bad
+    value can't leave the student with a half-saved schedule.
+    """
+    errors = []
+    parsed = {}
+
+    numeric_fields = [
+        # (form field, attribute, parser, minimum, maximum, label)
+        ('sleepHours', 'sleep_hours', int, 4, 8, 'Sleep hours'),
+        ('breakDuration', 'break_duration', int, 5, 60, 'Break duration'),
+        ('breakInterval', 'break_interval', float, 1, 4, 'Break interval'),
+    ]
+    for field, attr, parser, low, high, label in numeric_fields:
+        raw = (form.get(field) or '').strip()
+        try:
+            value = parser(raw)
+        except (TypeError, ValueError):
+            errors.append(f'{label} must be a number.')
+            continue
+        if not low <= value <= high:
+            errors.append(f'{label} must be between {low} and {high}.')
+            continue
+        parsed[attr] = value
+
+    time_fields = [
+        ('breakfastTime', 'breakfast_time', 'Breakfast time'),
+        ('lunchTime', 'lunch_time', 'Lunch time'),
+        ('snackTime', 'snack_time', 'Snack time'),
+        ('dinnerTime', 'dinner_time', 'Dinner time'),
+    ]
+    for field, attr, label in time_fields:
+        raw = (form.get(field) or '').strip()
+        try:
+            datetime.datetime.strptime(raw, '%H:%M')
+        except ValueError:
+            errors.append(f'{label} must be a valid time.')
+            continue
+        parsed[attr] = raw
+
+    if errors:
+        return errors
+
+    for attr, value in parsed.items():
+        setattr(student_profile, attr, value)
+    return []
 
 @app.route('/old-create-note')
 @login_required
@@ -930,7 +1017,12 @@ def inject_user():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        
+
+    # create_all() won't alter tables that already exist, so apply any
+    # columns added to existing models since the database was built.
+    from db import ensure_columns
+    ensure_columns(app)
+
     # Get the host and port from environment or use defaults
     host = '0.0.0.0'  # Bind to all interfaces
     port = int(os.environ.get('PORT', 5000))

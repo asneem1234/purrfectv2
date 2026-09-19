@@ -1,10 +1,45 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
+from sqlalchemy import inspect, text
 import contextlib
 from functools import wraps
 
 # Create a single SQLAlchemy instance
 db = SQLAlchemy()
+
+# Columns added to existing models after those tables were first created.
+# db.create_all() only ever creates whole tables - it never alters one that
+# already exists - and this project has no migration tool, so new columns on
+# an existing model have to be applied by hand. Entries here are safe to keep
+# forever: ensure_columns() skips any column that is already present.
+PENDING_COLUMNS = [
+    ('study_plan', 'class_id', 'INTEGER'),
+    ('class_material', 'exam_name', 'VARCHAR(255)'),
+    ('class_material', 'source_type', 'VARCHAR(16)'),
+    ('class_material', 'source_url', 'VARCHAR(512)'),
+]
+
+
+def ensure_columns(app):
+    """Add any PENDING_COLUMNS that the database is missing."""
+    with app.app_context():
+        inspector = inspect(db.engine)
+        tables = set(inspector.get_table_names())
+
+        for table, column, column_type in PENDING_COLUMNS:
+            # A table that doesn't exist yet gets built by create_all() with
+            # the column already in place.
+            if table not in tables:
+                continue
+            if column in {c['name'] for c in inspector.get_columns(table)}:
+                continue
+
+            db.session.execute(text(
+                f'ALTER TABLE {table} ADD COLUMN {column} {column_type}'
+            ))
+            db.session.commit()
+            print(f"Schema patch: added {table}.{column}")
+
 
 # Simple initialization function that doesn't require global app reference
 def init_app(app):
