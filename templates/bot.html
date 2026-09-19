@@ -625,6 +625,9 @@
             <div class="upload-option" data-target="pdf-option">
                 <span>📄</span> Upload PDF
             </div>
+            <div class="upload-option" data-target="exam-option">
+                <span>📚</span> My Exam
+            </div>
             <div class="upload-option" data-target="code-option">
                 <span>💻</span> Code Learning
             </div>
@@ -644,6 +647,29 @@
         </div>
 
 
+
+        <div class="upload-form" id="exam-option">
+            {% if exams %}
+            <form id="exam-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <select class="link-input" id="exam-select" required>
+                    <option value="">Choose an exam…</option>
+                    {% for exam in exams %}
+                    <option value="{{ exam.key }}">
+                        {{ exam.label }} ({{ exam.material_count }} material{{ '' if exam.material_count == 1 else 's' }})
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="submit-button">Load & Ask</button>
+            </form>
+            {% else %}
+            <p style="margin: 0; font-size: 0.95rem;">
+                No exam materials yet — upload some on the
+                <a href="{{ url_for('study_plan.forms') }}">Study Planner</a> page,
+                then come back and I'll answer questions from them.
+            </p>
+            {% endif %}
+        </div>
 
         <div class="upload-form" id="code-option">
             <form id="code-form">
@@ -1132,6 +1158,57 @@
             const pdfForm = document.getElementById('pdf-form');
 
             let codeForm = document.getElementById('code-form');
+
+            // Load an exam's materials as the context for the conversation
+            const examForm = document.getElementById('exam-form');
+            if (examForm) {
+                examForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const select = document.getElementById('exam-select');
+                    const examKey = select.value;
+                    if (!examKey) {
+                        addMessage('Please pick an exam first.', 'bot');
+                        return;
+                    }
+
+                    const examLabel = select.options[select.selectedIndex].text.trim();
+                    addMessage(`Let's study ${examLabel}`, 'user');
+                    typingIndicator.style.display = 'block';
+
+                    const button = this.querySelector('button[type="submit"]');
+                    button.disabled = true;
+
+                    try {
+                        const response = await fetch('/bot/load-exam', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': document.getElementById('csrf_token').value
+                            },
+                            body: JSON.stringify({
+                                examKey: examKey,
+                                session_id: 'user_session'
+                            })
+                        });
+
+                        const data = await response.json();
+                        typingIndicator.style.display = 'none';
+
+                        if (data.success) {
+                            addMessage(data.response, 'bot');
+                        } else {
+                            addMessage(data.error || "I couldn't load that exam's materials.", 'bot');
+                        }
+                    } catch (err) {
+                        typingIndicator.style.display = 'none';
+                        console.error('Error loading exam materials:', err);
+                        addMessage("Something went wrong loading that exam. Please try again.", 'bot');
+                    } finally {
+                        button.disabled = false;
+                    }
+                });
+            }
             
             // Update the PDF form submission to use the backend API
             pdfForm.onsubmit = async function(e) {

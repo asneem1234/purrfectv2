@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, jsonify, flash, current_app, session
 from flask_login import login_required, current_user
-from models import db, StudyPlan
+from models import db, StudyPlan, StudyClass, ClassMaterial, get_student_profile
 from db import get_db_context, db_operation
 import json
 # Fix import to include timedelta
@@ -16,6 +16,8 @@ from blueprints.study_tools import (
     schedule_tool, topic_ranker_tool, calendar_checker, topic_time_estimator
 )
 import PyPDF2
+import requests
+from markupsafe import escape
 import google.generativeai as genai
 import numpy as np
 import hashlib
@@ -870,6 +872,216 @@ def process_pdf_files(files):
         print(f"Error processing PDFs: {e}")
         return pdf_contents, pdf_documents, collection_name  # Return what we have even if there was an error
 
+# Sentinel value posted by the "+ Add a class..." option in the class picker
+NEW_CLASS_SENTINEL = '__new__'
+
+def resolve_selected_class(form):
+    """Return the StudyClass this plan belongs to, creating it when the student
+    picked "+ Add a class...". Returns None when no class was selected."""
+    selected = (form.get('classId') or '').strip()
+    if not selected:
+        return None
+
+    if selected == NEW_CLASS_SENTINEL:
+        name = (form.get('newClassName') or '').strip()
+        if not name:
+            return None
+        code = (form.get('newClassCode') or '').strip() or None
+
+        # Re-use a class of the same name rather than tripping the unique constraint
+        existing = StudyClass.query.filter_by(user_id=current_user.id, name=name).first()
+        if existing:
+            return existing
+
+        study_class = StudyClass(user_id=current_user.id, code=code, name=name)
+        db.session.add(study_class)
+        db.session.commit()
+        print(f"Created class {study_class.label} for user {current_user.id}")
+        return study_class
+
+    # Scope the lookup to the current user so a forged id can't reach someone else's class
+    try:
+        selected_id = int(selected)
+    except (TypeError, ValueError):
+        print(f"Ignoring unparseable classId: {selected!r}")
+        return None
+
+    return StudyClass.query.filter_by(id=selected_id, user_id=current_user.id).first()
+
+def store_class_materials(study_class, exam_name, files):
+    """Save uploaded PDFs for one exam of a class, on disk and in the DB."""
+    # Files sit under the class, but each row records the exam it was uploaded
+    # for, so one class's midterm and final keep separate material lists.
+    class_dir = os.path.join(
+        current_app.config['UPLOAD_FOLDER'],
+        f'user_{study_class.user_id}',
+        f'class_{study_class.id}'
+    )
+    os.makedirs(class_dir, exist_ok=True)
+
+    stored = []
+    for upload in files:
+        original = upload.filename
+        # secure_filename can return '' for names that are entirely unsafe
+        safe_name = secure_filename(original) or 'material.pdf'
+        # Prefix with a random hex so re-uploading the same name doesn't clobber
+        # the earlier copy, and so two students can't collide in UPLOAD_FOLDER
+        stored_name = f'{uuid.uuid4().hex[:8]}_{safe_name}'
+        path = os.path.join(class_dir, stored_name)
+        upload.save(path)
+
+        db.session.add(ClassMaterial(
+            class_id=study_class.id,
+            user_id=study_class.user_id,
+            exam_name=exam_name[:255] if exam_name else None,
+            original_filename=original[:255],
+            stored_filename=stored_name[:255],
+            file_path=path[:512]
+        ))
+        stored.append(stored_name)
+
+    db.session.commit()
+    print(f"Stored {len(stored)} material(s) for {study_class.label} / {exam_name}")
+    return stored
+
+def extract_text_from_paths(paths):
+    """Pull text out of stored materials - PDFs, or .txt imported from Google Docs."""
+    pdf_contents = ""
+    pdf_documents = []
+
+    for path in paths:
+        if not os.path.exists(path):
+            print(f"Class material missing from disk, skipping: {path}")
+            continue
+        try:
+            if path.lower().endswith('.txt'):
+                # Google Doc exports are already plain text
+                with open(path, 'r', encoding='utf-8', errors='replace') as f:
+                    text = f.read()
+                pdf_contents += text + "\n\n"
+                pdf_documents.append({"content": text, "page": 0})
+                continue
+
+            with open(path, 'rb') as f:
+                pdf_reader = PyPDF2.PdfReader(f)
+                for page_num, page in enumerate(pdf_reader.pages):
+                    text = page.extract_text() or ""
+                    pdf_contents += text + "\n\n"
+                    pdf_documents.append({"content": text, "page": page_num})
+        except Exception as e:
+            print(f"Error extracting text from {path}: {e}")
+
+    return pdf_contents, pdf_documents
+
+
+# Exam time is optional. When the student doesn't give one, the scheduler still
+# needs a cutoff for the last day's study blocks - this is that fallback only,
+# never shown to the student as if it were their real exam time.
+DEFAULT_EXAM_TIME = '09:00'
+
+# Preparation start time is optional too. Unlike the exam time this one can't be
+# skipped: it's the daily wake time that anchors bedtime and the first study
+# block, so every day needs a value.
+DEFAULT_PREP_START_TIME = '07:00'
+
+# Accepts the /document/d/<id>/ and ?id=<id> URL shapes Google hands out
+GOOGLE_DOC_ID_PATTERNS = [
+    re.compile(r'docs\.google\.com/document/d/([a-zA-Z0-9_-]{10,})'),
+    re.compile(r'docs\.google\.com/document/u/\d+/d/([a-zA-Z0-9_-]{10,})'),
+    re.compile(r'docs\.google\.com/.*[?&]id=([a-zA-Z0-9_-]{10,})'),
+]
+
+# A Google Doc big enough to blow past this isn't a study material
+MAX_GOOGLE_DOC_BYTES = 5 * 1024 * 1024
+
+
+class GoogleDocError(Exception):
+    """Raised when a Google Doc link can't be read, with a student-facing message."""
+
+
+def parse_google_doc_id(url):
+    """Pull the document id out of a Google Docs URL, or None if it isn't one."""
+    for pattern in GOOGLE_DOC_ID_PATTERNS:
+        match = pattern.search(url or '')
+        if match:
+            return match.group(1)
+    return None
+
+
+def fetch_google_doc_text(url):
+    """Fetch a link-shared Google Doc as plain text. Returns (doc_id, text).
+
+    Only the document id is taken from the student's URL - the address we
+    actually request is built here against a fixed docs.google.com endpoint, so
+    a pasted link can't point the server at an arbitrary host.
+    """
+    doc_id = parse_google_doc_id(url)
+    if not doc_id:
+        raise GoogleDocError(
+            "That doesn't look like a Google Doc link. Copy the URL from the address bar."
+        )
+
+    export_url = f'https://docs.google.com/document/d/{doc_id}/export?format=txt'
+    try:
+        response = requests.get(export_url, timeout=15, allow_redirects=True)
+    except requests.RequestException as e:
+        raise GoogleDocError(f"Couldn't reach Google Docs: {e}")
+
+    # A doc that isn't link-shared bounces to a sign-in page rather than 403ing
+    if 'accounts.google.com' in response.url:
+        raise GoogleDocError(
+            "That Google Doc isn't shared. Set it to \"Anyone with the link can view\" and try again."
+        )
+    if response.status_code != 200:
+        raise GoogleDocError(
+            f"Google Docs returned {response.status_code} for that link."
+        )
+    if len(response.content) > MAX_GOOGLE_DOC_BYTES:
+        raise GoogleDocError("That Google Doc is too large to import.")
+
+    text = response.text.strip()
+    if not text:
+        raise GoogleDocError("That Google Doc looks empty.")
+
+    return doc_id, text
+
+
+def store_google_doc_material(study_class, exam_name, url):
+    """Import a Google Doc as a material for one exam of a class."""
+    doc_id, text = fetch_google_doc_text(url)
+
+    class_dir = os.path.join(
+        current_app.config['UPLOAD_FOLDER'],
+        f'user_{study_class.user_id}',
+        f'class_{study_class.id}'
+    )
+    os.makedirs(class_dir, exist_ok=True)
+
+    stored_name = f'{uuid.uuid4().hex[:8]}_gdoc_{doc_id[:20]}.txt'
+    path = os.path.join(class_dir, stored_name)
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(text)
+
+    # The export endpoint doesn't give us the title, so show the first non-empty
+    # line - which for a study doc is almost always its heading.
+    first_line = next((line.strip() for line in text.splitlines() if line.strip()), '')
+    display_name = (first_line[:80] or f'Google Doc {doc_id[:8]}')
+
+    material = ClassMaterial(
+        class_id=study_class.id,
+        user_id=study_class.user_id,
+        exam_name=exam_name[:255] if exam_name else None,
+        source_type='gdoc',
+        source_url=url[:512],
+        original_filename=display_name[:255],
+        stored_filename=stored_name[:255],
+        file_path=path[:512]
+    )
+    db.session.add(material)
+    db.session.commit()
+    print(f"Imported Google Doc {doc_id} for {study_class.label} / {exam_name}")
+    return material
+
 # Topic extraction using Gemini
 def extract_important_topics(pdf_content):
     """Extract important topics from PDF content using Gemini AI"""
@@ -1175,8 +1387,8 @@ def create_fallback_schedule(form_data, topics_data):
             # Extract date information
             exam_date_str = form_data.get('examDate')
             start_date_str = form_data.get('startPrep')
-            exam_time_str = form_data.get('examTime', '09:00')
-            wake_time_str = form_data.get('startTime', '07:00')
+            exam_time_str = form_data.get('examTime') or DEFAULT_EXAM_TIME
+            wake_time_str = form_data.get('startTime') or DEFAULT_PREP_START_TIME
             
             # Get meal times
             breakfast_time = form_data.get('breakfastTime', '08:00')
@@ -1438,8 +1650,10 @@ def create_fallback_schedule(form_data, topics_data):
                     "notes": f"{sleep_hours} hours of sleep"
                 })
                 
-                # If it's exam day, add exam time
-                if is_exam_day:
+                # If it's exam day and we know when the exam is, block it out.
+                # Without a time we'd be inventing one, so the slot is skipped
+                # rather than showing the student a sitting time they never gave.
+                if is_exam_day and form_data.get('examTime'):
                     exam_time = exam_time_str
                     exam_prep_start_obj = datetime.strptime(exam_time, "%H:%M") - timedelta(hours=2)
                     exam_prep_start = exam_prep_start_obj.strftime("%H:%M")
@@ -1553,7 +1767,7 @@ def create_fallback_activities(topics, day_idx, form_data=None):
         }
     
     # Extract time preferences or use defaults
-    wake_time = form_data.get('startTime', '07:00')
+    wake_time = form_data.get('startTime') or DEFAULT_PREP_START_TIME
     breakfast_time = form_data.get('breakfastTime', '08:00')
     lunch_time = form_data.get('lunchTime', '13:00')
     snack_time = form_data.get('snackTime', '16:00')
@@ -1774,10 +1988,232 @@ def create_fallback_activities(topics, day_idx, form_data=None):
     
     return activities
 
+# Roughly the amount of material text worth sending in one summary request
+MAX_SUMMARY_INPUT_CHARS = 200000
+
+
+def get_exams_with_materials(user_id):
+    """Every (class, exam) that has uploaded materials, with a count.
+
+    Driven by class_material rows rather than saved study plans - materials are
+    uploaded when the planner form is submitted, well before the plan row is
+    written, so keying off plans would hide anything not yet saved.
+    """
+    materials = ClassMaterial.query.filter_by(user_id=user_id).all()
+    if not materials:
+        return []
+
+    counts = {}
+    for material in materials:
+        key = (material.class_id, material.exam_name)
+        counts[key] = counts.get(key, 0) + 1
+
+    classes_by_id = {
+        c.id: c for c in StudyClass.query.filter_by(user_id=user_id).all()
+    }
+    plans_by_key = {
+        (p.class_id, p.title): p
+        for p in StudyPlan.query.filter(
+            StudyPlan.user_id == user_id,
+            StudyPlan.class_id.isnot(None)
+        ).all()
+    }
+
+    exams = []
+    for (class_id, exam_name), count in counts.items():
+        study_class = classes_by_id.get(class_id)
+        if not study_class:
+            continue  # class was deleted, or isn't this student's
+        exam_label = exam_name or 'Unassigned'
+        exams.append({
+            'class_id': class_id,
+            'exam_name': exam_name,
+            # class_id is an integer, so the first colon is always the separator
+            # no matter what punctuation the student used in the exam name
+            'key': f'{class_id}:{exam_name or ""}',
+            'plan': plans_by_key.get((class_id, exam_name)),
+            'material_count': count,
+            'label': f'{study_class.label} - {exam_label}',
+        })
+
+    exams.sort(key=lambda e: e['label'])
+    return exams
+
+
+def summarise_exam_materials(user_id, class_id, exam_name):
+    """Ask Gemini for a study summary of one exam's materials.
+
+    Returns (summary_text, material_list, truncated).
+    """
+    # Confirm the class belongs to this student before reading anything
+    study_class = StudyClass.query.filter_by(id=class_id, user_id=user_id).first()
+    if not study_class:
+        raise ValueError("That exam couldn't be found.")
+
+    materials = ClassMaterial.query.filter_by(
+        class_id=class_id, exam_name=exam_name
+    ).order_by(ClassMaterial.uploaded_at).all()
+
+    if not materials:
+        raise ValueError("There are no materials uploaded for this exam yet.")
+
+    exam_label = exam_name or 'Unassigned'
+
+    contents, _ = extract_text_from_paths([m.file_path for m in materials])
+    contents = (contents or '').strip()
+    if len(contents) < 100:
+        raise ValueError(
+            "Couldn't read enough text from this exam's materials to summarise them. "
+            "Scanned PDFs without selectable text won't work."
+        )
+
+    truncated = len(contents) > MAX_SUMMARY_INPUT_CHARS
+    if truncated:
+        contents = contents[:MAX_SUMMARY_INPUT_CHARS]
+
+    prompt = f"""You are helping a student revise for "{exam_label}".
+
+Summarise the study material below into a revision summary. Use this structure,
+in Markdown:
+
+## Overview
+Two or three sentences on what this material covers.
+
+## Key Topics
+For each major topic: a bold heading, then 2-4 bullets of the essential points.
+
+## Formulas & Definitions
+Anything worth memorising verbatim. Omit this section if there is nothing.
+
+## Likely Exam Focus
+The 3-5 areas most worth the student's time, and why.
+
+Work only from the material provided. Do not invent facts. If the material is
+fragmentary, say so rather than filling gaps.
+
+STUDY MATERIAL:
+{contents}
+"""
+
+    model = genai.GenerativeModel('gemini-2.5-flash-lite')
+    response = model.generate_content(prompt)
+    summary = (getattr(response, 'text', '') or '').strip()
+    if not summary:
+        raise ValueError("The AI returned an empty summary. Please try again.")
+
+    return summary, materials, truncated
+
+
+def _inline_markdown(text):
+    """Convert **bold** runs. Input is already HTML-escaped."""
+    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+
+
+def render_simple_markdown(text):
+    """Render the small Markdown subset the summary prompt asks for.
+
+    Everything is HTML-escaped before any tags are added, so model output can't
+    inject markup. Avoids pulling in a Markdown dependency or a client-side
+    renderer that would need innerHTML.
+    """
+    html = []
+    in_list = False
+
+    for raw_line in str(escape(text)).splitlines():
+        line = raw_line.strip()
+
+        if not line:
+            if in_list:
+                html.append('</ul>')
+                in_list = False
+            continue
+
+        if line.startswith(('- ', '* ')):
+            if not in_list:
+                html.append('<ul>')
+                in_list = True
+            html.append(f'<li>{_inline_markdown(line[2:])}</li>')
+            continue
+
+        if in_list:
+            html.append('</ul>')
+            in_list = False
+
+        if line.startswith('### '):
+            html.append(f'<h4>{_inline_markdown(line[4:])}</h4>')
+        elif line.startswith('## '):
+            html.append(f'<h3>{_inline_markdown(line[3:])}</h3>')
+        elif line.startswith('# '):
+            html.append(f'<h3>{_inline_markdown(line[2:])}</h3>')
+        else:
+            html.append(f'<p>{_inline_markdown(line)}</p>')
+
+    if in_list:
+        html.append('</ul>')
+
+    return '\n'.join(html)
+
+
+@study_plan.route('/summarize', methods=['GET', 'POST'])
+@login_required
+def summarize_materials():
+    """Generate a revision summary from the materials uploaded for one exam."""
+    exams = get_exams_with_materials(current_user.id)
+    summary = None
+    materials = []
+    truncated = False
+    selected_key = None
+    selected_label = None
+
+    if request.method == 'POST':
+        # Keyed on (class, exam) rather than a plan id, because materials exist
+        # before the study plan is saved. class_id is an int, so splitting on
+        # the first colon is safe whatever punctuation is in the exam name.
+        selected_key = (request.form.get('examKey') or '').strip()
+        raw_class_id, _, exam_name = selected_key.partition(':')
+        exam_name = exam_name or None
+
+        try:
+            class_id = int(raw_class_id)
+        except (TypeError, ValueError):
+            class_id = None
+
+        if class_id is None:
+            flash('Please choose an exam to summarise.')
+        else:
+            selected_label = next(
+                (e['label'] for e in exams if e['key'] == selected_key), None
+            )
+            try:
+                summary, materials, truncated = summarise_exam_materials(
+                    current_user.id, class_id, exam_name
+                )
+            except ValueError as e:
+                flash(str(e))
+            except Exception as e:
+                print(f"Error summarising materials for class {class_id} / {exam_name}: {e}")
+                import traceback
+                traceback.print_exc()
+                flash("Couldn't generate the summary. Please try again.")
+
+    return render_template(
+        'summarize.html',
+        exams=exams,
+        summary=render_simple_markdown(summary) if summary else None,
+        materials=materials,
+        truncated=truncated,
+        selected_key=selected_key,
+        selected_label=selected_label
+    )
+
+
 @study_plan.route('/forms')
 @login_required
 def forms():
-    return render_template('forms.html')
+    classes = StudyClass.query.filter_by(
+        user_id=current_user.id, is_archived=False
+    ).order_by(StudyClass.code, StudyClass.name).all()
+    return render_template('forms.html', classes=classes)
 
 @study_plan.route('/create-study-plan', methods=['GET', 'POST'])
 @login_required
@@ -1794,19 +2230,21 @@ def create_study_plan():
         
         # Get form data
         form_data = {
-            'examName': request.form.get('examName', 'Study Plan'),  # Get exam name with fallback
+            # Normalised here (not just defaulted) so the plan title and the
+            # exam_name stamped on each upload are always the same string -
+            # the dashboard joins materials to exams on it.
+            'examName': (request.form.get('examName') or '').strip() or 'Study Plan',
             'examDate': request.form.get('examDate'),
-            'examTime': request.form.get('examTime'),
+            # Exam time is optional - normalise blank to None so the difference
+            # between "not given" and a real time stays visible downstream
+            'examTime': (request.form.get('examTime') or '').strip() or None,
             'startPrep': request.form.get('startPrep', ''),
-            'startTime': request.form.get('startTime', ''),
-            'sleepHours': request.form.get('sleepHours'),
-            'breakDuration': request.form.get('breakDuration'),
-            'breakInterval': request.form.get('breakInterval'),
-            'breakfastTime': request.form.get('breakfastTime'),
-            'lunchTime': request.form.get('lunchTime'),
-            'snackTime': request.form.get('snackTime'),
-            'dinnerTime': request.form.get('dinnerTime')
+            # Optional - normalised to None so the scheduler's default applies
+            'startTime': (request.form.get('startTime') or '').strip() or None,
         }
+
+        # Rest & meal preferences live on the student's profile, not this form
+        form_data.update(get_student_profile(current_user.id).to_form_data())
         
         print("Form data processed:", form_data)
         
@@ -1819,38 +2257,88 @@ def create_study_plan():
         # Check if starting on exam day
         is_exam_day = exam_date == start_date
         is_revision_only = False
-        
+
         if is_exam_day:
-            # Calculate hours between start time and exam time
-            exam_hours, exam_minutes = map(int, exam_time.split(':'))
-            start_hours, start_minutes = map(int, start_time.split(':'))
-            
-            # Convert to minutes for comparison
-            exam_total_minutes = exam_hours * 60 + exam_minutes
-            start_total_minutes = start_hours * 60 + start_minutes
-            
-            # Calculate time difference in hours
-            hours_difference = (exam_total_minutes - start_total_minutes) / 60
-            
-            # If less than 3 hours before exam, reject the submission
-            if hours_difference < 3:
-                flash('Cannot create a study plan on exam day with less than 3 hours before the exam!')
-                return redirect(url_for('study_plan.forms'))
-            else:
-                # Set flag for revision only mode
+            if not exam_time or not start_time:
+                # Both times are optional, and without them there's no way to
+                # know how many hours are left. Still a same-day plan, so treat
+                # it as revision rather than rejecting it over a time the
+                # student was never asked to provide.
                 is_revision_only = True
                 form_data['is_revision_only'] = True
+            else:
+                # Calculate hours between start time and exam time
+                exam_hours, exam_minutes = map(int, exam_time.split(':'))
+                start_hours, start_minutes = map(int, start_time.split(':'))
+
+                # Convert to minutes for comparison
+                exam_total_minutes = exam_hours * 60 + exam_minutes
+                start_total_minutes = start_hours * 60 + start_minutes
+
+                # Calculate time difference in hours
+                hours_difference = (exam_total_minutes - start_total_minutes) / 60
+
+                # If less than 3 hours before exam, reject the submission
+                if hours_difference < 3:
+                    flash('Cannot create a study plan on exam day with less than 3 hours before the exam!')
+                    return redirect(url_for('study_plan.forms'))
+                else:
+                    # Set flag for revision only mode
+                    is_revision_only = True
+                    form_data['is_revision_only'] = True
         
         # Check for PDF files
         pdf_contents = ""
+        pdf_documents = []
         collection_name = ""
         pdf_files = []
-        
+
+        study_class = resolve_selected_class(request.form)
         if 'studyMaterials' in request.files:
-            pdf_files = request.files.getlist('studyMaterials')
-            if pdf_files and pdf_files[0].filename:
+            pdf_files = [f for f in request.files.getlist('studyMaterials') if f and f.filename]
+
+        google_doc_url = (request.form.get('googleDocUrl') or '').strip()
+
+        if study_class:
+            # Uploads are scoped to this exam within the class, so the plan is
+            # built only from the material for this exam - not the whole class.
+            exam_name = form_data.get('examName') or 'Study Plan'
+            if pdf_files:
+                store_class_materials(study_class, exam_name, pdf_files)
+
+            if google_doc_url:
+                try:
+                    store_google_doc_material(study_class, exam_name, google_doc_url)
+                except GoogleDocError as e:
+                    # A bad link shouldn't throw away the PDFs or the whole plan
+                    flash(str(e))
+                except Exception as e:
+                    print(f"Unexpected error importing Google Doc: {e}")
+                    flash("Couldn't import that Google Doc. The plan was built without it.")
+
+            materials = ClassMaterial.query.filter_by(
+                class_id=study_class.id, exam_name=exam_name
+            ).all()
+            pdf_contents, pdf_documents = extract_text_from_paths([m.file_path for m in materials])
+            collection_name = f"class_{study_class.id}_exam_{secure_filename(exam_name)}"
+            print(f"Studying {len(materials)} material(s) for {study_class.label} / {exam_name}")
+        elif pdf_files or google_doc_url:
+            if pdf_files:
                 print(f"Found files in studyMaterials field")
                 pdf_contents, pdf_documents, collection_name = process_pdf_files(pdf_files)
+
+            # No class selected, so there's nothing to file the doc under - just
+            # read it straight into this plan's content.
+            if google_doc_url:
+                try:
+                    _, doc_text = fetch_google_doc_text(google_doc_url)
+                    pdf_contents += doc_text + "\n\n"
+                    pdf_documents.append({"content": doc_text, "page": 0})
+                except GoogleDocError as e:
+                    flash(str(e))
+                except Exception as e:
+                    print(f"Unexpected error reading Google Doc: {e}")
+                    flash("Couldn't import that Google Doc. The plan was built without it.")
         
         # Determine if we have usable PDF content
         has_pdf_content = pdf_contents and len(pdf_contents.strip()) > 100
@@ -1948,7 +2436,8 @@ def create_study_plan():
             "plan_summary": enhanced_schedule.get("plan_summary", ""),
             "is_revision_only": is_revision_only,
             "exam_date": form_data['examDate'],  # Consistent field name for exam date
-            "prep_start_date": form_data['startPrep']  # Changed to match the model field name
+            "prep_start_date": form_data['startPrep'],  # Changed to match the model field name
+            "class_id": study_class.id if study_class else None
         }
         
         # Add debug output to verify the data
@@ -2206,9 +2695,16 @@ def save_study_plan_api():  # Renamed from save_study_plan to save_study_plan_ap
     
     print(f"DEBUG - Creating StudyPlan with: exam_date={exam_date}, prep_start_date={prep_start_date}, plan_summary='{plan_summary}'")
     
+    # Only accept a class the current user actually owns
+    class_id = data.get('class_id')
+    if class_id is not None:
+        owned = StudyClass.query.filter_by(id=class_id, user_id=current_user.id).first()
+        class_id = owned.id if owned else None
+
     # Create new study plan with Text fields
     new_plan = StudyPlan(
         user_id=current_user.id,
+        class_id=class_id,
         title=title,
         is_revision_only=is_revision_only,
         plan_summary=plan_summary,
@@ -2536,9 +3032,22 @@ def save_study_plan():
             flash("This plan appears to be a duplicate submission. The previous plan has been saved.", "warning")
             return redirect('/dashboard')
         
+        # Only accept a class the current user actually owns
+        class_id = None
+        submitted_class_id = (form.get('class_id') or '').strip()
+        if submitted_class_id:
+            try:
+                owned = StudyClass.query.filter_by(
+                    id=int(submitted_class_id), user_id=current_user.id
+                ).first()
+                class_id = owned.id if owned else None
+            except (TypeError, ValueError):
+                print(f"Ignoring unparseable class_id: {submitted_class_id!r}")
+
         # Create new study plan in database
         new_plan = StudyPlan(
             user_id=current_user.id,
+            class_id=class_id,
             title=title,
             plan_summary=plan_summary,
             topics=form.get('topics', ''),

@@ -104,6 +104,57 @@ def get_gemini_model():
     """Get the Gemini generative model"""
     return genai.GenerativeModel('gemini-2.5-flash-lite')
 
+
+# How much of an exam's material to keep as conversation context
+MAX_EXAM_CONTEXT_CHARS = 200000
+
+
+def _context_key(session_id):
+    """Namespace the in-memory conversation store per user.
+
+    Every fetch in bot.html posts the literal session_id 'user_session', so
+    without this one global slot is shared by every logged-in user - and that
+    slot holds uploaded PDFs and course material.
+    """
+    user_part = current_user.id if current_user.is_authenticated else 'anon'
+    return f"{user_part}:{session_id}"
+
+
+def answer_from_exam_materials(question, material_text, exam_label=None, previous_context=""):
+    """Answer a question strictly from the material uploaded for one exam."""
+    model = get_gemini_model()
+    if model is None:
+        return "I'm having trouble reaching my brain right now. Please try again in a moment."
+
+    label = exam_label or "this exam"
+    history_block = f"Earlier in this conversation:\n{previous_context}\n" if previous_context else ""
+
+    prompt = f"""You are Pawfessor Meowkins, a warm and encouraging cat tutor helping a
+student prepare for {label}.
+
+Answer the student's question using the study material below. Ground every claim
+in that material. If the answer isn't in it, say so plainly and offer what the
+material does cover instead - do not fill the gap with outside knowledge.
+
+Teach rather than recite: explain the idea, use an analogy where it helps, and
+stay under 250 words. End by inviting a follow-up question.
+
+{history_block}
+STUDY MATERIAL:
+{material_text}
+
+STUDENT'S QUESTION:
+{question}
+"""
+
+    try:
+        response = model.generate_content(prompt)
+        answer = (getattr(response, 'text', '') or '').strip()
+        return answer or "I couldn't put an answer together for that - could you rephrase it?"
+    except Exception as e:
+        print(f"Error answering from exam materials: {e}")
+        return "I hit a snag answering that one. Please try again in a moment."
+
 def manage_pdf_progress(session_id, action, content=None, response=None, topic=None):
     """
     Manage the progress through a PDF document for a specific session
@@ -1991,7 +2042,87 @@ def bot():
     # Ensure the user has a chat collection in Qdrant
     if current_user.is_authenticated:
         create_chat_collection(current_user.id)
-    return render_template('bot.html', user=current_user)
+
+    # Imported lazily so bot.py doesn't depend on study_plan at import time
+    from blueprints.study_plan import get_exams_with_materials
+    try:
+        exams = get_exams_with_materials(current_user.id)
+    except Exception as e:
+        # The picker is a convenience - never let it take down the chat page
+        print(f"Couldn't load exams for the bot picker: {e}")
+        exams = []
+
+    return render_template('bot.html', user=current_user, exams=exams)
+
+
+@bot_bp.route('/bot/load-exam', methods=['POST'])
+@login_required
+def load_exam_materials():
+    """Load one exam's materials as the context the tutor answers against."""
+    from blueprints.study_plan import extract_text_from_paths
+    from models import ClassMaterial, StudyClass
+
+    data = request.get_json() or {}
+    session_id = data.get('session_id', 'user_session')
+
+    # Same (class_id, exam_name) key the summary tool uses. class_id is an
+    # integer, so the first colon is always the separator.
+    exam_key = (data.get('examKey') or '').strip()
+    raw_class_id, _, exam_name = exam_key.partition(':')
+    exam_name = exam_name or None
+
+    try:
+        class_id = int(raw_class_id)
+    except (TypeError, ValueError):
+        return jsonify({"success": False, "error": "Please choose an exam first."}), 400
+
+    # Scope to the current user so a forged key can't read someone else's files
+    study_class = StudyClass.query.filter_by(id=class_id, user_id=current_user.id).first()
+    if not study_class:
+        return jsonify({"success": False, "error": "That exam couldn't be found."}), 404
+
+    materials = ClassMaterial.query.filter_by(
+        class_id=class_id, exam_name=exam_name
+    ).order_by(ClassMaterial.uploaded_at).all()
+    if not materials:
+        return jsonify({"success": False, "error": "No materials uploaded for this exam yet."}), 404
+
+    text, _ = extract_text_from_paths([m.file_path for m in materials])
+    text = (text or '').strip()
+    if len(text) < 100:
+        return jsonify({
+            "success": False,
+            "error": "Couldn't read enough text from those materials. "
+                     "Scanned PDFs without selectable text won't work."
+        }), 400
+
+    if len(text) > MAX_EXAM_CONTEXT_CHARS:
+        text = text[:MAX_EXAM_CONTEXT_CHARS]
+
+    exam_label = f"{study_class.label} - {exam_name or 'Unassigned'}"
+    conversation_contexts[_context_key(session_id)] = {
+        'topic': f"Exam: {exam_label}",
+        'content_type': 'exam',
+        'source_content': text,
+        'exam_label': exam_label,
+        'previous_responses': []
+    }
+
+    file_list = ", ".join(m.original_filename for m in materials)
+    count = len(materials)
+    intro = (
+        f"Paws at the ready! I've read {count} material{'' if count == 1 else 's'} "
+        f"for {exam_label}: {file_list}. Ask me anything about it and I'll answer "
+        f"from what you uploaded. 🐱"
+    )
+
+    return jsonify({
+        "success": True,
+        "response": intro,
+        "exam_label": exam_label,
+        "material_count": count,
+        "session_id": session_id
+    })
 
 @bot_bp.route('/bot/')
 def bot_with_slash():
@@ -2099,17 +2230,19 @@ def chat():
         # Get user ID for chat history
         user_id = current_user.id if current_user.is_authenticated else session_id
         
-        # Initialize or get the conversation context (fallback mechanism)
-        if session_id not in conversation_contexts:
-            conversation_contexts[session_id] = {
+        # Initialize or get the conversation context (fallback mechanism).
+        # Keyed per user - the browser posts a fixed session_id for everyone.
+        context_key = _context_key(session_id)
+        if context_key not in conversation_contexts:
+            conversation_contexts[context_key] = {
                 'topic': message,
                 'content_type': content_type,
                 'source_content': '',
                 'previous_responses': []
             }
             
-        context = conversation_contexts[session_id]
-        
+        context = conversation_contexts[context_key]
+
         # Handle the message based on the type and whether it's a continuation
         if is_continuation:
             print("Processing continuation request")
@@ -2118,12 +2251,20 @@ def chat():
             previous_context = "\n".join(previous_responses[-3:]) if previous_responses else ""
             
             # Different handling based on content type
-            if context.get('content_type') == 'pdf':
+            if context.get('content_type') == 'exam':
+                response = answer_from_exam_materials(
+                    "Continue teaching me about this material - move on to the "
+                    "next important idea I haven't covered yet.",
+                    context.get('source_content', ''),
+                    exam_label=context.get('exam_label'),
+                    previous_context=previous_context
+                )
+            elif context.get('content_type') == 'pdf':
                 response = generate_teaching_response(
                     context.get('source_content', ''), 
                     "pdf_continuation",
-                    previous_context=previous_context, 
-                    session_id=session_id
+                    previous_context=previous_context,
+                    session_id=context_key
                 )
             elif context.get('content_type') == 'youtube':
                 response = generate_teaching_response(
@@ -2138,6 +2279,21 @@ def chat():
                     "continuation",
                     previous_context=previous_context
                 )
+        elif content_type == 'chat' and context.get('content_type') == 'exam' \
+                and context.get('source_content'):
+            # An exam is loaded, so plain questions get answered against its
+            # materials instead of from the model's general knowledge. Handled
+            # here rather than with a new front-end type so every existing
+            # send path picks it up.
+            print(f"Answering against exam materials: {context.get('exam_label')}")
+            previous_responses = context.get('previous_responses', [])
+            response = answer_from_exam_materials(
+                message,
+                context['source_content'],
+                exam_label=context.get('exam_label'),
+                previous_context="\n".join(previous_responses[-3:]) if previous_responses else ""
+            )
+
         elif content_type == 'chat':
             print("Processing new chat message")
             response = generate_teaching_response(message, "chat")
@@ -2169,7 +2325,7 @@ def chat():
         
         # Store the response in conversation context
         context['previous_responses'].append(response)
-        conversation_contexts[session_id] = context
+        conversation_contexts[context_key] = context
         
         # Check if response is a string before slicing
         if isinstance(response, str):
@@ -2296,19 +2452,20 @@ def process_pdf():
             return jsonify({"error": "Could not extract meaningful text from the PDF"}), 400
         
         # Generate teaching response with extracted text using the session_id parameter
-        response = generate_teaching_response(pdf_text, "pdf", session_id=session_id)
-        
+        context_key = _context_key(session_id)
+        response = generate_teaching_response(pdf_text, "pdf", session_id=context_key)
+
         # Create or retrieve conversation context
-        if session_id not in conversation_contexts:
-            conversation_contexts[session_id] = {
+        if context_key not in conversation_contexts:
+            conversation_contexts[context_key] = {
                 'topic': f"PDF: {filename}",
                 'content_type': 'pdf',
                 'source_content': pdf_text,
                 'previous_responses': []
             }
-            context = conversation_contexts[session_id]
+            context = conversation_contexts[context_key]
         else:
-            context = conversation_contexts[session_id]
+            context = conversation_contexts[context_key]
             context['topic'] = f"PDF: {filename}"
             context['content_type'] = 'pdf'
             context['source_content'] = pdf_text

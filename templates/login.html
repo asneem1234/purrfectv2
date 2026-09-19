@@ -168,6 +168,24 @@
         }
 
         /* Form styles */
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            padding: 12px 18px;
+            border-radius: 20px;
+            border: 2px solid #f5a3a3;
+            background-color: #ffeaea;
+            color: #a32a2a;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .flash-message + .flash-message {
+            margin-top: 10px;
+        }
+
         .form-group {
             margin-bottom: 25px;
             position: relative;
@@ -528,6 +546,15 @@
         
         <form id="loginForm" method="POST" action="/login">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
             <div class="form-group focus-animation">
                 <label for="username">Username or Email</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username or email" required>

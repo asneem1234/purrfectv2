@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Summary | Purr:fect</title>
+    <style>
+        :root {
+            --pink-bg: #ffe6ee;
+            --pink-accent: #ff85b4;
+            --text-color: #555;
+            --white: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --light-pink: #ffd1e3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 30px 20px 60px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            color: var(--pink-accent);
+            font-size: 2rem;
+        }
+
+        .logo p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .panel {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .panel h2 {
+            color: var(--pink-accent);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid var(--light-pink);
+            border-radius: 30px;
+            font-size: 1rem;
+            background-color: var(--white);
+            transition: all 0.3s;
+        }
+
+        select:focus {
+            border-color: var(--pink-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 32px;
+            background-color: var(--pink-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-link {
+            background: none;
+            color: var(--pink-accent);
+            padding: 0;
+            font-weight: 600;
+        }
+
+        .flash-message {
+            padding: 12px 18px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            border: 2px solid #f5a3a3;
+            background-color: #ffeaea;
+            color: #a32a2a;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .notice {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-top: 10px;
+        }
+
+        .sources {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .sources li {
+            font-size: 0.9rem;
+            padding: 3px 0;
+        }
+
+        /* Rendered summary */
+        .summary h3 {
+            color: var(--pink-accent);
+            margin: 22px 0 10px;
+            font-size: 1.1rem;
+        }
+
+        .summary h3:first-child {
+            margin-top: 0;
+        }
+
+        .summary h4 {
+            margin: 16px 0 8px;
+            font-size: 1rem;
+        }
+
+        .summary p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .summary ul {
+            margin: 0 0 12px 22px;
+        }
+
+        .summary li {
+            margin-bottom: 6px;
+            line-height: 1.55;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .empty .icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        @media print {
+            body { background: var(--white); padding: 0; }
+            .no-print { display: none; }
+            .panel { box-shadow: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>📝 Material Summary</h1>
+            <p>Turn everything you uploaded for an exam into one revision sheet</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="panel no-print">
+            {% if exams %}
+            <form method="POST" action="{{ url_for('study_plan.summarize_materials') }}" id="summaryForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <label for="examKey">Choose an exam</label>
+                <select id="examKey" name="examKey" required>
+                    <option value="">Select an exam…</option>
+                    {% for exam in exams %}
+                    <option value="{{ exam.key }}"
+                            {% if selected_key == exam.key %}selected{% endif %}>
+                        {{ exam.label }} ({{ exam.material_count }} material{{ '' if exam.material_count == 1 else 's' }})
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn" id="submitBtn">Generate Summary</button>
+                <p class="notice">Reading several PDFs can take a little while.</p>
+            </form>
+            {% else %}
+            <div class="empty">
+                <div class="icon">📚</div>
+                <h2>Nothing to summarise yet</h2>
+                <p>Create a study plan with a class selected and upload your materials first.</p>
+                <a href="{{ url_for('study_plan.forms') }}" class="btn">Upload Material</a>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if summary %}
+        <div class="panel">
+            <h2>{{ selected_label }}</h2>
+
+            {% if materials %}
+            <p class="notice">Summarised from:</p>
+            <ul class="sources">
+                {% for material in materials %}
+                <li>{{ '📝' if material.source_type == 'gdoc' else '📄' }} {{ material.original_filename }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if truncated %}
+            <p class="notice">⚠️ These materials were long, so only the first part was summarised.</p>
+            {% endif %}
+
+            <div class="summary" style="margin-top: 20px;">{{ summary|safe }}</div>
+
+            <div class="no-print" style="margin-top: 10px;">
+                <button type="button" class="btn btn-link" onclick="window.print()">Print or save as PDF</button>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="no-print" style="text-align: center;">
+            <a href="/dashboard" style="color: var(--pink-accent); font-weight: 600;">← Back to dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // Generating can take a while - make it obvious the click registered
+        const form = document.getElementById('summaryForm');
+        if (form) {
+            form.addEventListener('submit', function() {
+                const btn = document.getElementById('submitBtn');
+                btn.disabled = true;
+                btn.textContent = 'Summarising…';
+            });
+        }
+    </script>
+</body>
+</html>

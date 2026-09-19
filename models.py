@@ -130,9 +130,10 @@ class User(UserMixin, db.Model):
         
 class StudyPlan(db.Model):
     __tablename__ = 'study_plan'  # Keep the explicitly set table name
-    
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey('study_class.id'), nullable=True)
     title = db.Column(db.String(255), nullable=False, default='Study Plan')
     
     # Set default values for TEXT fields to prevent null errors
@@ -150,7 +151,9 @@ class StudyPlan(db.Model):
     prep_start_date = db.Column(db.Date, nullable=True)
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
+
+    study_class = db.relationship('StudyClass', backref=db.backref('study_plans', lazy=True))
+
     # Methods to handle JSON serialization/deserialization for Text fields
     @property
     def topics_data(self):
@@ -187,6 +190,8 @@ class StudyPlan(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
+            'class_id': self.class_id,
+            'class_label': self.study_class.label if self.study_class else None,
             'title': self.title,
             'topics': self.topics_data,
             'detailed_schedule': self.schedule_data,
