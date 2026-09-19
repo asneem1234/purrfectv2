@@ -17,6 +17,7 @@ from blueprints.study_tools import (
 )
 import PyPDF2
 import requests
+from markupsafe import escape
 import google.generativeai as genai
 import numpy as np
 import hashlib
@@ -973,6 +974,16 @@ def extract_text_from_paths(paths):
     return pdf_contents, pdf_documents
 
 
+# Exam time is optional. When the student doesn't give one, the scheduler still
+# needs a cutoff for the last day's study blocks - this is that fallback only,
+# never shown to the student as if it were their real exam time.
+DEFAULT_EXAM_TIME = '09:00'
+
+# Preparation start time is optional too. Unlike the exam time this one can't be
+# skipped: it's the daily wake time that anchors bedtime and the first study
+# block, so every day needs a value.
+DEFAULT_PREP_START_TIME = '07:00'
+
 # Accepts the /document/d/<id>/ and ?id=<id> URL shapes Google hands out
 GOOGLE_DOC_ID_PATTERNS = [
     re.compile(r'docs\.google\.com/document/d/([a-zA-Z0-9_-]{10,})'),
@@ -1376,8 +1387,8 @@ def create_fallback_schedule(form_data, topics_data):
             # Extract date information
             exam_date_str = form_data.get('examDate')
             start_date_str = form_data.get('startPrep')
-            exam_time_str = form_data.get('examTime', '09:00')
-            wake_time_str = form_data.get('startTime', '07:00')
+            exam_time_str = form_data.get('examTime') or DEFAULT_EXAM_TIME
+            wake_time_str = form_data.get('startTime') or DEFAULT_PREP_START_TIME
             
             # Get meal times
             breakfast_time = form_data.get('breakfastTime', '08:00')
@@ -1639,8 +1650,10 @@ def create_fallback_schedule(form_data, topics_data):
                     "notes": f"{sleep_hours} hours of sleep"
                 })
                 
-                # If it's exam day, add exam time
-                if is_exam_day:
+                # If it's exam day and we know when the exam is, block it out.
+                # Without a time we'd be inventing one, so the slot is skipped
+                # rather than showing the student a sitting time they never gave.
+                if is_exam_day and form_data.get('examTime'):
                     exam_time = exam_time_str
                     exam_prep_start_obj = datetime.strptime(exam_time, "%H:%M") - timedelta(hours=2)
                     exam_prep_start = exam_prep_start_obj.strftime("%H:%M")
@@ -1754,7 +1767,7 @@ def create_fallback_activities(topics, day_idx, form_data=None):
         }
     
     # Extract time preferences or use defaults
-    wake_time = form_data.get('startTime', '07:00')
+    wake_time = form_data.get('startTime') or DEFAULT_PREP_START_TIME
     breakfast_time = form_data.get('breakfastTime', '08:00')
     lunch_time = form_data.get('lunchTime', '13:00')
     snack_time = form_data.get('snackTime', '16:00')
@@ -1975,6 +1988,225 @@ def create_fallback_activities(topics, day_idx, form_data=None):
     
     return activities
 
+# Roughly the amount of material text worth sending in one summary request
+MAX_SUMMARY_INPUT_CHARS = 200000
+
+
+def get_exams_with_materials(user_id):
+    """Every (class, exam) that has uploaded materials, with a count.
+
+    Driven by class_material rows rather than saved study plans - materials are
+    uploaded when the planner form is submitted, well before the plan row is
+    written, so keying off plans would hide anything not yet saved.
+    """
+    materials = ClassMaterial.query.filter_by(user_id=user_id).all()
+    if not materials:
+        return []
+
+    counts = {}
+    for material in materials:
+        key = (material.class_id, material.exam_name)
+        counts[key] = counts.get(key, 0) + 1
+
+    classes_by_id = {
+        c.id: c for c in StudyClass.query.filter_by(user_id=user_id).all()
+    }
+    plans_by_key = {
+        (p.class_id, p.title): p
+        for p in StudyPlan.query.filter(
+            StudyPlan.user_id == user_id,
+            StudyPlan.class_id.isnot(None)
+        ).all()
+    }
+
+    exams = []
+    for (class_id, exam_name), count in counts.items():
+        study_class = classes_by_id.get(class_id)
+        if not study_class:
+            continue  # class was deleted, or isn't this student's
+        exam_label = exam_name or 'Unassigned'
+        exams.append({
+            'class_id': class_id,
+            'exam_name': exam_name,
+            # class_id is an integer, so the first colon is always the separator
+            # no matter what punctuation the student used in the exam name
+            'key': f'{class_id}:{exam_name or ""}',
+            'plan': plans_by_key.get((class_id, exam_name)),
+            'material_count': count,
+            'label': f'{study_class.label} - {exam_label}',
+        })
+
+    exams.sort(key=lambda e: e['label'])
+    return exams
+
+
+def summarise_exam_materials(user_id, class_id, exam_name):
+    """Ask Gemini for a study summary of one exam's materials.
+
+    Returns (summary_text, material_list, truncated).
+    """
+    # Confirm the class belongs to this student before reading anything
+    study_class = StudyClass.query.filter_by(id=class_id, user_id=user_id).first()
+    if not study_class:
+        raise ValueError("That exam couldn't be found.")
+
+    materials = ClassMaterial.query.filter_by(
+        class_id=class_id, exam_name=exam_name
+    ).order_by(ClassMaterial.uploaded_at).all()
+
+    if not materials:
+        raise ValueError("There are no materials uploaded for this exam yet.")
+
+    exam_label = exam_name or 'Unassigned'
+
+    contents, _ = extract_text_from_paths([m.file_path for m in materials])
+    contents = (contents or '').strip()
+    if len(contents) < 100:
+        raise ValueError(
+            "Couldn't read enough text from this exam's materials to summarise them. "
+            "Scanned PDFs without selectable text won't work."
+        )
+
+    truncated = len(contents) > MAX_SUMMARY_INPUT_CHARS
+    if truncated:
+        contents = contents[:MAX_SUMMARY_INPUT_CHARS]
+
+    prompt = f"""You are helping a student revise for "{exam_label}".
+
+Summarise the study material below into a revision summary. Use this structure,
+in Markdown:
+
+## Overview
+Two or three sentences on what this material covers.
+
+## Key Topics
+For each major topic: a bold heading, then 2-4 bullets of the essential points.
+
+## Formulas & Definitions
+Anything worth memorising verbatim. Omit this section if there is nothing.
+
+## Likely Exam Focus
+The 3-5 areas most worth the student's time, and why.
+
+Work only from the material provided. Do not invent facts. If the material is
+fragmentary, say so rather than filling gaps.
+
+STUDY MATERIAL:
+{contents}
+"""
+
+    model = genai.GenerativeModel('gemini-2.5-flash-lite')
+    response = model.generate_content(prompt)
+    summary = (getattr(response, 'text', '') or '').strip()
+    if not summary:
+        raise ValueError("The AI returned an empty summary. Please try again.")
+
+    return summary, materials, truncated
+
+
+def _inline_markdown(text):
+    """Convert **bold** runs. Input is already HTML-escaped."""
+    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+
+
+def render_simple_markdown(text):
+    """Render the small Markdown subset the summary prompt asks for.
+
+    Everything is HTML-escaped before any tags are added, so model output can't
+    inject markup. Avoids pulling in a Markdown dependency or a client-side
+    renderer that would need innerHTML.
+    """
+    html = []
+    in_list = False
+
+    for raw_line in str(escape(text)).splitlines():
+        line = raw_line.strip()
+
+        if not line:
+            if in_list:
+                html.append('</ul>')
+                in_list = False
+            continue
+
+        if line.startswith(('- ', '* ')):
+            if not in_list:
+                html.append('<ul>')
+                in_list = True
+            html.append(f'<li>{_inline_markdown(line[2:])}</li>')
+            continue
+
+        if in_list:
+            html.append('</ul>')
+            in_list = False
+
+        if line.startswith('### '):
+            html.append(f'<h4>{_inline_markdown(line[4:])}</h4>')
+        elif line.startswith('## '):
+            html.append(f'<h3>{_inline_markdown(line[3:])}</h3>')
+        elif line.startswith('# '):
+            html.append(f'<h3>{_inline_markdown(line[2:])}</h3>')
+        else:
+            html.append(f'<p>{_inline_markdown(line)}</p>')
+
+    if in_list:
+        html.append('</ul>')
+
+    return '\n'.join(html)
+
+
+@study_plan.route('/summarize', methods=['GET', 'POST'])
+@login_required
+def summarize_materials():
+    """Generate a revision summary from the materials uploaded for one exam."""
+    exams = get_exams_with_materials(current_user.id)
+    summary = None
+    materials = []
+    truncated = False
+    selected_key = None
+    selected_label = None
+
+    if request.method == 'POST':
+        # Keyed on (class, exam) rather than a plan id, because materials exist
+        # before the study plan is saved. class_id is an int, so splitting on
+        # the first colon is safe whatever punctuation is in the exam name.
+        selected_key = (request.form.get('examKey') or '').strip()
+        raw_class_id, _, exam_name = selected_key.partition(':')
+        exam_name = exam_name or None
+
+        try:
+            class_id = int(raw_class_id)
+        except (TypeError, ValueError):
+            class_id = None
+
+        if class_id is None:
+            flash('Please choose an exam to summarise.')
+        else:
+            selected_label = next(
+                (e['label'] for e in exams if e['key'] == selected_key), None
+            )
+            try:
+                summary, materials, truncated = summarise_exam_materials(
+                    current_user.id, class_id, exam_name
+                )
+            except ValueError as e:
+                flash(str(e))
+            except Exception as e:
+                print(f"Error summarising materials for class {class_id} / {exam_name}: {e}")
+                import traceback
+                traceback.print_exc()
+                flash("Couldn't generate the summary. Please try again.")
+
+    return render_template(
+        'summarize.html',
+        exams=exams,
+        summary=render_simple_markdown(summary) if summary else None,
+        materials=materials,
+        truncated=truncated,
+        selected_key=selected_key,
+        selected_label=selected_label
+    )
+
+
 @study_plan.route('/forms')
 @login_required
 def forms():
@@ -2003,9 +2235,12 @@ def create_study_plan():
             # the dashboard joins materials to exams on it.
             'examName': (request.form.get('examName') or '').strip() or 'Study Plan',
             'examDate': request.form.get('examDate'),
-            'examTime': request.form.get('examTime'),
+            # Exam time is optional - normalise blank to None so the difference
+            # between "not given" and a real time stays visible downstream
+            'examTime': (request.form.get('examTime') or '').strip() or None,
             'startPrep': request.form.get('startPrep', ''),
-            'startTime': request.form.get('startTime', ''),
+            # Optional - normalised to None so the scheduler's default applies
+            'startTime': (request.form.get('startTime') or '').strip() or None,
         }
 
         # Rest & meal preferences live on the student's profile, not this form
@@ -2022,27 +2257,35 @@ def create_study_plan():
         # Check if starting on exam day
         is_exam_day = exam_date == start_date
         is_revision_only = False
-        
+
         if is_exam_day:
-            # Calculate hours between start time and exam time
-            exam_hours, exam_minutes = map(int, exam_time.split(':'))
-            start_hours, start_minutes = map(int, start_time.split(':'))
-            
-            # Convert to minutes for comparison
-            exam_total_minutes = exam_hours * 60 + exam_minutes
-            start_total_minutes = start_hours * 60 + start_minutes
-            
-            # Calculate time difference in hours
-            hours_difference = (exam_total_minutes - start_total_minutes) / 60
-            
-            # If less than 3 hours before exam, reject the submission
-            if hours_difference < 3:
-                flash('Cannot create a study plan on exam day with less than 3 hours before the exam!')
-                return redirect(url_for('study_plan.forms'))
-            else:
-                # Set flag for revision only mode
+            if not exam_time or not start_time:
+                # Both times are optional, and without them there's no way to
+                # know how many hours are left. Still a same-day plan, so treat
+                # it as revision rather than rejecting it over a time the
+                # student was never asked to provide.
                 is_revision_only = True
                 form_data['is_revision_only'] = True
+            else:
+                # Calculate hours between start time and exam time
+                exam_hours, exam_minutes = map(int, exam_time.split(':'))
+                start_hours, start_minutes = map(int, start_time.split(':'))
+
+                # Convert to minutes for comparison
+                exam_total_minutes = exam_hours * 60 + exam_minutes
+                start_total_minutes = start_hours * 60 + start_minutes
+
+                # Calculate time difference in hours
+                hours_difference = (exam_total_minutes - start_total_minutes) / 60
+
+                # If less than 3 hours before exam, reject the submission
+                if hours_difference < 3:
+                    flash('Cannot create a study plan on exam day with less than 3 hours before the exam!')
+                    return redirect(url_for('study_plan.forms'))
+                else:
+                    # Set flag for revision only mode
+                    is_revision_only = True
+                    form_data['is_revision_only'] = True
         
         # Check for PDF files
         pdf_contents = ""

@@ -499,7 +499,7 @@ def create_enhanced_study_schedule(form_data, topics_data):
     {topics_json}
     
     Create a comprehensive study schedule following these requirements:
-    1. Start on {form_data.get('startPrep')} at {form_data.get('startTime')} and end before the exam on {form_data.get('examDate')} at {form_data.get('examTime')}
+    1. Start on {form_data.get('startPrep')}{(' at ' + form_data['startTime']) if form_data.get('startTime') else ' (start time not given - use the usual wake time)'} and end before the exam on {form_data.get('examDate')}{(' at ' + form_data['examTime']) if form_data.get('examTime') else " (exam time not given - don't assume one)"}
     2. Include all meals: breakfast at {form_data.get('breakfastTime')}, lunch at {form_data.get('lunchTime')}, snack at {form_data.get('snackTime')}, and dinner at {form_data.get('dinnerTime')}
     3. Schedule regular breaks of {form_data.get('breakDuration')} minutes every {form_data.get('breakInterval')} hours
     4. Prioritize topics with higher importance scores
@@ -598,7 +598,7 @@ def create_enhanced_study_schedule(form_data, topics_data):
                 "items": [
                     {
                         "title": "Study Session",
-                        "start_time": form_data.get('startTime', "09:00"),
+                        "start_time": form_data.get('startTime') or "09:00",
                         "end_time": "10:30",
                         "duration": 90,
                         "type": "study",

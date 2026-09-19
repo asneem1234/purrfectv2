@@ -1384,6 +1384,13 @@
                             <div style="font-size: 12px; color: #888;">Analyze exams</div>
                         </div>
                     </a>
+                    <a href="{{ url_for('study_plan.summarize_materials') }}" class="tool-item" style="text-decoration: none; color: inherit;">
+                        <div style="background-color: var(--pink-light); padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📝</div>
+                            <div style="font-weight: 500; margin-bottom: 5px;">Summarize</div>
+                            <div style="font-size: 12px; color: #888;">Recap your materials</div>
+                        </div>
+                    </a>
                     <a href="/game" class="tool-item" style="text-decoration: none; color: inherit;">
                         <div style="background-color: var(--pink-light); padding: 15px; border-radius: 10px; text-align: center;">
                             <div style="font-size: 24px; margin-bottom: 8px;">🎮</div>
@@ -1411,6 +1418,7 @@
                                 <div class="exam-materials-meta">
                                     {{ entry.class_label }}
                                     {% if entry.exam_date %} &middot; {{ entry.exam_date.strftime('%d %b, %Y') }}{% endif %}
+                                    {% if not entry.has_plan %} &middot; <em>plan not saved yet</em>{% endif %}
                                 </div>
                             </div>
                             <span class="exam-materials-count">
