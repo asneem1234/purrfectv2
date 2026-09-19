@@ -5,534 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purr:fect Welcome</title>
     <style>
-        :root {
-            --pink-bg: #ffe6ee;
-            --pink-accent: #ff85b4;
-            --text-color: #555;
-            --white: #fff;
-            --shadow: rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--pink-bg);
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Decorative elements */
-        .decorative-element {
-            position: absolute;
-            pointer-events: none;
-            z-index: 0;
-            animation: float 6s infinite ease-in-out;
-        }
-
-        .heart {
-            color: var(--pink-accent);
-            font-size: 24px;
-            opacity: 0.6;
-        }
-
-        .apple {
-            color: #ff6b6b;
-            font-size: 24px;
-        }
-
-        .pencil {
-            color: #ffc83d;
-            font-size: 24px;
-        }
-
-        .plus {
-            color: var(--pink-accent);
-            font-size: 30px;
-            opacity: 0.7;
-        }
-
-        .cat-face {
-            width: 80px;
-            height: 80px;
-            background-color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            box-shadow: 0 4px 8px var(--shadow);
-        }
-
-        .cat-face .eyes {
-            display: flex;
-            justify-content: space-between;
-            width: 45px;
-            margin-bottom: 5px;
-        }
-
-        .cat-face .eye {
-            width: 16px;
-            height: 16px;
-            background-color: #000;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .cat-face .eye::before {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background-color: #fff;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-        }
-
-        .cat-face .cheeks {
-            display: flex;
-            justify-content: space-between;
-            width: 50px;
-        }
-
-        .cat-face .cheek {
-            width: 10px;
-            height: 10px;
-            background-color: #ffcbcb;
-            border-radius: 50%;
-        }
-
-        .cat-face .mouth {
-            width: 16px;
-            height: 8px;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            border-bottom: 2px solid #000;
-            margin-top: 2px;
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-15px) rotate(5deg);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Main container */
-        .container {
-            background-color: var(--white);
-            border-radius: 30px;
-            box-shadow: 0 10px 30px var(--shadow);
-            padding: 40px;
-            width: 90%;
-            max-width: 1000px;
-            margin: 50px 0;
-            position: relative;
-            z-index: 1;
-            border: 3px solid var(--pink-accent);
-            overflow: hidden;
-            animation: fadeIn 1s ease-out;
-        }
-
-        /* Banner heart */
-        .banner-heart {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--pink-accent);
-            font-size: 60px;
-            opacity: 0.2;
-            z-index: 0;
-        }
-
-        /* Content area */
-        .content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .info {
-            flex: 1;
-            animation: slideIn 1s ease-out;
-        }
-
-        /* Heading styles */
-        h1 {
-            color: var(--pink-accent);
-            font-size: 3rem;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-
-        h2 {
-            color: #555;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        p {
-            color: var(--text-color);
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-
-        /* Features list */
-        .features {
-            margin-bottom: 30px;
-            padding-left: 20px;
-        }
-
-        .features li {
-            margin-bottom: 12px;
-            color: var(--text-color);
-            position: relative;
-            padding-left: 15px;
-            list-style-type: none;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .features li::before {
-            content: '♥';
-            color: var(--pink-accent);
-            position: absolute;
-            left: -15px;
-            top: 0;
-        }
-
-        /* Form styles */
-        .register-form {
-            flex: 1;
-            background-color: #fff9fc;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 5px 15px var(--shadow);
-            max-width: 400px;
-            animation: fadeIn 1.2s ease-out 0.3s backwards;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ffd1e3;
-            border-radius: 30px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background-color: var(--white);
-        }
-
-        input:focus {
-            border-color: var(--pink-accent);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 133, 180, 0.2);
-        }
-
-        button {
-            background-color: var(--pink-accent);
-            color: var(--white);
-            border: none;
-            border-radius: 30px;
-            padding: 14px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(255, 133, 180, 0.4);
-            width: 100%;
-            margin-top: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        button:hover {
-            background-color: #ff6ba7;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(255, 133, 180, 0.5);
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-color);
-            font-size: 0.95rem;
-        }
-
-        .login-link a {
-            color: var(--pink-accent);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive design */
-        @media (max-width: 900px) {
-            .content {
-                flex-direction: column;
-            }
-            
-            .register-form {
-                width: 100%;
-                max-width: 500px;
-                margin-top: 30px;
-            }
-            
-            .container {
-                padding: 30px;
-                margin: 30px 0;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        /* Animation for cat faces to blink */
-        @keyframes blink {
-            0%, 45%, 55%, 100% {
-                transform: scaleY(1);
-            }
-            50% {
-                transform: scaleY(0.1);
-            }
-        }
-
-        .cat-face .eye {
-            animation: blink 4s infinite;
-        }
-
-        /* Slight breathing animation for the form */
-        @keyframes breathe {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.01);
-            }
-        }
-
-        .register-form {
-            animation: fadeIn 1.2s ease-out 0.3s backwards, breathe 6s infinite ease-in-out;
-        }
+        :root { --pink-bg:#ffe6ee; --pink-accent:#ff85b4; --text-color:#555; --white:#fff; --shadow:rgba(0,0,0,.1); }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background:var(--pink-bg); overflow-x:hidden; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; }
+        .decorative-element { position:absolute; pointer-events:none; z-index:0; animation:float 6s infinite ease-in-out; }
+        .heart { color:var(--pink-accent); font-size:24px; opacity:.6; } .apple { color:#ff6b6b; font-size:24px; } .pencil { color:#ffc83d; font-size:24px; } .plus { color:var(--pink-accent); font-size:30px; opacity:.7; }
+        .cat-face { width:80px; height:80px; background:var(--white); border-radius:50%; display:flex; flex-direction:column; justify-content:center; align-items:center; position:absolute; box-shadow:0 4px 8px var(--shadow); }
+        .cat-face .eyes { display:flex; justify-content:space-between; width:45px; margin-bottom:5px; } .cat-face .eye { width:16px; height:16px; background:#000; border-radius:50%; position:relative; animation:blink 4s infinite; } .cat-face .eye::before { content:''; position:absolute; width:6px; height:6px; background:#fff; border-radius:50%; top:2px; left:2px; } .cat-face .cheeks { display:flex; justify-content:space-between; width:50px; } .cat-face .cheek { width:10px; height:10px; background:#ffcbcb; border-radius:50%; } .cat-face .mouth { width:16px; height:8px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; border-bottom:2px solid #000; margin-top:2px; }
+        @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-15px) rotate(5deg)} } @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} } @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} } @keyframes slideIn { from{opacity:0;transform:translateX(-50px)} to{opacity:1;transform:translateX(0)} } @keyframes blink { 0%,45%,55%,100%{transform:scaleY(1)} 50%{transform:scaleY(.1)} }
+        .container { background:var(--white); border-radius:30px; box-shadow:0 10px 30px var(--shadow); padding:40px; width:90%; max-width:1000px; margin:50px 0; position:relative; z-index:1; border:3px solid var(--pink-accent); overflow:hidden; animation:fadeIn 1s ease-out; }
+        .banner-heart { position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); color:var(--pink-accent); font-size:60px; opacity:.2; z-index:0; } .content { display:flex; justify-content:space-between; align-items:center; gap:30px; position:relative; z-index:2; } .info { flex:1; animation:slideIn 1s ease-out; }
+        h1 { color:var(--pink-accent); font-size:3rem; margin-bottom:10px; line-height:1.2; } h2 { color:#555; font-size:1.5rem; margin-bottom:20px; font-weight:500; } p { color:var(--text-color); line-height:1.6; margin-bottom:30px; font-size:1.1rem; }
+        .features { margin-bottom:30px; padding-left:20px; } .features li { margin-bottom:12px; color:var(--text-color); position:relative; padding-left:15px; list-style:none; animation:fadeIn 1.5s ease-out; } .features li::before { content:'♥'; color:var(--pink-accent); position:absolute; left:-15px; top:0; }
+        .register-form { flex:1; background:#fff9fc; border-radius:20px; padding:30px; box-shadow:0 5px 15px var(--shadow); max-width:440px; animation:fadeIn 1.2s ease-out .3s backwards; } .form-group { margin-bottom:18px; } label { display:block; margin-bottom:8px; color:var(--text-color); font-weight:500; }
+        input, select { width:100%; padding:12px 15px; border:2px solid #ffd1e3; border-radius:30px; font-size:1rem; transition:all .3s; background:var(--white); } input:focus, select:focus { border-color:var(--pink-accent); outline:none; box-shadow:0 0 0 3px rgba(255,133,180,.2); } input[type=file] { padding:10px; border-radius:14px; cursor:pointer; }
+        .step { display:none; } .step.active { display:block; animation:fadeIn .35s ease-out; } .step-title { font-size:1.05rem; color:var(--pink-accent); font-weight:700; margin:-4px 0 18px; } .step-indicator { display:flex; gap:8px; margin-bottom:24px; } .step-dot { flex:1; height:7px; background:#ffd1e3; border-radius:10px; } .step-dot.active { background:var(--pink-accent); } .helper-text { display:block; color:#888; font-size:.85rem; line-height:1.4; margin-top:7px; }
+        .button-row { display:flex; gap:12px; margin-top:10px; } button { background:var(--pink-accent); color:var(--white); border:none; border-radius:30px; padding:14px 20px; font-size:1.05rem; font-weight:600; cursor:pointer; transition:all .3s; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(255,133,180,.4); width:100%; animation:pulse 2s infinite; } button:hover { background:#ff6ba7; transform:translateY(-3px); box-shadow:0 6px 15px rgba(255,133,180,.5); } button.secondary { background:#fff; color:var(--pink-accent); border:2px solid #ffd1e3; box-shadow:none; animation:none; } button.secondary:hover { background:#fff0f6; } .login-link { text-align:center; margin-top:20px; color:var(--text-color); font-size:.95rem; } .login-link a { color:var(--pink-accent); text-decoration:none; font-weight:600; } .login-link a:hover { text-decoration:underline; }
+        @media (max-width:900px) { .content{flex-direction:column} .register-form{width:100%;max-width:500px;margin-top:30px} .container{padding:30px;margin:30px 0} h1{font-size:2.5rem} }
     </style>
 </head>
 <body>
-    <!-- Decorative elements -->
-    <div class="decorative-element heart" style="top: 15%; left: 10%;">♥</div>
-    <div class="decorative-element heart" style="top: 75%; left: 15%;">♥</div>
-    <div class="decorative-element heart" style="top: 30%; left: 90%;">♥</div>
-    <div class="decorative-element heart" style="top: 85%; left: 85%;">♥</div>
-    <div class="decorative-element apple" style="top: 10%; left: 25%;">🍎</div>
-    <div class="decorative-element apple" style="top: 65%; left: 35%;">🍎</div>
-    <div class="decorative-element apple" style="top: 20%; left: 75%;">🍎</div>
-    <div class="decorative-element pencil" style="top: 80%; left: 22%;">✏️</div>
-    <div class="decorative-element pencil" style="top: 5%; left: 80%;">✏️</div>
-    <div class="decorative-element pencil" style="top: 90%; left: 70%;">✏️</div>
-    <div class="decorative-element plus" style="top: 25%; left: 15%;">+</div>
-    <div class="decorative-element plus" style="top: 70%; left: 85%;">+</div>
-    <div class="decorative-element plus" style="top: 35%; left: 90%;">+</div>
-    <div class="decorative-element plus" style="top: 65%; left: 20%;">+</div>
+    <div class="decorative-element heart" style="top:15%;left:10%">♥</div><div class="decorative-element heart" style="top:75%;left:15%">♥</div><div class="decorative-element heart" style="top:30%;left:90%">♥</div><div class="decorative-element heart" style="top:85%;left:85%">♥</div>
+    <div class="decorative-element apple" style="top:10%;left:25%">🍎</div><div class="decorative-element apple" style="top:65%;left:35%">🍎</div><div class="decorative-element apple" style="top:20%;left:75%">🍎</div>
+    <div class="decorative-element pencil" style="top:80%;left:22%">✏️</div><div class="decorative-element pencil" style="top:5%;left:80%">✏️</div><div class="decorative-element pencil" style="top:90%;left:70%">✏️</div>
+    <div class="decorative-element plus" style="top:25%;left:15%">+</div><div class="decorative-element plus" style="top:70%;left:85%">+</div><div class="decorative-element plus" style="top:35%;left:90%">+</div><div class="decorative-element plus" style="top:65%;left:20%">+</div>
+    <div class="cat-face" style="top:10%;left:5%;animation-delay:.5s"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="cheeks"><div class="cheek"></div><div class="cheek"></div></div><div class="mouth"></div></div>
+    <div class="cat-face" style="top:15%;right:5%;animation-delay:1s"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="cheeks"><div class="cheek"></div><div class="cheek"></div></div><div class="mouth"></div></div>
+    <div class="cat-face" style="bottom:15%;left:5%;animation-delay:1.5s"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="cheeks"><div class="cheek"></div><div class="cheek"></div></div><div class="mouth"></div></div>
+    <div class="cat-face" style="bottom:10%;right:5%;animation-delay:2s"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div class="cheeks"><div class="cheek"></div><div class="cheek"></div></div><div class="mouth"></div></div>
 
-    <!-- Cat faces -->
-    <div class="cat-face" style="top: 10%; left: 5%; animation-delay: 0.5s;">
-        <div class="eyes">
-            <div class="eye"></div>
-            <div class="eye"></div>
-        </div>
-        <div class="cheeks">
-            <div class="cheek"></div>
-            <div class="cheek"></div>
-        </div>
-        <div class="mouth"></div>
-    </div>
-
-    <div class="cat-face" style="top: 15%; right: 5%; animation-delay: 1s;">
-        <div class="eyes">
-            <div class="eye"></div>
-            <div class="eye"></div>
-        </div>
-        <div class="cheeks">
-            <div class="cheek"></div>
-            <div class="cheek"></div>
-        </div>
-        <div class="mouth"></div>
-    </div>
-
-    <div class="cat-face" style="bottom: 15%; left: 5%; animation-delay: 1.5s;">
-        <div class="eyes">
-            <div class="eye"></div>
-            <div class="eye"></div>
-        </div>
-        <div class="cheeks">
-            <div class="cheek"></div>
-            <div class="cheek"></div>
-        </div>
-        <div class="mouth"></div>
-    </div>
-
-    <div class="cat-face" style="bottom: 10%; right: 5%; animation-delay: 2s;">
-        <div class="eyes">
-            <div class="eye"></div>
-            <div class="eye"></div>
-        </div>
-        <div class="cheeks">
-            <div class="cheek"></div>
-            <div class="cheek"></div>
-        </div>
-        <div class="mouth"></div>
-    </div>
-
-    <!-- Main container -->
     <div class="container">
         <div class="banner-heart">♥</div>
         <div class="content">
-            <div class="info">
-                <h1>Purr:fect </h1>
-                <h2>✨Your Exam Universe — Synced, Smart, and So Kawaii✨</h2>
-                <p>🎀where focus meets fun🎀</p>
-                
-                <ul class="features">
-                    <li>Cute and friendly interface to keep you motivated</li>
-                    <li>Smart study plans tailored to your schedule</li>
-                    <li>Interactive flashcards with spaced repetition</li>
-                    <li>Virtual study rooms with like-minded students</li>
-                    <li>Brain games to refresh your mind between study sessions</li>
-                </ul>
-            </div>
-            
+            <div class="info"><h1>Purr:fect</h1><h2>✨Your Exam Universe — Synced, Smart, and So Kawaii✨</h2><p>🎀where focus meets fun🎀</p><ul class="features"><li>Cute and friendly interface to keep you motivated</li><li>Smart study plans tailored to your schedule</li><li>Interactive flashcards with spaced repetition</li><li>Virtual study rooms with like-minded students</li><li>Brain games to refresh your mind between study sessions</li></ul></div>
             <div class="register-form">
-                <h2 style="text-align: center; margin-bottom: 25px;">Create Your Account</h2>
-                
-                <form id="signupForm" method="POST" action="/register">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Choose a username" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Your email address" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Create a strong password" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirm-password">Confirm Password</label>
-                        <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
-                    </div>
-                    
-                    <button type="submit">Sign Up & Start Studying!</button>
+                <h2 style="text-align:center;margin-bottom:8px">Create Your Account</h2>
+                <div class="step-indicator" aria-label="Registration progress"><span class="step-dot active"></span><span class="step-dot"></span><span class="step-dot"></span></div>
+                <form id="signupForm" method="POST" action="/register" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <section class="step active" data-step="1"><div class="step-title">Step 1 of 3 · Account details</div>
+                        <div class="form-group"><label for="username">Username</label><input type="text" id="username" name="username" placeholder="Choose a username" required></div>
+                        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="Your email address" required></div>
+                        <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" placeholder="Create a strong password" minlength="8" required></div>
+                        <div class="form-group"><label for="confirm-password">Confirm Password</label><input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" minlength="8" required></div>
+                        <button type="button" class="next-button">Continue to school details ✨</button>
+                    </section>
+                    <section class="step" data-step="2"><div class="step-title">Step 2 of 3 · School details</div>
+                        <div class="form-group"><label for="school-name">School name</label><input type="text" id="school-name" name="school_name" placeholder="e.g. University of California" required></div>
+                        <div class="form-group"><label for="course-name">Course / program name</label><input type="text" id="course-name" name="course_name" placeholder="e.g. Computer Science" required></div>
+                        <div class="form-group"><label for="semester">Current semester</label><select id="semester" name="semester" required><option value="" selected disabled>Select your semester</option><option value="1">Semester 1</option><option value="2">Semester 2</option><option value="3">Semester 3</option><option value="4">Semester 4</option><option value="5">Semester 5</option><option value="6">Semester 6</option><option value="7">Semester 7</option><option value="8">Semester 8</option><option value="other">Other</option></select></div>
+                        <div class="button-row"><button type="button" class="secondary previous-button">Back</button><button type="button" class="next-button">Continue to schedule ✨</button></div>
+                    </section>
+                    <section class="step" data-step="3"><div class="step-title">Step 3 of 3 · Enrollment schedule</div>
+                        <div class="form-group"><label for="enrollment-schedule">Upload your enrollment schedule <span style="font-weight:400">(optional)</span></label><input type="file" id="enrollment-schedule" name="enrollment_schedule" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"><span class="helper-text">Upload a PDF, image, or document. We’ll use it to identify the courses you’re taking.</span></div>
+                        <div class="button-row"><button type="button" class="secondary previous-button">Back</button><button type="submit">Sign Up &amp; Start Studying! 🎀</button></div>
+                    </section>
                 </form>
-                
-                <div class="login-link">
-                    Already have an account? <a href="{{ url_for('login') }}">Log in here</a>
-                </div>
+                <div class="login-link">Already have an account? <a href="{{ url_for('login') }}">Log in here</a></div>
             </div>
         </div>
     </div>
-
     <script>
-        // Add animations for elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Random positioning for decorative elements
-            const decorElements = document.querySelectorAll('.decorative-element');
-            decorElements.forEach(elem => {
-                // Add random animation delay
-                elem.style.animationDelay = `${Math.random() * 5}s`;
-            });
-
-            // Cat eyes following mouse
-            const eyes = document.querySelectorAll('.eye');
-            document.addEventListener('mousemove', (e) => {
-                eyes.forEach(eye => {
-                    const rect = eye.getBoundingClientRect();
-                    const x = rect.left + rect.width / 2;
-                    const y = rect.top + rect.height / 2;
-                    const rad = Math.atan2(e.pageX - x, e.pageY - y);
-                    const rot = rad * (180 / Math.PI) * -1 + 180;
-                    eye.style.transform = `rotate(${rot}deg)`;
-                });
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.decorative-element').forEach(el => el.style.animationDelay = `${Math.random()*5}s`);
+            const steps = [...document.querySelectorAll('.step')], dots = [...document.querySelectorAll('.step-dot')]; let currentStep = 0;
+            const showStep = index => { currentStep = index; steps.forEach((step,i) => step.classList.toggle('active', i === index)); dots.forEach((dot,i) => dot.classList.toggle('active', i <= index)); };
+            const validateCurrent = () => { const fields = [...steps[currentStep].querySelectorAll('input, select')]; for (const field of fields) { if (!field.checkValidity()) { field.reportValidity(); return false; } } if (currentStep === 0 && document.getElementById('password').value !== document.getElementById('confirm-password').value) { document.getElementById('confirm-password').setCustomValidity('Passwords do not match.'); document.getElementById('confirm-password').reportValidity(); document.getElementById('confirm-password').setCustomValidity(''); return false; } return true; };
+            document.querySelectorAll('.next-button').forEach(button => button.addEventListener('click', () => { if (validateCurrent()) showStep(currentStep + 1); }));
+            document.querySelectorAll('.previous-button').forEach(button => button.addEventListener('click', () => showStep(currentStep - 1)));
+            document.querySelectorAll('.eye').forEach(eye => eye.addEventListener('animationiteration', () => eye.style.transform = ''));
+            document.addEventListener('mousemove', event => document.querySelectorAll('.eye').forEach(eye => { const rect=eye.getBoundingClientRect(); const angle=Math.atan2(event.clientX-(rect.left+rect.width/2), event.clientY-(rect.top+rect.height/2)); eye.style.transform=`rotate(${angle*(180/Math.PI)*-1+180}deg)`; }));
         });
     </script>
 </body>

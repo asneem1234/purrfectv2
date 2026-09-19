@@ -30,51 +30,104 @@ class RAGUsageLog(db.Model):
         return f'<RAGUsageLog {self.id} user:{self.user_id} type:{self.query_type}>'
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'app_user'  # Explicitly set the table name to avoid conflicts with 'user' keyword
-    
+    __tablename__ = "app_user"
+
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    username = db.Column(
+        db.String(80),
+        unique=True,
+        nullable=False
+    )
+
+    email = db.Column(
+        db.String(120),
+        unique=True,
+        nullable=False
+    )
+
     password_hash = db.Column(db.String(128))
-    
+
+    # Student profile details
+    school_name = db.Column(
+        db.String(200),
+        nullable=True
+    )
+
+    course_name = db.Column(
+        db.String(200),
+        nullable=True
+    )
+
+    semester = db.Column(
+        db.String(50),
+        nullable=True
+    )
+
+    enrollment_schedule_filename = db.Column(
+        db.String(255),
+        nullable=True
+    )
+
+    # JSON-encoded list of course names extracted from the schedule image.
+    # Example: ["Data Structures and Algorithms", "Database Systems"]
+    enrollment_courses = db.Column(
+        db.Text,
+        nullable=True,
+        default='[]'
+    )
+
     # RAG-related fields
-    rag_short_term_quota = db.Column(db.Integer, default=1000)  # Max chunks in short-term memory
-    rag_long_term_quota = db.Column(db.Integer, default=4)      # Max summaries in long-term memory
-    rag_enabled = db.Column(db.Boolean, default=True)           # Whether RAG is enabled for this user
-    
-    # Property methods to replace database columns
+    rag_short_term_quota = db.Column(
+        db.Integer,
+        default=1000
+    )
+
+    rag_long_term_quota = db.Column(
+        db.Integer,
+        default=4
+    )
+
+    rag_enabled = db.Column(
+        db.Boolean,
+        default=True
+    )
+
     @property
     def study_hours(self):
         return 0
-    
+
     @property
     def flashcards(self):
         return 0
-    
+
     @property
     def study_plans(self):
         return 0
-    
+
     def set_password(self, password):
-        # Use pbkdf2:sha256 instead of scrypt for better compatibility
-        self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
-        
+        self.password_hash = generate_password_hash(
+            password,
+            method="pbkdf2:sha256"
+        )
+
     def check_password(self, password):
         try:
-            return check_password_hash(self.password_hash, password)
-        except ValueError as e:
-            print(f"Password hash error: {e}")
+            return check_password_hash(
+                self.password_hash,
+                password
+            )
+        except ValueError as error:
+            print(f"Password hash error: {error}")
             return False
-    
-    # Add a property to get activities (we'll use dummy data initially)
+
     @property
     def activities(self):
-        # Return empty list for new users
         return []
-    
-    def __repr__(self):
-        return f'<User {self.username}>'
 
+    def __repr__(self):
+        return f"<User {self.username}>"
+        
 class StudyPlan(db.Model):
     __tablename__ = 'study_plan'  # Keep the explicitly set table name
     

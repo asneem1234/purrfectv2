@@ -32,6 +32,7 @@ import os
 import tempfile
 import datetime
 import socket  # Add this import for getting IP address
+import uuid
 
 # NumPy is needed for array operations with embeddings
 import numpy as np
@@ -42,12 +43,13 @@ import google.generativeai as genai
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_session import Session
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 import werkzeug.routing
 # Add SocketIO import
 from flask_socketio import SocketIO
 # Add CSRF protection
 from flask_wtf.csrf import CSRFProtect
-
+from flask_migrate import Migrate
 # Load environment variables from .env file
 from dotenv import load_dotenv
 load_dotenv()  # This loads the variables from .env into os.environ
@@ -267,7 +269,9 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'upload
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
-app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
+app.config['ALLOWED_EXTENSIONS'] = {
+    'pdf', 'png', 'jpg', 'jpeg', 'doc', 'docx'
+}
 
 # Qdrant is used instead of ChromaDB for vector storage
 # Note: Qdrant is configured and initialized in utils/embedding_utils.py
@@ -289,6 +293,11 @@ genai.configure(api_key=GEMINI_API_KEY)
 # CRITICAL: Import db and initialize it with app before importing any models
 from db import db
 
+# Initialize the database extension before importing models.
+# Flask-Migrate must be attached to the same Flask app that the CLI loads.
+db.init_app(app)
+migrate = Migrate(app, db)
+
 # After the PostgreSQL URL fix, add this function to drop and recreate tables
 def reset_database():
     """Drop all tables and recreate them - use with caution!"""
@@ -299,10 +308,12 @@ def reset_database():
         db.create_all()
         print("Database tables recreated successfully")
 
-# Initialize the database with app
+# Import all models before creating tables so SQLAlchemy knows about them.
+from models import User, StudyPlan, StudyRoom, UserLog, WhiteboardSnapshot, ExamPlan, RAGIngestEvent, RAGUsageLog
+
+# Create tables within app context for local development.
+# Flask-Migrate remains the source of truth for schema changes.
 with app.app_context():
-    db.init_app(app)
-    # Create tables within app context
     try:
         # Uncomment the following line if you need to reset the database
         # reset_database()
@@ -310,9 +321,6 @@ with app.app_context():
         print("Database tables created successfully")
     except Exception as e:
         print(f"Error creating database tables: {str(e)}")
-
-# Now it's safe to import models AFTER db is initialized with app
-from models import User, StudyPlan, StudyRoom, UserLog, WhiteboardSnapshot, ExamPlan, RAGIngestEvent, RAGUsageLog
 
 # Initialize login manager
 login_manager = LoginManager()
@@ -591,9 +599,23 @@ def login():
 def register():
     """Handle user registration"""
     if request.method == 'POST':
-        email = request.form.get('email')
-        username = request.form.get('username')
-        password = request.form.get('password')
+        email = request.form.get('email', '').strip().lower()
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        confirm_password = request.form.get('confirm_password', '')
+
+        school_name = request.form.get('school_name', '').strip()
+        course_name = request.form.get('course_name', '').strip()
+        semester = request.form.get('semester', '').strip()
+        schedule_file = request.files.get('enrollment_schedule')
+
+        if password != confirm_password:
+            flash('Passwords do not match.')
+            return redirect(url_for('register'))
+
+        if not school_name or not course_name or not semester:
+            flash('Please complete your school details.')
+            return redirect(url_for('register'))
         
         user_email = User.query.filter_by(email=email).first()
         user_username = User.query.filter_by(username=username).first()
@@ -605,13 +627,35 @@ def register():
         if user_username:
             flash('Username already exists.')
             return redirect(url_for('register'))
-        
-        
         new_user = User(
             email=email,
-            username=username
+            username=username,
+            school_name=school_name,
+            course_name=course_name,
+            semester=semester
         )
         new_user.set_password(password)
+
+        if schedule_file and schedule_file.filename:
+            original_filename = secure_filename(schedule_file.filename)
+            extension = original_filename.rsplit('.', 1)[-1].lower()
+
+            if extension not in app.config['ALLOWED_EXTENSIONS']:
+                flash('Invalid enrollment schedule file type.')
+                return redirect(url_for('register'))
+
+            schedule_filename = f'{uuid.uuid4().hex}.{extension}'
+            schedule_folder = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'enrollment_schedules'
+            )
+            os.makedirs(schedule_folder, exist_ok=True)
+
+            schedule_file.save(
+                os.path.join(schedule_folder, schedule_filename)
+            )
+
+            new_user.enrollment_schedule_filename = schedule_filename
         
         db.session.add(new_user)
         db.session.commit()
@@ -683,10 +727,57 @@ def planning():
         return redirect(url_for('landing'))
 
 # Add route for user profile page
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     """Handle user profile page"""
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip().lower()
+        school_name = request.form.get('school_name', '').strip()
+        course_name = request.form.get('course_name', '').strip()
+        semester = request.form.get('semester', '').strip()
+        schedule_file = request.files.get('enrollment_schedule')
+
+        existing_username = User.query.filter_by(username=username).first()
+        if existing_username and existing_username.id != current_user.id:
+            flash('That username is already in use.')
+            return redirect(url_for('profile'))
+
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email and existing_email.id != current_user.id:
+            flash('That email is already in use.')
+            return redirect(url_for('profile'))
+
+        current_user.username = username
+        current_user.email = email
+        current_user.school_name = school_name
+        current_user.course_name = course_name
+        current_user.semester = semester
+
+        if schedule_file and schedule_file.filename:
+            original_filename = secure_filename(schedule_file.filename)
+            extension = original_filename.rsplit('.', 1)[-1].lower()
+
+            if extension not in app.config['ALLOWED_EXTENSIONS']:
+                flash('Invalid enrollment schedule file type.')
+                return redirect(url_for('profile'))
+
+            schedule_filename = f'{uuid.uuid4().hex}.{extension}'
+            schedule_folder = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'enrollment_schedules'
+            )
+            os.makedirs(schedule_folder, exist_ok=True)
+            schedule_file.save(
+                os.path.join(schedule_folder, schedule_filename)
+            )
+            current_user.enrollment_schedule_filename = schedule_filename
+
+        db.session.commit()
+        flash('Profile updated successfully.')
+        return redirect(url_for('profile'))
+
     try:
         return render_template('profile.html', user=current_user)
     except Exception as e:
