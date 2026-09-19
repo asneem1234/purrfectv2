@@ -64,10 +64,6 @@ def csrf_check_function():
     # Get current request path
     request_path = request.path
     
-    # Exempt exambot AJAX endpoints (already protected by @login_required)
-    if request_path in ['/process_exam', '/exam_chat']:
-        return False  # Skip CSRF validation for exambot AJAX calls
-    
     # Only exempt specific, documented server-to-server API calls
     if request_path in ['/rag/ingest', '/rag/query', '/direct-rag-ingest']:
         # For server-to-server API calls, require API key authentication instead of CSRF
@@ -363,7 +359,7 @@ def load_user(user_id):
 from blueprints.study_plan import study_plan
 from blueprints.bot import bot_bp  # Make sure this imports bot_bp correctly
 from blueprints.flashcard import flashcard_bp
-from blueprints.exambot import exambot_bp
+from blueprints.mock_test import mock_test_bp
 from blueprints.game import game_bp
 from planning import planning_bp  # Import the planning blueprint
 from blueprints.studyroom import studyroom_bp, register_studyroom_socket_events
@@ -390,7 +386,7 @@ except Exception as e:
 app.register_blueprint(study_plan)
 app.register_blueprint(bot_bp)  # Make sure this registers the bot_bp blueprint
 app.register_blueprint(flashcard_bp)
-app.register_blueprint(exambot_bp)
+app.register_blueprint(mock_test_bp)
 app.register_blueprint(game_bp)
 app.register_blueprint(planning_bp)  # Register the planning blueprint
 app.register_blueprint(studyroom_bp)
