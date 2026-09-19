@@ -779,20 +779,8 @@
             <p>View your basic profile information.</p>
         </div>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="flash-messages">
-                {% for message in messages %}
-                <div class="flash-message">{{ message }}</div>
-                {% endfor %}
-            </div>
-            {% endif %}
-        {% endwith %}
-
-        <!-- Simplified Profile Container -->
-        <div class="profile-container" style="display: flex; flex-direction: column; align-items: center; gap: 25px;">
-            <!-- Profile Card - Simplified -->
-            <div class="profile-card" style="width: 100%; max-width: 400px;">
+        <div class="profile-container" style="align-items: start;">
+            <div class="profile-card" style="width: 100%;">
                 <div class="profile-picture" id="profile-picture-container">
                     <div class="profile-picture-overlay">
                         <span>📷 Change</span>
@@ -805,65 +793,62 @@
                     <input type="file" id="profile-pic-upload" accept="image/*">
                 </div>
                 
-                <div class="display-name-container">
-                    <h2 class="profile-name" id="display-name">{{ user.display_name|default(user.username)|default('Student') }}</h2>
-                    <span class="display-name-edit">✏️</span>
-                    <input type="text" class="display-name-input" id="display-name-input" 
-                           value="{{ user.display_name|default(user.username)|default('Student') }}">
-                </div>
-                
+                <h2 class="profile-name">{{ user.username|default('Student') }}</h2>
                 <p class="profile-email">{{ user.email|default('') }}</p>
+
+                <div class="profile-divider"></div>
+                <p><strong>School</strong><br>{{ user.school_name|default('Not added', true) }}</p>
+                <p><strong>Course</strong><br>{{ user.course_name|default('Not added', true) }}</p>
+                <p><strong>Semester</strong><br>{{ user.semester|default('Not added', true) }}</p>
             </div>
 
-            <!-- Rest & Meal Schedule -->
-            <div class="schedule-card">
-                <h2><span class="icon">😴</span> Rest &amp; Meal Schedule</h2>
-                <p class="hint">Saved once and reused for every study plan you create.</p>
+            <form class="settings-form" method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data">
+                <h2>Edit Profile</h2>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                <form method="POST" action="{{ url_for('profile') }}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                </div>
 
-                    <div class="schedule-field" style="margin-bottom: 18px;">
-                        <label for="sleepHours">Sleep Hours <span id="sleepHoursValue">{{ profile.sleep_hours }} hours</span></label>
-                        <input type="range" min="4" max="8" value="{{ profile.sleep_hours }}" id="sleepHours" name="sleepHours">
-                    </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                </div>
 
-                    <div class="schedule-grid">
-                        <div class="schedule-field">
-                            <label for="breakDuration">Break Duration (minutes)</label>
-                            <input type="number" id="breakDuration" name="breakDuration" min="5" max="60"
-                                   value="{{ profile.break_duration }}" required>
-                        </div>
-                        <div class="schedule-field">
-                            <label for="breakInterval">Break Interval (hours of study)</label>
-                            <input type="number" id="breakInterval" name="breakInterval" min="1" max="4" step="0.5"
-                                   value="{{ profile.break_interval }}" required>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="school-name">School name</label>
+                    <input type="text" id="school-name" name="school_name" value="{{ user.school_name|default('', true) }}" placeholder="Enter your school">
+                </div>
 
-                    <h3>Meal Times</h3>
-                    <div class="schedule-grid">
-                        <div class="schedule-field">
-                            <label for="breakfastTime">🍳 Breakfast</label>
-                            <input type="time" id="breakfastTime" name="breakfastTime" value="{{ profile.breakfast_time }}" required>
-                        </div>
-                        <div class="schedule-field">
-                            <label for="lunchTime">🍱 Lunch</label>
-                            <input type="time" id="lunchTime" name="lunchTime" value="{{ profile.lunch_time }}" required>
-                        </div>
-                        <div class="schedule-field">
-                            <label for="snackTime">🍎 Snack</label>
-                            <input type="time" id="snackTime" name="snackTime" value="{{ profile.snack_time }}" required>
-                        </div>
-                        <div class="schedule-field">
-                            <label for="dinnerTime">🍲 Dinner</label>
-                            <input type="time" id="dinnerTime" name="dinnerTime" value="{{ profile.dinner_time }}" required>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="course-name">Course / program</label>
+                    <input type="text" id="course-name" name="course_name" value="{{ user.course_name|default('', true) }}" placeholder="Enter your course">
+                </div>
 
-                    <button type="submit" class="schedule-save">Save Schedule</button>
-                </form>
-            </div>
+                <div class="form-group">
+                    <label for="semester">Semester</label>
+                    <select id="semester" name="semester">
+                        <option value="">Select your semester</option>
+                        {% for number in range(1, 9) %}
+                            <option value="{{ number }}" {% if user.semester|string == number|string %}selected{% endif %}>
+                                Semester {{ number }}
+                            </option>
+                        {% endfor %}
+                        <option value="other" {% if user.semester == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="enrollment-schedule">Replace enrollment schedule</label>
+                    <input type="file" id="enrollment-schedule" name="enrollment_schedule" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+                    {% if user.enrollment_schedule_filename %}
+                        <small>Current file: {{ user.enrollment_schedule_filename }}</small>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="button">Save Changes</button>
+            </form>
         </div>
     </div>
 
